@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ install = "$1" -o upgrade = "$1" ]; then 
+   
+   signal-event.real base-migration   
+
+   dpkg-divert --package yavdr-webfrontend --add --rename \
+      --divert /etc/tntnet/tntnet.conf.dontremove /etc/tntnet/tntnet.conf
+fi  
+
