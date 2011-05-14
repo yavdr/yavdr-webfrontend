@@ -1,8 +1,4 @@
 <%pre>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <ctype.h>
 #include <ClearSilver.h>
 #include <yavdr/common.h>
 #include <jsoncpp/json.hpp>
@@ -21,19 +17,22 @@ using namespace std;
 	else
 	{
 		Json::Value json;
-		json["data"]["pid"] = 12;
-		json["data"]["diskspace"] = 12;
-		string x = hdf_get_value(hdf, "x11.display.0.resolution.x", "");
+		json["data"]["running"] = (system("pidof -s vdr") == 0?1:0);
+
+		json["data"]["diskspace"] = "more than 1 bit...";
+		
+		string x = hdf_get_value(hdf, "system.x11.display.0.resolution.x", "");
 		if (x != "") {
-			string y = hdf_get_value(hdf, "x11.display.0.resolution.y", "");
+			string y = hdf_get_value(hdf, "system.x11.display.0.resolution.y", "");
 			json["data"]["resolution"] = x + "x" + y;
 		} else {
 			json["data"]["resolution"] = "";
 		}
-		json["data"]["frontend"] = hdf_get_value(hdf, "vdr.setup", "unknown");
-		
+		string setup = hdf_get_value(hdf, "vdr.setup", "unknown");
+		json["data"]["frontend"] = setup + (setup != "custom"?"":" (" + string(hdf_get_value(hdf, "vdr.frontend", "unknown")) + " / " + string(hdf_get_value(hdf, "vdr.backend", "unknown")));
+
 		json["success"] = true;
-		reply.setContentType("application/json");
+		reply.setContentType("application/json; charset=utf-8");
 		reply.out() << json;
 	}
 </%cpp>
