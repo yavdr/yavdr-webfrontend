@@ -44,9 +44,22 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][0u]["name"] = "id";
 	json["metaData"]["fields"][0u]["type"] = "integer";
 	json["metaData"]["fields"][1u] = "name";
-	json["metaData"]["fields"][2u] = "information";
-	json["metaData"]["fields"][3u]["name"] = "length";
-	json["metaData"]["fields"][3u]["type"] = "integer";
+	json["metaData"]["fields"][2u] = "file_name";
+	json["metaData"]["fields"][3u]["name"] = "is_new";
+	json["metaData"]["fields"][3u]["type"] = "boolean";
+	json["metaData"]["fields"][4u]["name"] = "is_edited";
+	json["metaData"]["fields"][4u]["type"] = "boolean";
+	json["metaData"]["fields"][5u]["name"] = "is_pes_recording";
+	json["metaData"]["fields"][5u]["type"] = "boolean";
+	json["metaData"]["fields"][6u]["name"] = "duration";
+	json["metaData"]["fields"][6u]["type"] = "integer";
+	json["metaData"]["fields"][7u] = "event_title";
+	json["metaData"]["fields"][8u] = "event_short_text";
+	json["metaData"]["fields"][9u] = "event_description";
+	json["metaData"]["fields"][10u]["name"] = "event_start_time";
+	json["metaData"]["fields"][10u]["type"] = "integer";
+	json["metaData"]["fields"][11u]["name"] = "event_duration";
+	json["metaData"]["fields"][11u]["type"] = "integer";
 
 	CURL *curl;
 	CURLcode curlResult;
@@ -88,10 +101,8 @@ static int writer(char *data, size_t size, size_t nmemb,
 		    	
 		    	int i = 0;
 				for( Json::ValueIterator itr = recordings.begin() ; itr != recordings.end() ; itr++, i++ ) {
+					json["data"][i] = (*itr);
 					json["data"][i]["id"] = i;
-					json["data"][i]["name"] = (*itr)["name"];
-					json["data"][i]["information"] = "";
-					json["data"][i]["length"] = i;
 				}
 		    }
 		} else {

@@ -55,10 +55,10 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][0u]["name"] = "id";
 	json["metaData"]["fields"][0u]["type"] = "integer";
 
-	json["metaData"]["fields"][1u] = "channel";
-	json["metaData"]["fields"][2u] = "name";
+	json["metaData"]["fields"][1u] = "channelname";
+	json["metaData"]["fields"][2u] = "filename";
 
-	json["metaData"]["fields"][3u]["name"] = "first_date";
+	json["metaData"]["fields"][3u]["name"] = "day";
 	json["metaData"]["fields"][3u]["type"] = "date";
 
 	json["metaData"]["fields"][4u]["name"] = "is_active";
@@ -70,8 +70,8 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][6u]["name"] = "is_recording";
 	json["metaData"]["fields"][6u]["type"] = "bool";
 
-	json["metaData"]["fields"][7u]["name"] = "repeating";
-	json["metaData"]["fields"][7u]["type"] = "bool";
+	json["metaData"]["fields"][7u]["name"] = "channel";
+	json["metaData"]["fields"][7u]["type"] = "integer";
 
 	json["metaData"]["fields"][8u]["name"] = "use_vps";
 	json["metaData"]["fields"][8u]["type"] = "bool";
@@ -88,6 +88,9 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][12u]["name"] = "stop";
 	json["metaData"]["fields"][12u]["type"] = "date";
 
+	json["metaData"]["fields"][10u]["name"] = "weekdays";
+	json["metaData"]["fields"][10u]["type"] = "integer";
+	
 	CURL *curl;
 	CURLcode curlResult;
     // Create our curl handle  
@@ -128,14 +131,10 @@ static int writer(char *data, size_t size, size_t nmemb,
 		    	
 		    	int i = 0;
 				for( Json::ValueIterator itr = timers.begin() ; itr != timers.end() ; itr++, i++ ) {
+					json["data"][i] = (*itr);
 					json["data"][i]["id"] = i;
-					json["data"][i]["name"] = (*itr)["filename"];
-					json["data"][i]["channel"] = (*itr)["channelname"];
-					json["data"][i]["first_date"] = "";
-					json["data"][i]["is_active"] = false;
-							
-					json["data"][i]["start"] = (*itr)["start"];
-					json["data"][i]["stop"] = (*itr)["stop"];
+					json["data"][i]["active"] = i % 2 == 0;
+
 				}
 		    }
 		} else {
