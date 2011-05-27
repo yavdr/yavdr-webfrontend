@@ -17,10 +17,10 @@
 #include <errno.h>
 #include <string.h>
 
-#include "neo_misc.h"
-#include "neo_err.h"
-#include "ulist.h"
-#include "ulocks.h"
+#include "util/neo_misc.h"
+#include "util/neo_err.h"
+#include "util/ulist.h"
+#include "util/ulocks.h"
 
 #ifdef HAVE_PTHREADS
 #undef HAVE_PTHREADS

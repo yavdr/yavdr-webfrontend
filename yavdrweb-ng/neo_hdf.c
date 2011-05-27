@@ -9,7 +9,7 @@
  *
  */
 
-#include "cs_config.h"
+#include "ClearSilver/cs_config.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,13 +20,13 @@
 #include <limits.h>
 #include <stdarg.h>
 #include <sys/stat.h>
-#include "neo_misc.h"
-#include "neo_err.h"
-#include "neo_rand.h"
-#include "neo_hdf.h"
-#include "neo_str.h"
-#include "neo_files.h"
-#include "ulist.h"
+#include "ClearSilver/util/neo_misc.h"
+#include "ClearSilver/util/neo_err.h"
+#include "ClearSilver/util/neo_rand.h"
+#include "ClearSilver/util/neo_hdf.h"
+#include "ClearSilver/util/neo_str.h"
+#include "ClearSilver/util/neo_files.h"
+#include "ClearSilver/util/ulist.h"
 
 /* Ok, in order to use the hash, we have to support n-len strings
  * instead of null terminated strings (since in set_value and walk_hdf

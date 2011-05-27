@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
 #include <yavdr/common.h>
 #include <yavdr/db-utils/dbset.h>
 #include <time.h>
