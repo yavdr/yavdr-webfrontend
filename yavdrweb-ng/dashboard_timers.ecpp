@@ -59,7 +59,7 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][2u] = "filename";
 
 	json["metaData"]["fields"][3u]["name"] = "day";
-	json["metaData"]["fields"][3u]["type"] = "date";
+	json["metaData"]["fields"][3u]["type"] = "integer";
 
 	json["metaData"]["fields"][4u]["name"] = "is_active";
 	json["metaData"]["fields"][4u]["type"] = "bool";
@@ -83,10 +83,10 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][10u]["type"] = "integer";
 
 	json["metaData"]["fields"][11u]["name"] = "start";
-	json["metaData"]["fields"][11u]["type"] = "date";
+	json["metaData"]["fields"][11u]["type"] = "integer";
 	
 	json["metaData"]["fields"][12u]["name"] = "stop";
-	json["metaData"]["fields"][12u]["type"] = "date";
+	json["metaData"]["fields"][12u]["type"] = "integer";
 
 	json["metaData"]["fields"][10u]["name"] = "weekdays";
 	json["metaData"]["fields"][10u]["type"] = "integer";
@@ -109,7 +109,7 @@ static int writer(char *data, size_t size, size_t nmemb,
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);  
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         
-		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8002/timers.json");
+		curl_easy_setopt(curl, CURLOPT_URL, "http://vdr-sz:8002/timers.json");
 		// Attempt to retrieve the remote page
 		curlResult = curl_easy_perform(curl);  
 
@@ -133,8 +133,7 @@ static int writer(char *data, size_t size, size_t nmemb,
 				for( Json::ValueIterator itr = timers.begin() ; itr != timers.end() ; itr++, i++ ) {
 					json["data"][i] = (*itr);
 					json["data"][i]["id"] = i;
-					json["data"][i]["active"] = i % 2 == 0;
-
+					//json["data"][i]["active"] = i % 2 == 0;
 				}
 		    }
 		} else {

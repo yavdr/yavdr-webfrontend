@@ -61,10 +61,14 @@ YaVDR.Component.Dashboard.Recordings = Ext.extend(YaVDR.Component.Dashboard.Item
 				forceFit: true
 			},
 			disableSelection: true,
-			columns: [
-				{ header: _('Name'), dataIndex: 'name', width: 400 },
-				{ header: _('Duration'), dataIndex: 'length', width: 100 }
-			],
+			columns: [{
+  			    header: _('Name'), dataIndex: 'name', width: 400
+  			},{
+			    header: _('Duration'), dataIndex: 'duration', width: 100, renderer: function(value) {
+			      if (value == -1) return _("unknown");
+			      return value;
+			    }
+			}],
 			store: this.store
 		});
 
@@ -94,15 +98,25 @@ YaVDR.Component.Dashboard.Timers = Ext.extend(YaVDR.Component.Dashboard.Item, {
 
 		this.gridPanel = new Ext.grid.GridPanel({
 			bodyCssClass: 'frame-border',
-			autoExpandColumn: 'name',
+			autoExpandColumn: 'filename',
 			loadMask: true,
 			viewConfig: {
 				forceFit: true
 			},
 			disableSelection: true,
 			columns: [
-				{ header: _('Name'), dataIndex: 'name', width: 400 },
-				{ header: _('Start'), dataIndex: 'start', width: 100, xtype: 'datecolumn', format: 'd.m.Y H:i' }
+				{ 
+				    header: _('Name'), dataIndex: 'filename', width: 400, renderer: function(value, meta, rec) {
+				      return value + " (" + rec.get('channelname') + ")";
+				    }
+				},
+				{
+				    header: _('Start'), dataIndex: 'start', width: 140, renderer: function (value, meta, rec) {
+				        var h = Math.floor(value / 100);
+				        var m = value % 100;
+				        return new Date((rec.get('day') + h*3600 + m*60)*1000).format(_('Y-m-d H:i'));
+				    }
+				}
 			],
 			store: this.store
 		});
