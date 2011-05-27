@@ -109,7 +109,7 @@ static int writer(char *data, size_t size, size_t nmemb,
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);  
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
         
-		curl_easy_setopt(curl, CURLOPT_URL, "http://vdr-sz:8002/timers.json");
+		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:8002/timers.json");
 		// Attempt to retrieve the remote page
 		curlResult = curl_easy_perform(curl);  
 
