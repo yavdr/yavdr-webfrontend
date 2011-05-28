@@ -161,7 +161,8 @@ YaVDR.Component.Settings.SystemGeneric.Shutdown = Ext.extend(YaVDR.Default.Form,
         {
           key: 's4',
           title: _('Fake suspend to disk'),
-          description: _('Alternative for Suspend to RAM. This can be used as a fallback for some problematic devices')
+          description: _('Alternative for Suspend to RAM. This can be used as a fallback for some problematic devices'),
+          disabled: true
         },
         {
           key: 's5',
