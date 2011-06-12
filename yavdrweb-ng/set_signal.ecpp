@@ -19,6 +19,7 @@ signal_params = "";
 value;
 value2;
 value3;
+value4;
 string values[];
 </%args><%cpp>
 
@@ -56,6 +57,14 @@ if (
         if ((value3 == "xine") || (value3 == "xineliboutput") || (value3 == "streaming") || (value3 == "disabled") || (value3 == "hdff"))
         {
             int err = dbset("vdr.backend=%s", value3.c_str());
+        }
+        if ((value2 == "sxfe") && (value4 == "on"))
+        {
+            int err = dbset("system.x11.nohud=%s", "1");
+        }
+        else
+        {
+            int err = dbset("system.x11.nohud=%s", "0");
         }
 	}
 	else if (signal == "change-epg" )
