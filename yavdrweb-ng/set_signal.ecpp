@@ -58,13 +58,13 @@ if (
         {
             int err = dbset("vdr.backend=%s", value3.c_str());
         }
-        if ((value2 == "sxfe") && (value4 == "on"))
+        if (((value2 == "sxfe") || (value2 == "blank")) && (value4 == "on"))
         {
-            int err = dbset("system.x11.nohud=%s", "1");
+            int err = dbset("system.x11.hud=%s", "1");
         }
         else
         {
-            int err = dbset("system.x11.nohud=%s", "0");
+            int err = dbset("system.x11.hud=%s", "0");
         }
 	}
 	else if (signal == "change-epg" )

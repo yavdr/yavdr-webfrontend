@@ -346,19 +346,19 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       store: this.backendStore
     });
 
-    this.sxfeHud = new Ext.form.Checkbox({
-      boxLabel: _('Disable HUD for vdr-sxfe'),
+    this.x11Hud = new Ext.form.Checkbox({
+      boxLabel: _('Enable HUD (Experimental)'),
       disabled: true,
       name: 'value4'
     });
 
-    this.frontendSelectionHidden.on('change', function(x, value) {
-      if(value == 'sxfe') {
+    this.frontendSelectionHidden.on('change', function(obj, value) {
+      if(value == 'sxfe' || value == 'blank') {
         this.setDisabled(false);
       } else {
         this.setDisabled(true);
       }
-    }, this.sxfeHud);
+    }, this.x11Hud);
 
     this.items = [
       this.setupSelectionHidden,
@@ -367,7 +367,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       this.setupSelectorView,
       this.frontendSelectorView,
       this.backendSelectorView,
-      this.sxfeHud
+      this.x11Hud
     ];
 
     YaVDR.Component.Settings.VdrGeneric.Setup.superclass.initComponent.call(this);
@@ -379,7 +379,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
   },
 
   doLoad: function() {
-    YaVDR.getHdfValue(['vdr.setup', 'vdr.frontend', 'vdr.backend', 'system.x11.nohud'], function(value) {
+    YaVDR.getHdfValue(['vdr.setup', 'vdr.frontend', 'vdr.backend', 'system.x11.hud'], function(value) {
       try {
         this.setupSelectorView.select("setup-selection-" + value.vdr.setup);
       } catch(e) {
@@ -396,7 +396,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       }
 
       try {
-        this.sxfeHud.setValue(value.system.x11.nohud)
+        this.x11Hud.setValue(value.system.x11.hud)
       } catch(e) {
       }
 
