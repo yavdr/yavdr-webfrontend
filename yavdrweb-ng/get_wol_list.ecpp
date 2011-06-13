@@ -26,18 +26,20 @@ else
   const char * base = "system.net.wol.addresses";
   HDF * node = hdf_get_obj( hdf, base );
 
-  reply.out() << "[";
+  long count = 0;
+  reply.out() << "{\nrows : [";
   if( node )
   {
     HDF * child = node->child;
     while( child && child->child )
     {
+      count++;
       reply.out() << "{\n";
       HDF * grandchild = child->child;
       while( grandchild && grandchild->value ) {
-    	reply.out() << "\t\"";
+    	reply.out() << "\t";
     	reply.sout() << grandchild->name;
-    	reply.out() << "\" : \"";
+    	reply.out() << " : \"";
     	reply.sout() << grandchild->value;
     	reply.out() << "\"";
     	
@@ -55,6 +57,9 @@ else
     	reply.out() << ",";
     }
   }
-  reply.out() << "]";
+  reply.out() << "],\n";
+  reply.out() << "results : ";
+  reply.sout() << count;
+  reply.out() << "\n}";
 }
 </%cpp>
