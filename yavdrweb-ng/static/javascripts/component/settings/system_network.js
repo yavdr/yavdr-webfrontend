@@ -294,12 +294,10 @@ YaVDR.Component.Settings.SystemNetwork.WOL = Ext.extend(Ext.grid.GridPanel, {
       }
     ];
 
-    this.store = new Ext.data.Store({
+    this.store = new Ext.data.JsonStore({
       url: '/admin/get_wol_list',
-      reader: new Ext.data.ArrayReader({}, Ext.data.Record.create([
-        {name: 'address'},
-        {name: 'name'}
-      ]))
+      root: 'rows',
+      fields: ['address', 'name']
     });
 
     YaVDR.Component.Settings.SystemNetwork.WOL.superclass.initComponent.call(this);
