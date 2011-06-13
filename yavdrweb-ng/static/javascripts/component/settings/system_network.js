@@ -173,13 +173,90 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
   }
 });
 
+YaVDR.Component.Settings.SystemNetwork.WOLForm = Ext.extend(Ext.Window, {
+  record: false,
+  grid: null,
+  modal: true,
+  initComponent: function() {
+
+    if(this.record) {
+      this.title = _('Edit wakeup address');
+    } else {
+      this.title = _('New wapeup address');
+    }
+
+    this.form = new Ext.FormPanel({
+      border: false,
+      padding: 10,
+      labelWidth: 200,
+      items: [
+      {
+        fieldLabel: _('Name'),
+        xtype: 'textfield',
+        itemId: 'name',
+        blankText: _('The name is missing'),
+        allowBlank: false,
+	anchor:'100%'
+      },
+      {
+        fieldLabel: _('Hardware address'),
+        xtype: 'textfield',
+        itemId: 'address',
+        maskRe: /[A-F0-9:]/i,
+        regex: /^[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}$/i,
+        regexText: _('Invalid MAC address'),
+        blankText: _('The address is missing'),
+        allowBlank: false,
+	anchor:'100%'
+      },
+      {
+        xtype: 'button',
+        fieldLabel: '&nbsp;',
+        labelSeparator: '',
+        text: 'Speichern',
+        listeners: {
+          scope: this,
+          click: function() {
+            if(this.form.getComponent('name').isValid() && this.form.getComponent('address').isValid()) {
+              if(this.record) {
+                this.record.set('name', this.form.getComponent('name').getValue());
+                this.record.set('address', this.form.getComponent('address').getValue());
+              } else {
+                var record = new this.grid.store.recordType({
+                  name: this.form.getComponent('name').getValue(),
+                  address: this.form.getComponent('address').getValue()
+                });
+                record.markDirty();
+                this.grid.store.add(record);
+              }
+              this.close();
+            }
+          }
+        }
+      }
+    ]
+    });
+
+    this.items = [this.form]
+
+    YaVDR.Component.Settings.SystemNetwork.WOLForm.superclass.initComponent.call(this);
+
+    this.on('render', function() {
+      if(this.record) {
+        this.form.getComponent('name').setValue(this.record.data.name);
+        this.form.getComponent('address').setValue(this.record.data.address);
+      }
+    }, this);
+
+  }
+});
 
 YaVDR.Component.Settings.SystemNetwork.WOL = Ext.extend(Ext.grid.GridPanel, {
   autoScroll: true,
   loadMask: true,
   title: 'Wake on LAN',
   stripeRows: true,
-  autoExpandColumn: 'address',
+  autoExpandColumn: 'name',
   infoText: _('You can define mac addresses for wake on lan. (format: XX:XX:XX:XX:XX:XX)'),
   initComponent: function() {
 
@@ -191,32 +268,12 @@ YaVDR.Component.Settings.SystemNetwork.WOL = Ext.extend(Ext.grid.GridPanel, {
 
     this.tbar = [
       {
-        xtype: 'textfield',
-        itemId: 'address',
-        maskRe: /[A-F0-9:]/i,
-        regex: /^[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}:[0-9A-F]{2}$/i,
-        regexText: _('Invalid MAC address'),
-        blankText: _('The address is missing'),
-        allowBlank: false,
-        width: 300
-      },
-      {
         icon: '/static/images/icons/socket--plus.png',
         text: _('Add'),
         scope: this,
-        handler: this.addAddress
-      },
-      {
-        icon: '/static/images/icons/socket--pencil.png',
-        text: _('Edit'),
-        scope: this,
-        handler: this.changeAddress
-      },
-      {
-        icon: '/static/images/icons/socket--minus.png',
-        text: _('Delete'),
-        scope: this,
-        handler: this.deleteAddress
+        handler: function() {
+          this.openForm();
+        }
       },
       {
         icon: '/static/images/icons/socket--arrow.png',
@@ -229,33 +286,76 @@ YaVDR.Component.Settings.SystemNetwork.WOL = Ext.extend(Ext.grid.GridPanel, {
 
     this.columns = [
       {
-        dataIndex: 'address'
+        dataIndex: 'name',
+        header: _('Name')
+      }, {
+        dataIndex: 'address',
+        header: _('Hardware address')
       }
     ];
 
     this.store = new Ext.data.Store({
       url: '/admin/get_wol_list',
       reader: new Ext.data.ArrayReader({}, Ext.data.Record.create([
-        {name: 'address'}
+        {name: 'address'},
+        {name: 'name'}
       ]))
     });
 
     YaVDR.Component.Settings.SystemNetwork.WOL.superclass.initComponent.call(this);
 
-    this.on('rowclick', this.selectForEdit, this);
+    this.on('rowcontextmenu', this.onRowContextMenu, this);	
     this.on('render', function() {
       this.store.reload();
     }, this);
   },
+  onRowContextMenu: function(grid, index, e) {
+    e.stopEvent();
+    var record = grid.getStore().getAt(index);
+    grid.getSelectionModel().selectRow(index);
+    var contextMenu = new Ext.menu.Menu({
+      items: [
+        {
+          text: 'Ändern',
+          icon: '/static/images/icons/socket--pencil.png',
+          scope: this,
+          record: record,
+          handler: function(e) {
+            this.openForm(e.record);
+          }
+        },
+        {
+          text: 'Löschen',
+          icon: '/static/images/icons/socket--minus.png',
+          scope: this,
+          handler: function(btn, e) {
+            Ext.Msg.confirm(_('Delete'), _('Delete adress?'), function(btn) {
+              if (btn == 'yes') {
+                grid.getStore().remove(record);
+              }
+            })
+          }
+        }
+      ]
+    });
+    // show
+    contextMenu.showAt(e.getXY());
+  },
+
   saveAddresses: function() {
+    var names = [];
     var addresses = [];
     this.loadMask.show()
     Ext.each(this.store.getRange(), function(k) {
+      names.push(k.data.name);
       addresses.push(k.data.address);
     }, this);
 
     params = {};
-    if (addresses.length > 0) params.addresses = addresses;
+    if (addresses.length > 0) {
+      params.names = names;
+      params.addresses = addresses;
+    }
 
     Ext.Ajax.request({
       scope: this,
@@ -271,30 +371,8 @@ YaVDR.Component.Settings.SystemNetwork.WOL = Ext.extend(Ext.grid.GridPanel, {
       }
     })
   },
-  selectForEdit: function(grid, rowIndex, e) {
-    var record = this.store.getAt(rowIndex);
-    var address = this.getTopToolbar().getComponent('address');
-    address.setValue(record.data.address);
-  },
-  addAddress: function() {
-    var address = this.getTopToolbar().getComponent('address');
-    if (address.isValid()) {
-      var record = new this.store.recordType({address: address.getValue()});
-      record.markDirty();
-      this.store.add(record);
-      address.setValue();
-    }
-  },
-  deleteAddress: function() {
-    if (this.getSelectionModel().getSelected()) {
-      this.store.remove(this.getSelectionModel().getSelected());
-    }
-  },
-  changeAddress: function() {
-    var address = this.getTopToolbar().getComponent('address');
-    if (address.isValid()) {
-      this.getSelectionModel().getSelected().set('address', address.getValue());
-      address.setValue();
-    }
+
+  openForm: function(record) {
+    (new YaVDR.Component.Settings.SystemNetwork.WOLForm({ record: record, grid: this })).show();
   }
 });
