@@ -52,7 +52,7 @@ else
 
       child = child->next;
       if (child)
-    	reply.out() << ",\n";
+    	reply.out() << ",";
     }
   }
   reply.out() << "]";
