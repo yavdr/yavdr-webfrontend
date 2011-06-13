@@ -11,7 +11,7 @@ yavdrweb.so: neo_hdf.o neo_err.o auth.o authenticate.o yavdrweb.o \
              get_shell_response.o get_hdf_value.o get_autofs_config.o set_autofs_config.o \
              get_x11.o set_x11.o get_packages.o dpkg.o session.o \
              set_shutdown_wakeup.o get_eventlircd.o set_eventlircd.o \
-             channels.o channelpedia.o \
+             channels.o channelpedia.o get_wol_list.o set_wol_list.o\
              dashboard_vdr.o dashboard_system.o dashboard_recordings.o \
              dashboard_timers.o
              
