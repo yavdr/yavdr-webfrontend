@@ -12,6 +12,7 @@ using namespace std;
 <& authenticate >
 <%cpp>
 reply.setHeader ("Cache-Control", "no-cache", false);
+reply.setHeader ("Content-Type", "application/json", false);
 
 HDF *hdf = NULL;
 NEOERR *err;
@@ -29,15 +30,29 @@ else
   if( node )
   {
     HDF * child = node->child;
-    while( child && child->value )
+    while( child && child->child )
     {
-      log_info( child->value );  
-
-      reply.out() << "[\'";
-      reply.sout() << child->value;
-      reply.out() << "\'],";
+      reply.out() << "{\n";
+      HDF * grandchild = child->child;
+      while( grandchild && grandchild->value ) {
+    	reply.out() << "\t\"";
+    	reply.sout() << grandchild->name;
+    	reply.out() << "\" : \"";
+    	reply.sout() << grandchild->value;
+    	reply.out() << "\"";
+    	
+    	grandchild = grandchild->next;
+    	if (grandchild)
+    	  reply.out() << ",\n";
+    	else
+    	  reply.out() << "\n";
+      }
+      
+      reply.out() << "}";
 
       child = child->next;
+      if (child)
+    	reply.out() << ",\n";
     }
   }
   reply.out() << "]";

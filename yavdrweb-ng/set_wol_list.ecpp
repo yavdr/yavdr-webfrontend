@@ -12,26 +12,26 @@ extern "C" {
 using namespace std;
 </%pre><%args>
 string addresses[];
+string names[];
 </%args>
 <& authenticate >
 <%cpp>
 reply.setHeader ("Cache-Control", "no-cache", false);
 
-string success = "false";
+string success = "true";
 int err;
 
 const char * base = "system.net.wol.addresses";
-addresses_type::const_iterator it = addresses.begin();
 dbremove(base);
-for( int idx = 0; idx < 999; ++idx )
+
+for( int idx = 0; idx < addresses.size(); ++idx )
 {
-  if( it != addresses.end() )
-  {
-    log_info( *it );
-    err = dbset("%s.%.3d=%s", base, idx, it->c_str());
-    ++it;
+  err = dbset("%s.%d.address=%s", base, idx, addresses[idx].c_str());
+  err = dbset("%s.%d.name=%s", base, idx, names[idx].c_str());
+  if (err) { 
+	success = "false";
+	break;
   }
-  if (err) { break; }
 }
 </%cpp>
 {
