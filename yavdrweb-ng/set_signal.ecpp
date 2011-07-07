@@ -33,7 +33,6 @@ if (
 		(signal == "kill-xbmc") ||
 		(signal == "reset-xbmc") ||
 		(signal == "restart-vdr") ||
-		(signal == "change-auto-net-yavdr") ||
 		(signal == "change-timeout") ||
 		(signal == "change-sound") ||
 		(signal == "graphtft-state-change") ||
