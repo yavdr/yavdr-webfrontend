@@ -102,3 +102,7 @@
 .ext-gecko .x-form-display-field {
     padding-top: 3px;
 }
+
+.x-box-item {
+	text-align: center;
+}

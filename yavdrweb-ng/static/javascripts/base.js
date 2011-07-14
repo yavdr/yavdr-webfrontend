@@ -114,9 +114,12 @@ Ext.apply(YaVDR, {
         margins: '5 0 0 0',
         layout: 'hbox',
         defaults: {
-          xtype: 'button',
+/*          xtype: 'button',
           height: 40,
-          scale: 'medium',
+          scale: 'medium',*/
+          xtype: 'imagebutton',
+          imgWidth : 200,
+          imgHeight : 200,
           flex: 1,
           handler: function(button) {
             YaVDR.openComponent(button.itemId);
