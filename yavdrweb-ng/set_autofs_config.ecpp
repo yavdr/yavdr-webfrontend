@@ -41,13 +41,6 @@ if( cmd == "mounts" )
       }
       if (err) { break; }
     }
-
-    if (!err)
-    {
-      int ret = system( "/usr/bin/signal-event change-auto-net-yavdr" );
-
-      if( 0 == ret )  success = "true";
-    }
 }
 </%cpp>
 {
