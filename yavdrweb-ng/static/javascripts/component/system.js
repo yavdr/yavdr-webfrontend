@@ -85,7 +85,7 @@ Ext.apply(YaVDR.Component.System, {
 });
 
 YaVDR.Component.System.addCommand(_('Switch temporarily to second screen'), YaVDR.Component.System.changeVdrToSecondDisplay, '/static/images/tango/switch-display.png');
-YaVDR.Component.System.addCommand(_('Reboot computer'), YaVDR.Component.System.reboot, '/icons/fugue/arrow-circle-225.png');
+YaVDR.Component.System.addCommand(_('Reboot computer'), YaVDR.Component.System.reboot, '/static/images/tango/reboot.png');
 YaVDR.Component.System.addCommand(_('Kill XBMC'), YaVDR.Component.System.killXBMC, '/static/images/tango/xbmc-process-stop.png');
 YaVDR.Component.System.addCommand(_('Set XBMC defaults'), YaVDR.Component.System.resetXBMC, '/static/images/tango/xbmc-edit-delete.png');
 YaVDR.Component.System.addCommand(_('Restart VDR'), YaVDR.Component.System.restartVDR, '/static/images/tango/view-refresh.png');
@@ -93,8 +93,8 @@ YaVDR.Component.System.addCommand(_('Restart VDR'), YaVDR.Component.System.resta
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-infos', _('System information'), '/static/images/tango/utilities-system-monitor.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-logs', _('System log files'), '/static/images/tango/document-open.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-xbmc', _('XBMC crash log'), '/static/images/tango/xbmc-document-open.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC configuration'), '/icons/silk/keyboard.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), '/icons/fugue/screwdriver.png');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC configuration'), '/static/images/tango/lirc-config.png');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), '/static/images/tango/vdr-config.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-x11', _('Xorg server'), '/static/images/tango/X11.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-alsa', _('Sound (ALSA)'), '/static/images/tango/audio-card.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-dpkg', _('System information'), '/static/images/tango/package-x-generic.png');
