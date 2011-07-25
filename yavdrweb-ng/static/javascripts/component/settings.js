@@ -44,9 +44,9 @@ Ext.apply(YaVDR.Component.Settings, {
 });
 
 YaVDR.Component.Settings.addMenu('vdr', 'settings-vdr-generic', _('General'), '/static/images/tango/preferences-system.png');
-YaVDR.Component.Settings.addMenu('vdr', 'settings-vdr-channels', _('Channels'), '/icons/fugue/book-open-list.png');
+YaVDR.Component.Settings.addMenu('vdr', 'settings-vdr-channels', _('Channels'), '/static/images/tango/address-book-new.png');
 
-YaVDR.Component.Settings.addMenu('hw', 'settings-hw-remote', _('Remote control'), 'file://home/volker/Desktop/1287729525.png');
+YaVDR.Component.Settings.addMenu('hw', 'settings-hw-remote', _('Remote control'), '/static/images/tango/remote_control.png');
 YaVDR.Component.Settings.addMenu('hw', 'settings-hw-audio', _('Audio'), '/static/images/tango/audio-x-generic.png');
 YaVDR.Component.Settings.addMenu('hw', 'settings-hw-display', _('Display'), '/static/images/tango/video-display.png');
 
