@@ -28,6 +28,7 @@ if (key == "webfrontend.language")
         (value == "ru") ||
 	(value == "fr") || 
    	(value == "lt") ||   
+        (value == "cs") ||
 	(value == "it")) { 
 //	(value == "zh") || 
 //	(value == "pt")) {
