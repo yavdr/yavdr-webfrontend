@@ -27,7 +27,7 @@ using namespace std;
     "/usr/share/lirc/extras/more_remotes.hwdb"
   };
 
-  if (receiver_id != "" && remotetype == "lircd")
+  if (receiver_id != "")
   {
     //security check for plausible value of serial_port
     if (serial_port != "/dev/ttyS0" && serial_port != "/dev/ttyS1")
