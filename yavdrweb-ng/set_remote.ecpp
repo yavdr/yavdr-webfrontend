@@ -54,9 +54,9 @@ using namespace std;
               remote_found = true;
 
               //if the chosen receiver is not a serial receiver: clear serial field in the db
-              err = dbset("system.remote.lirc.serial_port=%s", "");
+              err = dbset("system.remote.lirc.receiver.serial_port=%s", "");
               if (err) {
-                msg = "Error on dbset system.remote.lirc.serial_port";
+                msg = "Error on dbset system.remote.lirc.receiver.serial_port";
                 break;
               }
 
@@ -73,9 +73,9 @@ using namespace std;
                     (i == 1 && value == "serial"))
                 {
                     //set serial port
-                    err = dbset("system.remote.lirc.serial_port=%s", lirc_serial_port.c_str());
+                    err = dbset("system.remote.lirc.receiver.serial_port=%s", lirc_serial_port.c_str());
                     if (err){
-                      msg = "Error on dbset";
+                      msg = "Error on dbset system.remote.lirc.receiver.serial_port";
                       break;
                     }
                 }

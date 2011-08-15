@@ -37,7 +37,7 @@ using namespace std;
 	else
 	{
 		lirc_receiver_description = hdf_get_value(hdf, "system.remote.lirc.receiver.description", "");
-		lirc_serial_port = hdf_get_value(hdf, "system.remote.lirc.serial_port", "");
+		lirc_serial_port = hdf_get_value(hdf, "system.remote.lirc.receiver.serial_port", "");
 		lirc = hdf_get_value(hdf, "system.remote.lirc.active", "");
 	}
 
