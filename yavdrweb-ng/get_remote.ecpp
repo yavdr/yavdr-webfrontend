@@ -14,12 +14,14 @@ using namespace std;
 	reply.setHeader ("Cache-Control", "no-cache", false);
 	reply.setHeader ("Content-Type", "application/json", false);
 
-	string current_lirchw_description = "";
-	string current_serial_port = "";
-	string current_remote = "";
+	string lirc = "0";
+	string lirc_serial_port;
+	string lirc_receiver_description;
+	int lirc_receiver_id = -1;
+
+
 	string str;
 	int index = 1;
-	int current_lirchw_id = -1;
 	HDF *hdf = NULL;
 	NEOERR *err;
 	const char *files[] = {
@@ -34,9 +36,9 @@ using namespace std;
 	}
 	else
 	{
-		current_lirchw_description = hdf_get_value(hdf, "system.lirchw.description", "");
-		current_serial_port = hdf_get_value(hdf, "system.lirchw.serial_port", "");
-		current_remote = hdf_get_value(hdf, "system.remoted", "");
+		lirc_receiver_description = hdf_get_value(hdf, "system.remote.lirc.receiver.description", "");
+		lirc_serial_port = hdf_get_value(hdf, "system.remote.lirc.serial_port", "");
+		lirc = hdf_get_value(hdf, "system.remote.lirc.active", "");
 	}
 
 	Json::Value list;
@@ -67,8 +69,8 @@ using namespace std;
 				{
 					found = str.find_first_of(";", bof);
 
-					if (current_lirchw_description != "" && str.substr(bof, found - bof) == current_lirchw_description) {
-						current_lirchw_id = index;
+					if (lirc_receiver_description != "" && str.substr(bof, found - bof) == lirc_receiver_description) {
+						lirc_receiver_id = index;
 					}
 
 					list[index][i] = str.substr(bof, found - bof);
@@ -82,10 +84,10 @@ using namespace std;
 	}
 
     Json::Value json;
-    json["receiverlist"] = list;
-    json["current_receiver"] = current_lirchw_id;
-    json["current_serial_port"] = current_serial_port;
-    json["current_remoted"] = current_remote;
+    json["lirc_receiver_id"] = lirc_receiver_id;
+    json["lirc_serial_port"] = lirc_serial_port;
+    json["lirc"] = lirc;
+    json["lirc_receiver_list"] = list;
     reply.out() << json;
 
 </%cpp>

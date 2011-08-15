@@ -6,11 +6,11 @@ test: all testdeploy
 	${TNTNET} -d -c tntnet.localtest.conf
 
 yavdrweb.so: neo_hdf.o neo_err.o auth.o authenticate.o yavdrweb.o \
-             set_lirchw.o set_file_content.o set_signal.o set_hdf_value.o \
-             get_lirchwdb.o get_svdrp_response.o get_file_content.o \
+             set_remote.o set_file_content.o set_signal.o set_hdf_value.o \
+             get_remote.o get_svdrp_response.o get_file_content.o \
              get_shell_response.o get_hdf_value.o get_autofs_config.o set_autofs_config.o \
              get_x11.o set_x11.o get_packages.o dpkg.o session.o \
-             set_shutdown_wakeup.o get_eventlircd.o set_eventlircd.o \
+             set_shutdown_wakeup.o \
              channels.o channelpedia.o get_wol_list.o set_wol_list.o\
              dashboard_vdr.o dashboard_system.o dashboard_recordings.o \
              dashboard_timers.o

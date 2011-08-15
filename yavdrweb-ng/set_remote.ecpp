@@ -1,0 +1,119 @@
+<%pre>
+#include <stdlib.h>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <ctype.h>
+extern "C" {
+#include <yavdr/db-utils/dbset.h>
+};
+
+#include <yavdr/common.h>
+
+using namespace std;
+</%pre><& authenticate ><%args>
+  //Default type of args is string and we should leave it like this
+  //For more robustness, avoid to define integer vars in here, better cast string to int later!!!
+  string lirc;
+  string lirc_receiver_id;
+  string lirc_serial_port;
+</%args><%cpp>
+  int i_receiver_id = -1;
+  int err = 0;
+  string str;
+  string success = "false";
+  string msg = "Unspecified error.";
+  const char *files[] = {
+    "/usr/share/lirc/lirc.hwdb",
+    "/usr/share/lirc/extras/more_remotes.hwdb"
+  };
+
+  if (lirc == "on") {
+    i_receiver_id = atoi(lirc_receiver_id.c_str());
+    if (i_receiver_id != 0) {
+      ifstream ifs;
+      const char *names[] = {"description", "driver", "lirc_driver", "hw_default", "lircd_conf"};
+      int findex = 0;
+      int index = 0;
+      bool remote_found = false;
+      for (findex = 0; (findex < (sizeof(files) / sizeof(files[0]))) && !remote_found; findex++)
+      {
+        ifs.open(files[findex], ifstream::in);
+
+        while (ifs.good())
+        {
+          getline(ifs, str);
+
+          if (isalpha(str[0]))
+          {
+            if (index +1 == i_receiver_id )
+            {
+              string::size_type bof = 0;
+              string::size_type found;
+              int err;
+              remote_found = true;
+
+              //if the chosen receiver is not a serial receiver: clear serial field in the db
+              err = dbset("system.remote.lirc.serial_port=%s", "");
+              if (err) {
+                msg = "Error on dbset system.remote.lirc.serial_port";
+                break;
+              }
+
+              for (int i = 0;(found = str.find_first_of(";", bof)) != string::npos; i++)
+              {
+                string value = str.substr(bof, found - bof);
+                err = dbset("system.remote.lirc.receiver.%s=%s", names[i], value.c_str());
+                if (err){
+                  msg = "Error on dbset";
+                  break;
+                }
+                //check if this lirc receiver really depends on the serial port
+                if ((i == 2 && value == "lirc_dev lirc_serial") ||
+                    (i == 1 && value == "serial"))
+                {
+                    //set serial port
+                    err = dbset("system.remote.lirc.serial_port=%s", lirc_serial_port.c_str());
+                    if (err){
+                      msg = "Error on dbset";
+                      break;
+                    }
+                }
+                bof = found + 1;
+              }
+
+              err = dbset("system.remote.lirc.active=1");
+              if (err) {
+                  msg = "Error on system.remote.lirc.active";
+                  break;
+              } else {
+                 int ret = system("/usr/bin/signal-event change-remoted");
+                 success = "true";
+                 msg = "OK. signal-event change-remoted";
+              }
+              break;
+            }
+            index++;
+          }
+        }
+        ifs.close();
+      }
+
+    } else {
+      msg = "Unknown receiver";
+    }
+  } else {
+    err = dbset("system.remote.lirc.active=0");
+    if (err) {
+      msg = "Error on system.remote.lirc.active";
+    } else {
+      int ret = system("/usr/bin/signal-event change-remoted");
+      success = "true";
+      msg = "OK. signal-event change-remoted";
+    }
+  }
+
+</%cpp>{
+    success: <$success$>,
+    msg: "<$msg$>"
+}

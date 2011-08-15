@@ -22,15 +22,19 @@ YaVDR.Component.Settings.HwRemote = Ext.extend(YaVDR.Component, {
   // Global load
   doLoad: function() {
     Ext.Ajax.request({
-      url: '/admin/get_lirchwdb',
+      url: '/admin/get_remote',
       method: 'GET',
       scope: this,
       success: function(xhr) {
         var data = Ext.decode(xhr.responseText);
-        this.data.lircReceiverList = data.receiverlist;
-        this.data.currentLircReceiver = data.current_receiver;
-        this.data.currentLircSerialPort = data.current_serial_port;
-        this.lircForm.receiverStore.loadData(this.data.lircReceiverList);
+        if(data.lirc == '1') {
+          this.lircForm.active.setValue(true);
+        } else {
+          this.lircForm.active.setValue(false);
+        }
+        this.lircForm.serialPort.setValue(data.lirc_serial_port);
+        this.lircForm.receiverStore.loadData(data.lirc_receiver_list);
+        this.lircForm.driver.setValue(data.lirc_receiver_id);
       }
     });
   }
@@ -65,7 +69,7 @@ YaVDR.Component.Settings.HwRemote.LIRC = Ext.extend(YaVDR.Default.Form, {
         '>' + _('HW-Default') + ': {hw_default}<' + 'br/' +
         '>' + _('Lircd-Conf') + ': {lircd_conf}" class="x-combo-list-item">{description}</div></tpl>',
 
-      hiddenName: 'receiver_id',
+      hiddenName: 'lirc_receiver_id',
       valueField: 'id',
       anchor: '100%',
       displayField:'description',
@@ -75,9 +79,27 @@ YaVDR.Component.Settings.HwRemote.LIRC = Ext.extend(YaVDR.Default.Form, {
       store: this.receiverStore,
       triggerAction: 'all',
       fieldLabel: _('Receiver'),
-      selectOnFocus: true
+      selectOnFocus: true,
+      disabled: true
     });
 
+    this.active = new Ext.form.Checkbox({
+      itemId: 'active',
+      name: 'lirc',
+      fieldLabel: _('LIRC support'),
+      listeners: {
+        scope: this,
+        check: function(cb, checked) {
+          if (checked) {
+            this.serialPort.enable();
+            this.driver.enable();
+          } else {
+            this.serialPort.disable();
+            this.driver.disable();
+          }
+        }
+      }
+    });
 
     this.serialPort = new Ext.form.RadioGroup({
       itemId: 'serial_port',
@@ -85,22 +107,28 @@ YaVDR.Component.Settings.HwRemote.LIRC = Ext.extend(YaVDR.Default.Form, {
       columns: 1,
       fieldLabel: _('Serial port'),
       items: [
-        {boxLabel: 'none', name: 'serial_port', inputValue: '', checked: true},
-        {boxLabel: '/dev/ttyS0 (COM1)', name: 'serial_port', inputValue: '/dev/ttyS0'},
-        {boxLabel: '/dev/ttyS1 (COM2)', name: 'serial_port', inputValue: '/dev/ttyS1'}
-      ]
+        {boxLabel: 'none', name: 'lirc_serial_port', inputValue: '', checked: true},
+        {boxLabel: '/dev/ttyS0 (COM1)', name: 'lirc_serial_port', inputValue: '/dev/ttyS0'},
+        {boxLabel: '/dev/ttyS1 (COM2)', name: 'lirc_serial_port', inputValue: '/dev/ttyS1'}
+      ],
+      disabled: true
     });
 
     this.items = [
+      this.active,
       this.driver,
       this.serialPort
     ];
 
     YaVDR.Component.Settings.HwRemote.LIRC.superclass.initComponent.call(this);
+    this.un('render', this.doLoad);
   },
   doSave: function() {
     this.getForm().submit({
-      url: '/admin/set_lirchw'
+      url: '/admin/set_remote'
     })
+  },
+  doLoad: function() {
+    this.base.doLoad.call(this.base);
   }
 });
