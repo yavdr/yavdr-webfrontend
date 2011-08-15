@@ -16,7 +16,6 @@ using namespace std;
   //For more robustness, avoid to define integer vars in here, better cast string to int later!!!
   receiver_id;
   serial_port;
-  remotetype;
 </%args><%cpp>
   int i_receiver_id = -1;
   string str;
@@ -33,7 +32,7 @@ using namespace std;
     if (serial_port != "/dev/ttyS0" && serial_port != "/dev/ttyS1")
         serial_port = "";
 
-    i_receiver_id = atoi(receiver_id.c_str()); 
+    i_receiver_id = atoi(receiver_id.c_str());
     //FIXME msg is not used correctly here, it should be a field specific feedback for the end user
     //and is abused as a cheap debug instrument
 
