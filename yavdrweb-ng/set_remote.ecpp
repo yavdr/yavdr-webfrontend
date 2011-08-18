@@ -107,9 +107,9 @@ using namespace std;
     if (err) {
       msg = "Error on system.remote.lirc.active";
     } else {
-      int ret = system("/usr/bin/signal-event change-remoted");
+      int ret = system("/usr/bin/signal-event change-remote-hardware");
       success = "true";
-      msg = "OK. signal-event change-remoted";
+      msg = "OK. signal-event change-remote-hardware";
     }
   }
 
