@@ -97,7 +97,7 @@ YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC confi
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), '/static/images/tango/vdr-config.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-x11', _('Xorg server'), '/static/images/tango/X11.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-alsa', _('Sound (ALSA)'), '/static/images/tango/audio-card.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-dpkg', _('System information'), '/static/images/tango/package-x-generic.png');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-dpkg', _('Package information'), '/static/images/tango/package-x-generic.png');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-yavdr', _('yaVDR database'), '/static/images/tango/drive-harddisk.png');
 
 YaVDR.registerComponent(YaVDR.Component.System);
