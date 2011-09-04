@@ -65,7 +65,7 @@ Ext.apply(YaVDR, {
       },
       failure: function() {
         if (!Ext.getBody().isMasked()) {
-          Ext.getBody().mask('VDR seams to be switched off or webserver is stopped.', 'x-mask-offline');
+          Ext.getBody().mask(_('VDR seams to be switched off or webserver is stopped.'), 'x-mask-offline');
           this.fail = true;
         }
       },

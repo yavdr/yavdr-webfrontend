@@ -339,7 +339,7 @@ YaVDR.ChannelGroupEdit = Ext.extend(Ext.Window, {
             var oldChannelNumber = this.record.get('number');
             this.record.beginEdit();
             this.record.set('name', this.form.getComponent('name').getValue());
-            this.record.set('number', this.form.getComponent('number').getValue());
+            this.record.set('number', parseInt(this.form.getComponent('number').getValue()));
             this.record.endEdit();
             if (oldChannelNumber != this.record.get('number')) {
               this.store.resortChannelNo();
@@ -506,6 +506,7 @@ YaVDR.ChannelsStore = Ext.extend(Ext.data.Store, {
         channel++;
       }
     }, this);
+    this.fireEvent('datachanged', this);
   }
 });
 
@@ -684,10 +685,14 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
               var nextChannel = 1;
               if (pos >= 0) {
                 lastRec = this.store.getAt(pos);
-                while (lastRec && lastRec.get('channel_type') == 1)
-                  lastRec = this.store.getAt(--pos);
-                
-                if (lastRec) nextChannel = lastRec.get('channel') + 1;
+
+                  while (lastRec && lastRec.get('type') == 1 && lastRec.get('number') == undefined)
+                    lastRec = this.store.getAt(--pos);
+
+                  if (lastRec) {
+                    if (lastRec.get('type') == 1)  nextChannel = lastRec.get('number');
+                    else nextChannel = lastRec.get('channel') + 1;                    
+                  }
               }
               
               this.addChannelpediaNode(node, true, nextChannel);
@@ -708,10 +713,14 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
             var nextChannel = 1;
             if (pos >= 0) {
               lastRec = this.store.getAt(pos);
-              while (lastRec && lastRec.get('channel_type') == 1)
-                lastRec = this.store.getAt(--pos);
-              
-              if (lastRec) nextChannel = lastRec.get('channel') + 1;
+
+                while (lastRec && lastRec.get('type') == 1 && lastRec.get('number') == undefined)
+                  lastRec = this.store.getAt(--pos);
+
+                if (lastRec) {
+                  if (lastRec.get('type') == 1)  nextChannel = lastRec.get('number');
+                  else nextChannel = lastRec.get('channel') + 1;                    
+                }
             }
             var i = 0;
             for(; i<nodes.length; i++) {
@@ -724,7 +733,8 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
           }
         });
 
-        if (typeof node.attributes.source != 'undefined') {
+        
+        if (typeof node.attributes.source != 'undefined' && typeof yavdrwebGlobalInfo  != 'undefined'  && yavdrwebGlobalInfo.devmode == 1) {
           contextMenu.add('-');
           
           contextMenu.add({
@@ -765,7 +775,7 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
         if (node.isLeaf() && node.attributes.record) {
           var data = node.attributes.record;
           data.type = 0;
-          data.channel = nextChannel++;
+          data.channel = nextChannel;
           if(data.vpid != '0') {
             if(data.caid != '0') {
               data.channel_type = _('TV') + ' ⚷';
@@ -782,7 +792,9 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
             data.channel_type = _('Data');
           }
           data.channel_orig = data.channel;
+          oldLength = this.store.getModifiedRecords().length;
           this.store.add(new Ext.data.Record(data));
+          nextChannel += this.store.getModifiedRecords().length - oldLength;
         } else {
           if (node.attributes.groupable) {
             this.store.add(new Ext.data.Record({
@@ -797,7 +809,7 @@ YaVDR.Component.Settings.VdrChannels = Ext.extend(YaVDR.Component, {
               node.collapse(false, false);
             if (node.hasChildNodes()) {
               node.eachChild(function(childNode) {
-                nextChannel = this.addChannelpediaNode(childNode, false, ++nextChannel);
+                nextChannel = this.addChannelpediaNode(childNode, false, nextChannel);
                 return true;
               }, this);
             }
