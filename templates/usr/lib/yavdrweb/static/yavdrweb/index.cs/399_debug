@@ -1,0 +1,8 @@
+<?cs if:(webfrontend.devmode == "1") ?>
+    <!-- 399_debug -->
+    <script type="text/javascript">
+    var yavdrwebGlobalInfo = {
+        devmode : "1"
+    };
+    </script>
+<?cs /if ?>

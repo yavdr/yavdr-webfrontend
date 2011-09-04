@@ -19,9 +19,8 @@
 <?cs if:(webfrontend.devmode == "1") ?>
             if (typeof console != "undefined" && typeof found[msgid] == "undefined") {
                 found[msgid] = 1;
-                console.log ('msgid "_' + msgid.replace(/\"/g, '\\"') + '"');
-                console.log ('msgstr "'+msgid.replace(/\"/g, '\\"')+'"');
-                //console.log ('msgstr ""' );
+                console.log ('msgid "' + msgid.replace(/\"/g, '\\"') + '"');
+                console.log ('msgstr ""' );
                 return translated;
             }
             return translated;
