@@ -116,19 +116,10 @@ YaVDR.Component.Dashboard.Timers = Ext.extend(YaVDR.Component.Dashboard.Item, {
 				        var h = Math.floor(value / 100);
 				        var m = value % 100;
 				        var weekdays = rec.get('weekdays');
-				        if (weekdays == 0)
-				          return new Date((rec.get('day') + h*3600 + m*60)*1000).format(_('Y-m-d H:i'));
+				        if (weekdays == '-------')
+				          return new Date(rec.get('day') + " " + h + ":" + m + ":00").format(_('Y-m-d H:i'));
 				        else {
-				          var repeat = '';
-				          if (weekdays & 1 == 1) repeat += 'M'; else repeat += '-';
-                          if (weekdays & 2 == 2) repeat += 'T'; else repeat += '-';
-                          if (weekdays & 4 == 4) repeat += 'W'; else repeat += '-';
-                          if (weekdays & 8 == 8) repeat += 'T'; else repeat += '-';
-                          if (weekdays & 16 == 16) repeat += 'F'; else repeat += '-';
-                          if (weekdays & 32 == 32) repeat += 'S'; else repeat += '-';
-                          if (weekdays & 64 == 64) repeat += 'S'; else repeat += '-';
-				          
-				          return repeat + " " + (new Date((h*3600 + m*60)*1000).format(_('H:i')));
+				          return weekdays + " " + (new Date(0, 0, 0, h, m, 0)).format(_('H:i')));
 				        }
 				    }
 				}
