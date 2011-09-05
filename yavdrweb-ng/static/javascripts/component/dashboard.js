@@ -108,7 +108,7 @@ YaVDR.Component.Dashboard.Timers = Ext.extend(YaVDR.Component.Dashboard.Item, {
 			columns: [
 				{ 
 				    header: _('Name'), dataIndex: 'filename', width: 400, renderer: function(value, meta, rec) {
-				      return value + " (" + rec.get('channelname') + ")";
+				      return value + " (" + rec.get('channel_name') + ")";
 				    }
 				},
 				{

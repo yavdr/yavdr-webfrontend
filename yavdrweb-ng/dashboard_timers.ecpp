@@ -55,7 +55,7 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][0u]["name"] = "id";
 	json["metaData"]["fields"][0u]["type"] = "integer";
 
-	json["metaData"]["fields"][1u] = "channelname";
+	json["metaData"]["fields"][1u] = "channel_name";
 	json["metaData"]["fields"][2u] = "filename";
 
 	json["metaData"]["fields"][3u]["name"] = "day";
@@ -88,8 +88,7 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][12u]["name"] = "stop";
 	json["metaData"]["fields"][12u]["type"] = "integer";
 
-	json["metaData"]["fields"][10u]["name"] = "weekdays";
-	json["metaData"]["fields"][10u]["type"] = "integer";
+	json["metaData"]["fields"][13u]["name"] = "weekdays";
 	
 	CURL *curl;
 	CURLcode curlResult;
