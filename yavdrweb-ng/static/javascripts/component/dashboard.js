@@ -66,7 +66,8 @@ YaVDR.Component.Dashboard.Recordings = Ext.extend(YaVDR.Component.Dashboard.Item
   			},{
 			    header: _('Duration'), dataIndex: 'duration', width: 100, renderer: function(value) {
 			      if (value == -1) return _("unknown");
-			      return value;
+			      
+			      return sprintf(sprintf(new Date(0, 0, 0, 0, 0, value).format(_('G:i:s'))));
 			    }
 			}],
 			store: this.store
