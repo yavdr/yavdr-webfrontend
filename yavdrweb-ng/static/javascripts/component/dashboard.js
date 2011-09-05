@@ -119,7 +119,7 @@ YaVDR.Component.Dashboard.Timers = Ext.extend(YaVDR.Component.Dashboard.Item, {
 				        if (weekdays == '-------')
 				          return new Date(rec.get('day') + " " + h + ":" + m + ":00").format(_('Y-m-d H:i'));
 				        else {
-				          return weekdays + " " + (new Date(0, 0, 0, h, m, 0)).format(_('H:i')));
+				          return weekdays + " " + (new Date(0, 0, 0, h, m, 0)).format(_('H:i'));
 				        }
 				    }
 				}
