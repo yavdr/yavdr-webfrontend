@@ -59,7 +59,6 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][2u] = "filename";
 
 	json["metaData"]["fields"][3u]["name"] = "day";
-	json["metaData"]["fields"][3u]["type"] = "integer";
 
 	json["metaData"]["fields"][4u]["name"] = "is_active";
 	json["metaData"]["fields"][4u]["type"] = "bool";
@@ -73,8 +72,8 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][7u]["name"] = "channel";
 	json["metaData"]["fields"][7u]["type"] = "integer";
 
-	json["metaData"]["fields"][8u]["name"] = "use_vps";
-	json["metaData"]["fields"][8u]["type"] = "bool";
+	json["metaData"]["fields"][8u]["name"] = "flags";
+	json["metaData"]["fields"][8u]["type"] = "integer";
 
 	json["metaData"]["fields"][9u]["name"] = "lifetime";
 	json["metaData"]["fields"][9u]["type"] = "integer";
@@ -89,6 +88,9 @@ static int writer(char *data, size_t size, size_t nmemb,
 	json["metaData"]["fields"][12u]["type"] = "integer";
 
 	json["metaData"]["fields"][13u]["name"] = "weekdays";
+	
+	json["metaData"]["fields"][14u]["name"] = "event_id";
+	json["metaData"]["fields"][14u]["type"] = "integer";
 	
 	CURL *curl;
 	CURLcode curlResult;
