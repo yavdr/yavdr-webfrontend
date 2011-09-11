@@ -87,7 +87,7 @@ using namespace std;
                   msg = "Error on system.remote.lirc.active";
                   break;
               } else {
-                 int ret = system("/usr/bin/signal-event change-remoted");
+                 int ret = system("/usr/bin/signal-event change-remote-hardware");
                  success = "true";
                  msg = "OK. signal-event change-remoted";
               }
