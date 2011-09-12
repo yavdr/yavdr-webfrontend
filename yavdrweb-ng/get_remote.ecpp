@@ -29,6 +29,24 @@ using namespace std;
 		"/usr/share/lirc/extras/more_remotes.hwdb"
 	};
 
+	const char *ignores = "/usr/share/lirc/ignored.hwdb";
+	vector<string> ignored;
+	ifstream ifs;
+	
+	ifs.open(ignores, ifstream::in);
+
+	while (ifs.good())
+	{
+		getline(ifs, str);
+
+		if (isalpha(str[0]))
+		{
+			ignored.push_back(str);
+		}
+	}
+
+	ifs.close();
+	
 	//get current lirc settings from database
 	if (((err = hdf_init(&hdf)) != STATUS_OK) || ((err = hdf_read_file(hdf, YAVDRDB)) != STATUS_OK))
 	{
@@ -49,7 +67,6 @@ using namespace std;
 	list[0u][4u] = "-";
 	list[0u][5u] = "-";
 
-	ifstream ifs;
 	int next;
 	for (int findex = 0; findex < (sizeof(files) / sizeof(files[0])); findex++)
 	{
@@ -58,25 +75,35 @@ using namespace std;
 		while (ifs.good())
 		{
 			getline(ifs, str);
-
 			if (isalpha(str[0]))
 			{
-				string::size_type bof = 0;
-				string::size_type found;
-
-				list[index][0u] = index;
-				for (int i = 1; i <= 5; i++)
-				{
-					found = str.find_first_of(";", bof);
-
-					if (lirc_receiver_description != "" && str.substr(bof, found - bof) == lirc_receiver_description) {
-						lirc_receiver_id = index;
+				vector<string>::iterator it;
+				bool found = false;
+				for ( it=ignored.begin() ; it < ignored.end(); it++ ) {
+					if ((*it) == str) {
+						found = true;
+						break;
 					}
-
-					list[index][i] = str.substr(bof, found - bof);
-					bof = found + 1;
 				}
-				index++;
+
+				if (!found) {
+					string::size_type bof = 0;
+					string::size_type found;
+	
+					list[index][0u] = index;
+					for (int i = 1; i <= 5; i++)
+					{
+						found = str.find_first_of(";", bof);
+	
+						if (lirc_receiver_description != "" && str.substr(bof, found - bof) == lirc_receiver_description) {
+							lirc_receiver_id = index;
+						}
+	
+						list[index][i] = str.substr(bof, found - bof);
+						bof = found + 1;
+					}
+					index++;
+				}
 			}
 		}
 
