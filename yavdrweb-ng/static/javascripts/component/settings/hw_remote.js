@@ -2,7 +2,7 @@ YaVDR.Component.Settings.HwRemote = Ext.extend(YaVDR.Component, {
   data: {},
   itemId: 'settings-hw-remote',
   title: _('Settings'),
-  description: _('Here you can configure your remote hardware.'),
+  description: _('Here you can configure your remote hardware. The default and most common choice is EventLircd.'),
   initComponent: function() {
 
     this.lircForm = new YaVDR.Component.Settings.HwRemote.LIRC({
