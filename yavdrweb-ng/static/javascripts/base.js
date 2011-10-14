@@ -41,26 +41,34 @@ Ext.apply(YaVDR, {
       scope: this,
       success: function(xhr) {
         var data = Ext.util.JSON.decode(xhr.responseText);
-        if (Ext.getBody().isMasked() && this.fail) {
-          Ext.getBody().unmask();
-        }
-        this.fail = false;
-        if (typeof data.update != "undefined") {
-          Ext.iterate(data.update, function(key, item) {
-            var ts = parseInt(item);
-            if (ts > YaVDR.syncTS) {
-              YaVDR.syncTS = ts;
-              
-              var panel =  Ext.getCmp('yavdr-content').getComponent(key);
-              if (panel) {
-                if (typeof panel.doReload != "undefined") {
-                  panel.doReload();
-                } else if (typeof panel.doLoad != "undefined") {
-                  panel.doLoad();
+        
+        if (data.yavdrdb == false) {
+          this.fail = true;
+          if (!Ext.getBody().isMasked()) {
+            Ext.getBody().mask(_('yaVDR database seems to be corrupted or missing.'), 'x-mask-offline');
+          }
+        } else {          
+          if (Ext.getBody().isMasked() && this.fail) {
+            Ext.getBody().unmask();
+          }
+          this.fail = false;
+          if (typeof data.update != "undefined") {
+            Ext.iterate(data.update, function(key, item) {
+              var ts = parseInt(item);
+              if (ts > YaVDR.syncTS) {
+                YaVDR.syncTS = ts;
+                
+                var panel =  Ext.getCmp('yavdr-content').getComponent(key);
+                if (panel) {
+                  if (typeof panel.doReload != "undefined") {
+                    panel.doReload();
+                  } else if (typeof panel.doLoad != "undefined") {
+                    panel.doLoad();
+                  }
                 }
               }
-            }
-          });
+            });
+          }
         }
       },
       failure: function() {

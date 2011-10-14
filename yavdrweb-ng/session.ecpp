@@ -83,11 +83,11 @@ long int ts;
     
     if (((err = hdf_init(&hdf)) != STATUS_OK) || ((err = hdf_read_file(hdf, YAVDRDB)) != STATUS_OK))
 	{
-		reply.out() << "Error on hdf_read_file.";
-		nerr_log_error(err);
+    	json["yavdrdb"] = false;
 	}
 	else
 	{
+		json["yavdrdb"] = true;
 		HDF *start = hdf_get_obj(hdf, (char *)"webfrontend.session.update");
 		if (start != NULL) {
 			int found = 0;
