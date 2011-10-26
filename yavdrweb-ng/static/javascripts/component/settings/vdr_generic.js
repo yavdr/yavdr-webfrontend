@@ -192,28 +192,23 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       data: [
         {
           key: 'disabled',
-          title: _('Disabled')//,
-          //description: _('If you want to use VDR with a TT-premium S2-6400 HD.')
+          title: _('Disabled')
         },
         {
           key: 'blank',
-          title: _('Blank')//,
-          //description: _('This choice is using the xineliboutput plugin with frontend vdr-sxfe. This is the default for yaVDR')
+          title: _('Blank')
         },
         {
           key: 'sxfe',
-          title: 'vdr-sxfe'//,
-          //description: _('This choice is using the xineliboutput plugin with frontend vdr-sxfe. This is the default for yaVDR')
+          title: 'vdr-sxfe'
         },
         {
           key: 'xine',
-          title: 'xine'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
+          title: 'xine'
         },
         {
           key: 'xbmc',
-          title: 'xbmc'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
+          title: 'xbmc'
         }
       ]
 
@@ -229,38 +224,30 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       data: [
         {
           key: 'disabled',
-          title: _('Disabled')//,
-          //description: _('If you want to use VDR with a TT-premium S2-6400 HD.')
+          title: _('Disabled')
         },
         {
           key: 'streaming',
-          title: _('Streaming')//,
-          //description: _('This choice is using the xineliboutput plugin with frontend vdr-sxfe. This is the default for yaVDR')
+          title: _('Streaming')
         },
         {
           key: 'xineliboutput',
-          title: 'vdr-plugin-xineliboutput'//,
-          //description: _('This choice is using the xineliboutput plugin with frontend vdr-sxfe. This is the default for yaVDR')
+          title: 'vdr-plugin-xineliboutput'
         },
         {
           key: 'xine',
-          title: 'vdr-plugin-xine'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
+          title: 'vdr-plugin-xine'
         },
         {
           key: 'hdff',
-          title: 'TT-premium S2-6400 HD'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
-        },
+          title: 'TT-premium S2-6400 HD'
         {
           key: 'sdff',
-          title: 'TT-premium SD'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
+          title: 'TT-premium SD'
         },
         {
           key: 'pvr350',
-          title: 'PVR350'//,
-          //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
+          title: 'PVR350'
         }
       ]
 

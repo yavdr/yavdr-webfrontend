@@ -1,21 +1,15 @@
 YaVDR.Component.System.Diagnose = Ext.extend(YaVDR.Component, {
-//  layout: 'border',
-//  plain: true,
-//  height: 500,
   initComponent: function() {
 
     this.tabPanel = new Ext.TabPanel({ activeTab: 0 });
 
     this.items = [
       new YaVDR.Component.Header({
-        html: _('Diagnostics'),
-//        region: 'north'
+        html: _('Diagnostics')
       }),
       {
         frame: true,
-autoHeight: true,
-//        region: 'center',
-//        layout: 'fit',
+        autoHeight: true,
         title: this.subTitle,
         items: this.tabPanel
       }

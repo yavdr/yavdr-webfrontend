@@ -58,5 +58,4 @@ YaVDR.Component.Dashboard.Vdr = Ext.extend(YaVDR.Component.Dashboard.Item, {
       scope: this
     })
   }
-//html: '<b>Status</b>: VDR gestartet<br><b>Speicherplatz</b>: 45G<br><b>Frontend</b>: Xine<br><b>Auflösung</b>: 1920x1080<br>Achtung Demo Inhalt'
 });

@@ -57,6 +57,5 @@ YaVDR.Component.Dashboard.System = Ext.extend(YaVDR.Component.Dashboard.Item, {
       scope: this
     })
   }
-//html: '<b>Shutdown</b>: S3 (Disabled USB-Wakeup)<br> <b>CPU</b>: 10% - <b>RAM</b>: 1024MB (169 MG frei)<br><b>Soundausgabe</b>: HDMI + Analog<br>Achtung Demo Inhalt'
 });
 

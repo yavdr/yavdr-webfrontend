@@ -437,7 +437,6 @@ YaVDR.DefaultFrequency = Ext.extend(Ext.form.ComboBox, {
 });
 
 YaVDR.FrequencyCheckbox = Ext.extend(Ext.form.Checkbox, {
-  //checked: true,
   initComponent: function() {
 
     var value = "000" + String(this.frequency.hz);
@@ -446,7 +445,6 @@ YaVDR.FrequencyCheckbox = Ext.extend(Ext.form.Checkbox, {
 
     this.boxLabel = this.hz + (this.hz == 'auto' ? '' : 'hz')  +' ' + _('rate');
     this.name = 'freq' + this.index;
-    //this.inputValue = value;
     this.inputValue = this.frequency.id;
 
     this.record = new this.store.recordType({id: this.inputValue, label: this.boxLabel});

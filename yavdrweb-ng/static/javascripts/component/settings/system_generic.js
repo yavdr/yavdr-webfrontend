@@ -319,7 +319,8 @@ YaVDR.Component.Settings.SystemGeneric.Shutdown = Ext.extend(YaVDR.Default.Form,
 
         this.shutdownSelectiorView.refresh();
         this.doLoad.call(this);
-      }
+      }//,
+    //description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding. If you have trouble with the default, try this one.')
     });
   },
   doSave: function() {

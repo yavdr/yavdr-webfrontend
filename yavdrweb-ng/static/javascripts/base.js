@@ -84,6 +84,7 @@ Ext.apply(YaVDR, {
   },
 
   createSubmenu: function(items, columns) {
+    columns = columns || YaVDR.columns;
 
     var rows = Math.ceil(items.length / columns);
     var menu = new Array();
@@ -122,12 +123,9 @@ Ext.apply(YaVDR, {
         margins: '5 0 0 0',
         layout: 'hbox',
         defaults: {
-/*          xtype: 'button',
-          height: 40,
-          scale: 'medium',*/
           xtype: 'imagebutton',
-          imgWidth : 200,
-          imgHeight : 200,
+          imgWidth : YaVDR.defaultImgWidth,
+          imgHeight : YaVDR.defaultImgWidth,
           flex: 1,
           handler: function(button) {
             YaVDR.openComponent(button.itemId);
@@ -221,9 +219,6 @@ Ext.apply(YaVDR, {
 YaVDR.Header = Ext.extend(Ext.Panel, {
   height: 60,
   style: "background: #4E78B1 url('/static/images/yavdr-logo-blue-bg.png') no-repeat 780px center; border-radius: 4px; margin-bottom: 20px",
-//  margin: 100,
-//  region: 'north',
-//  border: false,
   layout: 'hbox',
   id: 'yavdr-menu',
   cls: 'yavdr-menu',
@@ -245,36 +240,9 @@ YaVDR.Header = Ext.extend(Ext.Panel, {
     this.items = [
       {
         itemId: 'dashboard',
-//        height: 50,
-//        width: 50,
         tooltip: _('Dashboard'),
-        text: _('Dashboard'),
-//        margins:'5 15 0 0',
-//        margins:'0 5 0 10',
-//        cls: 'x-btn-menu',
-//        scale: 'larger',
-//        icon: '/static/images/menu_home.png'
+        text: _('Dashboard')
       },
-/*      {
-        itemId: 'programm',
-        margins:'5 5 0 0',
-        text: _('Program')
-      },
-      {
-        itemId: 'recordings',
-        margins:'5 5 0 0',
-        text: _('Recordings')
-      },
-      {
-//        height: 50,
-        itemId: 'timer',
-//        width: 50,
-//        margins:'5 15 0 0',
-//        cls: 'x-btn-menu',
-//        scale: 'larger',
-//        icon: '/static/images/menu_timer.png'
-      },
-*/
       {
         itemId: 'settings',
         margins:'5 5 0 0',
@@ -282,13 +250,7 @@ YaVDR.Header = Ext.extend(Ext.Panel, {
         tooltip: _('Settings')
       },
       {
-//        height: 50,
         itemId: 'system',
-//        width: 50,
-//        margins:'5 15 0 0',
-//        cls: 'x-btn-menu',
-//        scale: 'larger',
-//        icon: '/static/images/menu_system.png',
         tooltip: _('System'),
         text: _('System')
       }
@@ -391,7 +353,6 @@ Ext.onReady(function() {
   Ext.QuickTips.init();
   Ext.History.init();
   new YaVDR.Viewport();
-
 
   Ext.History.on('change', function(token) {
     if (!token) token = 'dashboard';

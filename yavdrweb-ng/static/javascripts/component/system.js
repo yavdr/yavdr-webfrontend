@@ -7,11 +7,11 @@ YaVDR.Component.System = Ext.extend(YaVDR.Component, {
       new YaVDR.Component.Item({
         title: _('Commands'),
         style: 'margin-bottom: 5px',
-        items: YaVDR.createSubmenu(YaVDR.Component.System.menu['commands'], 3)
+        items: YaVDR.createSubmenu(YaVDR.Component.System.menu['commands'])
       }),
       new YaVDR.Component.Item({
         title: _('Diagnostics'),
-        items: YaVDR.createSubmenu(YaVDR.Component.System.menu['diagnose'], 3)
+        items: YaVDR.createSubmenu(YaVDR.Component.System.menu['diagnose'])
 
       })
     ];
@@ -24,29 +24,24 @@ YaVDR.Component.System.menu['commands'] = new Array;
 YaVDR.Component.System.menu['diagnose'] = new Array;
 
 Ext.apply(YaVDR.Component.System, {
-  addCommand: function(label, handler, icon, scope) {
-    /*YaVDR.Component.System.menu['commands'].push({
-      scope: scope,
-      text: label,
-      handler: handler,
-      icon: icon
-    });*/
+  addCommand: function(label, handler, icon, scope, path, width) {
+    path = path || YaVDR.defaultPath;
+    width = width || YaVDR.defaultImgWidth;
+    
     YaVDR.Component.System.menu['commands'].push({
       scope: scope,
-      imgPath : icon,
+      imgPath : path + '/' + width + '/' + icon + '.png',
       tooltip : label,
       handler: handler
     });
   },
-  addMenu: function(section, itemId, label, icon) {
-    /*YaVDR.Component.System.menu[section].push({
-      itemId: itemId,
-      text: label,
-      icon: icon
-    });*/
+  addMenu: function(section, itemId, label, icon, path, width) {
+    path = path || YaVDR.defaultPath;
+    width = width || YaVDR.defaultImgWidth;
+    
     YaVDR.Component.System.menu[section].push({
       itemId : itemId,
-      imgPath : icon,
+      imgPath : path + '/' + width + '/' + icon + '.png',
       tooltip : label
     });
   },
@@ -84,20 +79,20 @@ Ext.apply(YaVDR.Component.System, {
   }
 });
 
-YaVDR.Component.System.addCommand(_('Switch temporarily to second screen'), YaVDR.Component.System.changeVdrToSecondDisplay, '/static/images/tango/switch-display.png');
-YaVDR.Component.System.addCommand(_('Reboot computer'), YaVDR.Component.System.reboot, '/static/images/tango/reboot.png');
-YaVDR.Component.System.addCommand(_('Kill XBMC'), YaVDR.Component.System.killXBMC, '/static/images/tango/xbmc-process-stop.png');
-YaVDR.Component.System.addCommand(_('Set XBMC defaults'), YaVDR.Component.System.resetXBMC, '/static/images/tango/xbmc-edit-delete.png');
-YaVDR.Component.System.addCommand(_('Restart VDR'), YaVDR.Component.System.restartVDR, '/static/images/tango/view-refresh.png');
+YaVDR.Component.System.addCommand(_('Switch temporarily to second screen'), YaVDR.Component.System.changeVdrToSecondDisplay, 'switch-display');
+YaVDR.Component.System.addCommand(_('Reboot computer'), YaVDR.Component.System.reboot, 'reboot');
+YaVDR.Component.System.addCommand(_('Kill XBMC'), YaVDR.Component.System.killXBMC, 'xbmc-process-stop');
+YaVDR.Component.System.addCommand(_('Set XBMC defaults'), YaVDR.Component.System.resetXBMC, 'xbmc-edit-delete');
+YaVDR.Component.System.addCommand(_('Restart VDR'), YaVDR.Component.System.restartVDR, 'view-refresh');
 
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-infos', _('System information'), '/static/images/tango/utilities-system-monitor.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-logs', _('System log files'), '/static/images/tango/document-open.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-xbmc', _('XBMC crash log'), '/static/images/tango/xbmc-document-open.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC configuration'), '/static/images/tango/lirc-config.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), '/static/images/tango/vdr-config.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-x11', _('Xorg server'), '/static/images/tango/X11.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-alsa', _('Sound (ALSA)'), '/static/images/tango/audio-card.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-dpkg', _('Package information'), '/static/images/tango/package-x-generic.png');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-yavdr', _('yaVDR database'), '/static/images/tango/drive-harddisk.png');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-infos', _('System information'), 'utilities-system-monitor');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-logs', _('System log files'), 'document-open');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-xbmc', _('XBMC crash log'), 'xbmc-document-open');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC configuration'), 'lirc-config');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), 'vdr-config');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-x11', _('Xorg server'), 'X11');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-alsa', _('Sound (ALSA)'), 'audio-card');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-dpkg', _('Package information'), 'package-x-generic');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-yavdr', _('yaVDR database'), 'drive-harddisk');
 
 YaVDR.registerComponent(YaVDR.Component.System);
