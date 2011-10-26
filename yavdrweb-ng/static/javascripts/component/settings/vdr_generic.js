@@ -241,6 +241,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         {
           key: 'hdff',
           title: 'TT-premium S2-6400 HD'
+        },
         {
           key: 'sdff',
           title: 'TT-premium SD'

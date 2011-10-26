@@ -54,7 +54,7 @@ Ext.extend(Ext.ux.ImageButton, Ext.Button, {
   disable : function(newImgPath) {
     var replaceImgPath = newImgPath || this.disabledImgPath;
     if (replaceImgPath)
-            this.el.dom.firstChild.src = re        placeImgPath;
+            this.el.dom.firstChild.src = replaceImgPath;
     this.disabled = true;
   },
   enable : function(newImgPath) {
