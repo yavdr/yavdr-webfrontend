@@ -2,9 +2,9 @@
         Ext.ns('YaVDR');
         
         Ext.apply(YaVDR, {
-            defaultImgWidth: <?cs if:(?webfrontend.imgsize) ?><?cs var:webfrontend.imgsize ?><?cs else ?>50<?cs /if ?>,
-            defaultImgHeight: <?cs if:(?webfrontend.imgsize) ?><?cs var:webfrontend.imgsize ?><?cs else ?>50<?cs /if ?>,
+            defaultImgWidth: <?cs if:(?webfrontend.imgsize) ?><?cs var:webfrontend.imgsize ?><?cs else ?>150<?cs /if ?>,
+            defaultImgHeight: <?cs if:(?webfrontend.imgsize) ?><?cs var:webfrontend.imgsize ?><?cs else ?>150<?cs /if ?>,
             defaultPath: '/static/images/tango',
-            columns: <?cs if:(?webfrontend.columns) ?><?cs var:webfrontend.columns ?><?cs else ?>12<?cs /if ?>
+            columns: <?cs if:(?webfrontend.columns) ?><?cs var:webfrontend.columns ?><?cs else ?>4<?cs /if ?>
         });
     </script>
