@@ -2,7 +2,7 @@ YaVDR.Component.Settings.HwRemote = Ext.extend(YaVDR.Component, {
   data: {},
   itemId: 'settings-hw-remote',
   title: _('Settings'),
-  description: _('Here you can configure your remote hardware.'),
+  description: Gettext.strargs(_("The system tries to detect your remote control / IR receiver automatically. If the system recognizes your remote correctly, no manual configuration steps are necessary at all. Your remote control should just work out of the box from the moment you choose to plug in the USB receiver.\n\nIf the system is not able to recognize your remote this means that either no configuration for your remote was found in the list of the configuration files we are shipping with yaVDR or you are using a non-detectable device - for example receivers connected to the serial port. In case of a non-detectable device you can enable LIRC and configure it below.\n\nIf you own a detectable remote device - please read up %1 how to support us in making your device work out of the box. We target at improving this support with regular updates to the package"), '<a href="https://github.com/yavdr/yavdr-remote" target="_blank">' + _('here') +'</a>').replace(/\n/g, "<br/>\n"),
   initComponent: function() {
 
     this.lircForm = new YaVDR.Component.Settings.HwRemote.LIRC({
