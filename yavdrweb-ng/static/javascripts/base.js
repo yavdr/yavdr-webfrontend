@@ -240,7 +240,7 @@ YaVDR.Header = Ext.extend(Ext.Panel, {
 //        height: 50,
 //        width: 50,
         tooltip: _('Dashboard'),
-        text: _('Dashboard'),
+        text: _('Dashboard')
 //        margins:'5 15 0 0',
 //        margins:'0 5 0 10',
 //        cls: 'x-btn-menu',
