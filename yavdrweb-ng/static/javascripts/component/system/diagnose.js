@@ -8,7 +8,7 @@ YaVDR.Component.System.Diagnose = Ext.extend(YaVDR.Component, {
 
     this.items = [
       new YaVDR.Component.Header({
-        html: _('Diagnostics'),
+        html: _('Diagnostics')
 //        region: 'north'
       }),
       {
