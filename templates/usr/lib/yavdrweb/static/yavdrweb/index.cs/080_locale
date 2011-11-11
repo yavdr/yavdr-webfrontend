@@ -9,34 +9,34 @@
     <script type="text/javascript">
       try {
         var gt = new Gettext({ 'domain' : '<?cs if:(?webfrontend.language) ?><?cs var:webfrontend.language ?><?cs else ?>en<?cs /if ?>' });
-
-<?cs if:(webfrontend.devmode == "1") ?>
-        var found = Array();
-<?cs /if ?>
- 
-        function _(msgid) {
-            var translated = gt.gettext(msgid);
-<?cs if:(webfrontend.devmode == "1") ?>
-            if (typeof console != "undefined" && typeof found[msgid] == "undefined") {
-                found[msgid] = 1;
-                console.log ('msgid "' + msgid.replace(/\"/g, '\\"') + '"');
-                console.log ('msgstr ""' );
-                return translated;
-            }
-            return translated;
-<?cs else ?>
-            return translated;
-             
-<?cs /if ?>
-        }
       } catch (e) {
 <?cs if:(webfrontend.devmode == "1") ?>
         alert("Language file is missing. Please run \"sudo make\" in the yavdr-i18n directory!");
 <?cs /if ?>
-        function _(msgid) {
+        var gt = {
+          gettext: function(msgid) {
             return <?cs if:(webfrontend.devmode == "1") ?>"?"+<?cs /if ?>msgid;
+          }
         }
       }
-      
+
+<?cs if:(webfrontend.devmode == "1") ?>
+        var found = Array();
+<?cs /if ?>
+
+      function _(msgid) {
+        var translated = gt.gettext(msgid);
+<?cs if:(webfrontend.devmode == "1") ?>
+        if (typeof console != "undefined" && typeof found[msgid] == "undefined") {
+          found[msgid] = 1;
+          console.log ('msgid "' + msgid.replace(/\"/g, '\\"') + '"');
+          console.log ('msgstr ""' );
+          return translated;
+        }
+        return translated;
+<?cs else ?>
+        return translated;     
+<?cs /if ?>
+      }
     </script>
 
