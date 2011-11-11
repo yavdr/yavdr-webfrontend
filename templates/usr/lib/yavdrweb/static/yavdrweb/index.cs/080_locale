@@ -21,7 +21,7 @@
       }
 
 <?cs if:(webfrontend.devmode == "1") ?>
-        var found = Array();
+      var found = Array();
 <?cs /if ?>
 
       function _(msgid) {
