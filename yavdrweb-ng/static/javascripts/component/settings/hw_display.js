@@ -135,7 +135,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
           if (displayFieldset.getComponent('primary').getValue() == '1') {
             displayFieldset.getComponent('secondary').show().disable().setValue(false);
           } else {
-            displayFieldset.getComponent('secondary').show().disable().setValue(true);
+            displayFieldset.getComponent('secondary').show().enable().setValue(true);
             displayFieldset.getComponent('modeline').setValue('nvidia-auto-select');
           }
         } else {
