@@ -125,8 +125,7 @@ int main(int argc, char *argv[])
 
     for (mask = 1; mask < (1 << 24); mask <<= 1) {
     	if (update == 1) {
-    		//sprintf(buffer, "system.x11.display.%i", nDisplayDevice);
-    		sprintf(buffer, "system.x11.display.%08x", mask);
+    		sprintf(buffer, "system.x11.display.%i", nDisplayDevice);
     		dbremove(buffer);
     	}
         if (display_devices & mask) {
@@ -135,12 +134,9 @@ int main(int argc, char *argv[])
                                         &str);
 
         	if (update == 1) {
-                //dbset("system.x11.display.%i.device=%s" , nDisplayDevice, display_device_name(mask));
-                //dbset("system.x11.display.%i.mode.0=nvidia-auto-select", nDisplayDevice);
-                //dbset("system.x11.display.%i.default=nvidia-auto-select", nDisplayDevice);
-                dbset("system.x11.display.%08x.device=%s" , mask, display_device_name(mask));
-                dbset("system.x11.display.%08x.mode.0=nvidia-auto-select", mask);
-                dbset("system.x11.display.%08x.default=nvidia-auto-select", mask);
+                dbset("system.x11.display.%i.device=%s" , nDisplayDevice, display_device_name(mask));
+                dbset("system.x11.display.%i.mode.0=nvidia-auto-select", nDisplayDevice);
+                dbset("system.x11.display.%i.default=nvidia-auto-select", nDisplayDevice);
         	}
 
             printf("%i:%s:0x%08x:%s\n", nDisplayDevice, display_device_name(mask), mask, str);
