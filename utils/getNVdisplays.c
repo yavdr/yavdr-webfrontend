@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <getopt.h>
 #include <X11/Xlib.h>
 
 #include "nv-control-screen.h"
@@ -39,9 +39,26 @@ static char *display_device_name(int mask);
   }
  */
 
+static int update = 0;
+
 
 int main(int argc, char *argv[])
 {
+	int c;
+
+	while (1) {
+		int longindex = 0;
+
+		static struct option longopts[] = {
+				{ "update", 0, &update, 1 },
+				{ 0, 0, 0, 0 }
+		};
+
+		if ((c = getopt_long(argc, argv, "", longopts, &longindex)) == -1)
+			break;
+
+	}
+
     Display *dpy;
     Bool ret;
     int screen, display_devices, mask, major, minor;
@@ -99,18 +116,32 @@ int main(int argc, char *argv[])
 										0,
 										NV_CTRL_PCI_FUNCTION,
 										&pci_func);
-	dbset("system.hardware.nvidia.busid=%i:%i:%i", pci_bus, pci_device, pci_func);
+
+	if (update == 1)
+		dbset("system.hardware.nvidia.busid=%i:%i:%i", pci_bus, pci_device, pci_func);
 
     nDisplayDevice = 0;
+	char buffer[100];
+
     for (mask = 1; mask < (1 << 24); mask <<= 1) {
+    	if (update == 1) {
+    		//sprintf(buffer, "system.x11.display.%i", nDisplayDevice);
+    		sprintf(buffer, "system.x11.display.%08x", mask);
+    		dbremove(buffer);
+    	}
         if (display_devices & mask) {
             XNVCTRLQueryStringAttribute(dpy, screen, mask,
                                         NV_CTRL_STRING_DISPLAY_DEVICE_NAME,
                                         &str);
 
-            dbset("system.x11.display.%i.device=%s" , nDisplayDevice, display_device_name(mask));
-            dbset("system.x11.display.%i.mode.0=nvidia-auto-select", nDisplayDevice);
-            dbset("system.x11.display.%i.default=nvidia-auto-select", nDisplayDevice);
+        	if (update == 1) {
+                //dbset("system.x11.display.%i.device=%s" , nDisplayDevice, display_device_name(mask));
+                //dbset("system.x11.display.%i.mode.0=nvidia-auto-select", nDisplayDevice);
+                //dbset("system.x11.display.%i.default=nvidia-auto-select", nDisplayDevice);
+                dbset("system.x11.display.%08x.device=%s" , mask, display_device_name(mask));
+                dbset("system.x11.display.%08x.mode.0=nvidia-auto-select", mask);
+                dbset("system.x11.display.%08x.default=nvidia-auto-select", mask);
+        	}
 
             printf("%i:%s:0x%08x:%s\n", nDisplayDevice, display_device_name(mask), mask, str);
 
@@ -118,19 +149,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (nDisplayDevice > 1) { // more than one screen found
-    	dbset("system.x11.dualhead.enabled=1");
-    } else {
-    	dbset("system.x11.dualhead.enabled=0");
-    }
-
-    char *dummy;
-    for (; nDisplayDevice <= 3; nDisplayDevice++) {
-    	if (asprintf(&dummy, "system.x11.display.%i", nDisplayDevice) >= 0) {
-    		dbremove(dummy);
-    		free(dummy);
-    	}
-    }
+	if (update == 1) {
+		if (nDisplayDevice > 1) { // more than one screen found
+			dbset("system.x11.dualhead.enabled=1");
+		} else {
+			dbset("system.x11.dualhead.enabled=0");
+		}
+	}
 
     return 0;
 }
