@@ -24,23 +24,28 @@ if( cmd == "mounts" )
 {
   int err;
 
-    const char * base = "system.net.media.video";
-    mounts_type::const_iterator it = mounts.begin();
-    dbremove(base);
-    for( int idx = 0; idx < 999; ++idx )
+  const char * base = "system.net.media.video";
+  mounts_type::const_iterator it = mounts.begin();
+  dbremove(base);
+  for( int idx = 0; idx < 999; ++idx )
+  {
+    if( it != mounts.end() )
     {
-      if( it != mounts.end() )
-      {
-        log_info( *it );
-        err = dbset(
-                              "%s.%.3d=%s",
-                              base,
-                              idx,
-                              it->c_str() );
-        ++it;
-      }
-      if (err) { break; }
+      log_info( *it );
+      err = dbset(
+				  "%s.%.3d=%s",
+				  base,
+				  idx,
+				  it->c_str() );
+      ++it;
     }
+    if (err) { break; }
+  }
+
+  if (!err) {
+	  int ret = system("/usr/bin/signal-event autofs-state-change");
+	  success = "true";
+  }
 }
 </%cpp>
 {
