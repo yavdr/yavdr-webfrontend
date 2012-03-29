@@ -131,6 +131,9 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
       } else if(value == 'headless') {
         this.frontendSelectorView.select("frontend-selection-disabled");
         this.backendSelectorView.select("backend-selection-streaming");
+      } else if(value == 'softhddevice') {
+          this.frontendSelectorView.select("frontend-selection-softhddevice");
+          this.backendSelectorView.select("backend-selection-softhddevice");
       } else {
         this.frontendSelectorView.select("frontend-selection-sxfe");
         this.backendSelectorView.select("backend-selection-xineliboutput");
@@ -157,6 +160,11 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
           key: 'xine',
           title: 'xine@vdr-plugin-xine',
           description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding.')
+        },
+        {
+            key: 'softhddevice',
+            title: 'vdr-plugin-softhddevice (experimental)',
+            description: _('This is an alternative frontend. It is using the softhddevice plugin using GPU for decoding.')
         },
         {
           key: 'xbmc',
@@ -207,6 +215,10 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
           title: 'xine'
         },
         {
+            key: 'softhddevice',
+            title: 'softhddevice'
+        },
+        {
           key: 'xbmc',
           title: 'xbmc'
         }
@@ -237,6 +249,10 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         {
           key: 'xine',
           title: 'vdr-plugin-xine'
+        },
+        {
+          key: 'softhddevice',
+          title: 'vdr-plugin-softhddevice'
         },
         {
           key: 'hdff',

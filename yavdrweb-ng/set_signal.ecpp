@@ -45,7 +45,7 @@ if (
 
 	if (signal == "change-frontend" )
 	{
-        if ((value == "xine") || (value == "sxfe") || (value == "xbmc") || (value == "headless") || (value == "hdff") || (value == "custom"))
+        if ((value == "xine") || (value == "sxfe") || (value == "softhddevice") || (value == "xbmc") || (value == "headless") || (value == "hdff") || (value == "custom"))
         {
             int err = dbset("vdr.setup=%s", value.c_str());
         }
