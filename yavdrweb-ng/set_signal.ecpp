@@ -49,11 +49,11 @@ if (
         {
             int err = dbset("vdr.setup=%s", value.c_str());
         }
-        if ((value2 == "xine") || (value2 == "sxfe") || (value == "softhddevice") || (value2 == "xbmc") || (value2 == "disabled") || (value2 == "blank"))
+        if ((value2 == "xine") || (value2 == "sxfe") || (value2 == "softhddevice") || (value2 == "xbmc") || (value2 == "disabled") || (value2 == "blank"))
         {
             int err = dbset("vdr.frontend=%s", value2.c_str());
         }
-        if ((value3 == "xine") || (value3 == "xineliboutput") || (value == "softhddevice") || (value3 == "streaming") || (value3 == "disabled") || (value3 == "hdff") || (value3 == "sdff") || (value3 == "pvr350"))
+        if ((value3 == "xine") || (value3 == "xineliboutput") || (value3 == "softhddevice") || (value3 == "streaming") || (value3 == "disabled") || (value3 == "hdff") || (value3 == "sdff") || (value3 == "pvr350"))
         {
             int err = dbset("vdr.backend=%s", value3.c_str());
         }
