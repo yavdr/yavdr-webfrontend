@@ -15,6 +15,7 @@ content;
 const char *files[] = {
 	"/etc/lirc/lircd.conf",
 	"/etc/vdr/diseqc.conf",
+	"/etc/vdr/scr.conf",
 	"/var/lib/vdr/channels.conf",
 	"/var/lib/vdr/remote.conf",
 	"/var/lib/vdr/.xbmc/userdata/Lircmap.xml"

@@ -85,6 +85,7 @@ const char *files[] = {
     "/etc/vdr/remote.conf",
     "/etc/vdr/channels.conf",
     "/etc/vdr/diseqc.conf",
+    "/etc/vdr/scr.conf",
 
     "/etc/asound.conf",
     
