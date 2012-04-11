@@ -41,6 +41,7 @@ YaVDR.Component.Settings.SystemConfigEditor.Editor = Ext.extend(Ext.FormPanel, {
         data: [
           ['/var/lib/vdr/remote.conf'],
           ['/etc/vdr/diseqc.conf'],
+          ['/etc/vdr/scr.conf'],
           ['/var/lib/vdr/channels.conf'],
           ['/etc/lirc/lircd.conf'],
           ['/var/lib/vdr/.xbmc/userdata/Lircmap.xml']
