@@ -1,4 +1,6 @@
 <%pre>
+#include <sys/types.h>
+#include <dirent.h>
 #include <stdlib.h>
 #include <string>
 #include <iostream>
@@ -23,10 +25,9 @@ using namespace std;
   string str;
   string success = "false";
   string msg = "Unspecified error.";
-  const char *files[] = {
-    "/usr/share/lirc/lirc.hwdb",
-    "/usr/share/lirc/extras/more_remotes.hwdb"
-  };
+  string directories[] = {"/usr/share/yavdr-remote/hwdb.d/",
+                          "/etc/yavdr-remote/hwdb.d/"};
+#define EXTENSION ".hwdb"
 
   if (lirc == "on") {
     i_receiver_id = atoi(lirc_receiver_id.c_str());
@@ -36,9 +37,27 @@ using namespace std;
       int findex = 0;
       int index = 0;
       bool remote_found = false;
-      for (findex = 0; (findex < (sizeof(files) / sizeof(files[0]))) && !remote_found; findex++)
+      DIR *dp;
+      struct dirent *dirp;
+      vector<string> files;
+
+      for (unsigned int i = 0; i < sizeof(directories) / sizeof(directories[0]); i++) {
+        if ((dp  = opendir(directories[i].c_str())) == NULL) {
+          break;
+        }
+
+        while ((dirp = readdir(dp)) != NULL) {
+          if ((strlen(dirp->d_name) > 4) &&
+               strcmp(dirp->d_name + strlen(dirp->d_name) - 1 - strlen(EXTENSION), EXTENSION)) {
+            files.push_back(directories[i] + string(dirp->d_name));
+          }
+        }
+        closedir(dp);
+      }
+
+      for (findex = 0; (findex < files.size()) && !remote_found; findex++)
       {
-        ifs.open(files[findex], ifstream::in);
+        ifs.open(files[findex].c_str(), ifstream::in);
 
         while (ifs.good())
         {
