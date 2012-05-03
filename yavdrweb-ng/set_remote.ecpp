@@ -19,6 +19,7 @@ using namespace std;
   string lirc;
   string lirc_receiver_id;
   string lirc_serial_port;
+  string lirc_option_repeat = "0";
 </%args><%cpp>
   int i_receiver_id = -1;
   int err = 0;
@@ -101,6 +102,11 @@ using namespace std;
                 bof = found + 1;
               }
 
+              err = dbset("system.remote.lirc.option.repeat=%s", lirc_option_repeat.c_str());
+              if (err) {
+                  msg = "Error on system.remote.lirc.option.repeat";
+                  break;
+              }
               err = dbset("system.remote.lirc.active=1");
               if (err) {
                   msg = "Error on system.remote.lirc.active";

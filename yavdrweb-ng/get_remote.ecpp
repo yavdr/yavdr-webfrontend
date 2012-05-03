@@ -20,6 +20,7 @@ using namespace std;
 	string lirc_serial_port;
 	string lirc_receiver_description;
 	int lirc_receiver_id = -1;
+	string lirc_option_repeat = "0";
 
 
 	string str;
@@ -40,6 +41,7 @@ using namespace std;
 		lirc_receiver_description = hdf_get_value(hdf, "system.remote.lirc.receiver.description", "");
 		lirc_serial_port = hdf_get_value(hdf, "system.remote.lirc.receiver.serial_port", "");
 		lirc = hdf_get_value(hdf, "system.remote.lirc.active", "");
+		lirc_option_repeat = hdf_get_value(hdf, "system.remote.lirc.option.repeat", "");
 	}
 
 	Json::Value list;
@@ -104,6 +106,7 @@ using namespace std;
     Json::Value json;
     json["lirc_receiver_id"] = lirc_receiver_id;
     json["lirc_serial_port"] = lirc_serial_port;
+    json["lirc_option_repeat"] = lirc_option_repeat;
     json["lirc"] = lirc;
     json["lirc_receiver_list"] = list;
     reply.out() << json;
