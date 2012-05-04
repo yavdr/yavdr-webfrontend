@@ -35,6 +35,7 @@ YaVDR.Component.Settings.HwRemote = Ext.extend(YaVDR.Component, {
         this.lircForm.serialPort.setValue(data.lirc_serial_port);
         this.lircForm.receiverStore.loadData(data.lirc_receiver_list);
         this.lircForm.driver.setValue(data.lirc_receiver_id);
+        his.lircForm.repeat.setValue(data.lirc_option_repeat);
       }
     });
   }
@@ -93,9 +94,11 @@ YaVDR.Component.Settings.HwRemote.LIRC = Ext.extend(YaVDR.Default.Form, {
           if (checked) {
             this.serialPort.enable();
             this.driver.enable();
+            this.option_repeat.enable();
           } else {
             this.serialPort.disable();
             this.driver.disable();
+            this.option_repeat.disable();
           }
         }
       }
@@ -114,10 +117,22 @@ YaVDR.Component.Settings.HwRemote.LIRC = Ext.extend(YaVDR.Default.Form, {
       disabled: true
     });
 
+
+    this.option_repeat = new Ext.form.Checkbox({
+      itemId: 'lirc_option_repeat',
+      name: 'lirc_option_repeat',
+      fieldLabel: _('reduce sensitivity'),
+      listeners: {
+        scope: this
+      },
+      disabled: true
+    });
+    
     this.items = [
       this.active,
       this.driver,
-      this.serialPort
+      this.serialPort,
+      this.option_repeat
     ];
 
     YaVDR.Component.Settings.HwRemote.LIRC.superclass.initComponent.call(this);
