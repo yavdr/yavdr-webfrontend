@@ -221,7 +221,7 @@ if (dpy) {
 				ret = XNVCTRLQueryTargetBinaryData(dpy,
 						NV_CTRL_TARGET_TYPE_GPU,
 						gpu, // target_id
-						0, // display_mask
+						0,// display_mask
 						NV_CTRL_BINARY_DATA_XSCREENS_USING_GPU,
 						(unsigned char **) &pData,
 						&len);
@@ -231,7 +231,7 @@ if (dpy) {
 					ret = XNVCTRLQueryTargetAttribute(dpy,
 							NV_CTRL_TARGET_TYPE_X_SCREEN,
 							0, // target_id
-							0, // display_mask
+							0,// display_mask
 							NV_CTRL_CONNECTED_DISPLAYS,
 							&display_devices);
 
@@ -244,7 +244,7 @@ if (dpy) {
 						ret = XNVCTRLQueryTargetAttribute(dpy,
 								NV_CTRL_TARGET_TYPE_X_SCREEN,
 								screen, // target_id
-								0, // display_mask
+								0,// display_mask
 								NV_CTRL_ENABLED_DISPLAYS,
 								&enabled_devices);
 						//printf("   Display Device Mask (Enabled)   : 0x%08x\n",
@@ -256,11 +256,11 @@ if (dpy) {
 						char *str, *start;
 						string _s;
 						int len;
-						
+
 						ret = XNVCTRLQueryBinaryData(dpy, screen, mask,
 								NV_CTRL_BINARY_DATA_MODELINES,
 								(unsigned char **) &str, &len);
-						
+
 						if (ret) {
 							/*
 							 * the returned data is in the form:
@@ -280,40 +280,36 @@ if (dpy) {
 									Tokenize(_s, parts, ":");
 									Tokenize(parts[parts.size()-1], tokens);
 
-									bool interlace = false;
-									bool doublescan = false;
-
-									for(int i=10; i<tokens.size();i++) {
-
-										std::transform(tokens[i].begin(), tokens[i].end(),
-												tokens[i].begin(), ::tolower);
-										if (tokens[i] == "doublescan") {
-											doublescan = true;
-										} else if (tokens[i] == "interlace") {
-											interlace = true;
-										}
-									}
-									int frequency = floor(0.5 + atof(tokens[1].c_str()) * pow(10,6) / (atof(tokens[5].c_str()) * atof(tokens[9].c_str())) * (interlace?2:1) / (doublescan?2:1));
-									std::stringstream ss;
-									ss << frequency;
-
 									string modeline = trim(tokens[0].substr(1, tokens[0].length()-2));
-									
+
 									if (modeline == defaultfreq0) {
+										bool interlace = false;
+										bool doublescan = false;
+
+										for(int i=10; i<tokens.size();i++) {
+
+											std::transform(tokens[i].begin(), tokens[i].end(),
+													tokens[i].begin(), ::tolower);
+											if (tokens[i] == "doublescan") {
+												doublescan = true;
+											} else if (tokens[i] == "interlace") {
+												interlace = true;
+											}
+										}
+										int frequency = floor(0.5 + atof(tokens[1].c_str()) * pow(10,6) / (atof(tokens[5].c_str()) * atof(tokens[9].c_str())) * (interlace?2:1) / (doublescan?2:1));
+										std::stringstream ss;
+										ss << frequency;
+
 										defaultrate0 = ss.str() + (interlace?"i":"") + (doublescan?"d":"");
-									} else if (modeline == defaultfreq1) {
-										defaultrate1 = ss.str() + (interlace?"i":"") + (doublescan?"d":"");
-									} else if (modeline == defaultfreq2) {
-										defaultrate2 = ss.str() + (interlace?"i":"") + (doublescan?"d":"");
 									}
-									
+
 									start = &str[k+1];
 								}
 							}
 
 							XFree(str);
 						}
-						if ((enabled_devices & mask)) {							
+						if ((enabled_devices & mask)) {
 							int val;
 							char *data;
 							ret = XNVCTRLQueryTargetAttribute(dpy,
@@ -327,7 +323,7 @@ if (dpy) {
 								ret = XNVCTRLQueryTargetBinaryData(dpy,
 										NV_CTRL_TARGET_TYPE_X_SCREEN,
 										screen, // target_id
-										mask, // display_mask
+										mask,// display_mask
 										NV_CTRL_BINARY_DATA_EDID,
 										(unsigned char **) &data,
 										&len);
@@ -352,6 +348,59 @@ if (dpy) {
 
 						// edid for secondary device
 						mask = display_device_mask(secondary);
+
+						ret = XNVCTRLQueryBinaryData(dpy, screen, mask,
+								NV_CTRL_BINARY_DATA_MODELINES,
+								(unsigned char **) &str, &len);
+
+						if (ret) {
+							/*
+							 * the returned data is in the form:
+							 *
+							 *  "ModeLine 1\0ModeLine 2\0ModeLine 3\0Last ModeLine\0\0"
+							 *
+							 * so walk from one "\0" to the next to print each ModeLine.
+							 * 
+							 * validate modelines && get rate for both screens
+							 */
+							start = str;
+							for (int k = 0; k < len; k++) {
+								if (str[k] == '\0' && start[0] != '\0') {
+									_s = string(start);
+									vector<string> tokens;
+									vector<string> parts;
+									Tokenize(_s, parts, ":");
+									Tokenize(parts[parts.size()-1], tokens);
+
+									string modeline = trim(tokens[0].substr(1, tokens[0].length()-2));
+
+									if (modeline == defaultfreq1) {
+										bool interlace = false;
+										bool doublescan = false;
+
+										for(int i=10; i<tokens.size();i++) {
+
+											std::transform(tokens[i].begin(), tokens[i].end(),
+													tokens[i].begin(), ::tolower);
+											if (tokens[i] == "doublescan") {
+												doublescan = true;
+											} else if (tokens[i] == "interlace") {
+												interlace = true;
+											}
+										}
+										int frequency = floor(0.5 + atof(tokens[1].c_str()) * pow(10,6) / (atof(tokens[5].c_str()) * atof(tokens[9].c_str())) * (interlace?2:1) / (doublescan?2:1));
+										std::stringstream ss;
+										ss << frequency;
+
+										defaultrate1 = ss.str() + (interlace?"i":"") + (doublescan?"d":"");
+									}
+
+									start = &str[k+1];
+								}
+							}
+
+							XFree(str);
+						}
 						if ((enabled_devices & mask)) {
 							int val;
 							char *data;
@@ -366,7 +415,7 @@ if (dpy) {
 								ret = XNVCTRLQueryTargetBinaryData(dpy,
 										NV_CTRL_TARGET_TYPE_X_SCREEN,
 										screen, // target_id
-										mask, // display_mask
+										mask,// display_mask
 										NV_CTRL_BINARY_DATA_EDID,
 										(unsigned char **) &data,
 										&len);
@@ -394,7 +443,6 @@ if (dpy) {
 				}
 			}
 		} // number of gpus
-		
 
 		if (x11_dualhead != "1") {
 			err = dbset("system.x11.dualhead.enabled=0");
@@ -442,7 +490,7 @@ if (dpy) {
 				err = dbset("vdr.plugin.graphtft.enabled=0");
 			}
 		}
-		
+
 	}
 
 	XCloseDisplay(dpy);
