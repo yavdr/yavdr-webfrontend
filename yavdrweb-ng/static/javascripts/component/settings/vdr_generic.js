@@ -96,6 +96,11 @@ YaVDR.Component.Settings.VdrGeneric.Lifeguard = Ext.extend(YaVDR.Default.Form, {
             this.getComponent('lifeguard').items.each(function(item) {
               if (item.getItemId() == data.enable[i]) {
                 item.setValue(true);
+                if (data.disable[data.enable[i]] == 1) {
+                  item.disable();
+                } else {
+                  item.enable();
+                }        
               }
             });
           }
