@@ -7,6 +7,7 @@ YaVDR.Component.System.DiagnoseSystemInfo = Ext.extend(YaVDR.Component.System.Di
     this.addShellResponse(_('Network status'), 'ifconfig');
     this.addShellResponse(_('Filesystem usage'), 'df');
     this.addShellResponse(_('Kernel log'), 'dmesg');
+    this.addShellResponse(_('DVB adapters'), 'lsdvb');
   }
 });
 YaVDR.registerComponent(YaVDR.Component.System.DiagnoseSystemInfo);
