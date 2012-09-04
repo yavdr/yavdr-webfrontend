@@ -53,6 +53,8 @@ node;
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);  
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);  
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "yaVDR 0.5.0-alpha1 WFE");
+
     
     if (curl)  
     {  
