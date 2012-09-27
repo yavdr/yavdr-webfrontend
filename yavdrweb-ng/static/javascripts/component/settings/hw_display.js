@@ -100,14 +100,13 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         display.itemData.current.id == record.data.id) {
       if (display.itemData.current.defaultfreq != 'nvidia-auto-select')
         defaultFrequency.setValue(display.itemData.current.defaultfreq);
-      else
-        defaultFrequency.setValue('auto rate');
-    } else {
-      if (display.itemData.current.defaultfreq != 'nvidia-auto-select') {
+      else {
         // select first
         defaultFrequency.setValue(defaultFrequency.store.getAt(0).data.id);
-      } else
-        defaultFrequency.setValue('auto rate');
+      }
+    } else {
+      // select first
+      defaultFrequency.setValue(defaultFrequency.store.getAt(0).data.id);
     }
     display.insert(5, defaultFrequency);
 
@@ -212,11 +211,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 
     var resolution = null;
     if (item.current.modeline.x>0) {
-    	if (item.current.id == "nvidia-auto-select") {
-    		resolution = "nvidia-auto-select";
-    	} else {
-    		resolution = item.current.modeline.x + 'x' + item.current.modeline.y;
-    	}
+		resolution = item.current.modeline.x + 'x' + item.current.modeline.y;
     } else {
     	resolution = 'disabled';
     }
