@@ -482,7 +482,7 @@ YaVDR.Component.Settings.VdrGeneric.EPG = Ext.extend(YaVDR.Default.Form, {
 
     doLoad: function() {
         YaVDR.getHdfValue('vdr.epg.charset_override', function(value) {
-      this.charsetOverrideSelectorView.select("charset-selection-" + value);
+			this.charsetOverrideSelectorView.select("charset-selection-" + value);
         }, this);
     }
 });
