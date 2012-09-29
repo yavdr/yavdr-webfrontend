@@ -38,9 +38,24 @@ string modeline0;
 string modeline1;
 string modeline2;
 
-string overscan0;
-string overscan1;
-string overscan2;
+string viewportinx0;
+string viewportinx1;
+string viewportinx2;
+string viewportiny0;
+string viewportiny1;
+string viewportiny2;
+string viewportoutx0;
+string viewportoutx1;
+string viewportoutx2;
+string viewportouty0;
+string viewportouty1;
+string viewportouty2;
+string viewportoutplusx0;
+string viewportoutplusx1;
+string viewportoutplusx2;
+string viewportoutplusy0;
+string viewportoutplusy1;
+string viewportoutplusy2;
 
 string defaultfreq0;
 string defaultfreq1;
@@ -67,7 +82,7 @@ void Tokenize(const string& str,
 	}
 }
 
-bool writeDisplayToHDF(int id, string display, string modeline, std::vector<string> modes, string overscan, string defaultfreq, string defaultrate) {
+bool writeDisplayToHDF(int id, string display, string modeline, std::vector<string> modes, string defaultfreq, string defaultrate, string vpix, string vpiy, string vpox, string vpoy, string vpopx, string vpopy) {
 	if (modes.size() > 0) {
 		int err = dbset("system.x11.display.%i.device=%s" , id, display.c_str());
 
@@ -77,7 +92,13 @@ bool writeDisplayToHDF(int id, string display, string modeline, std::vector<stri
 		}
 		err = dbset("system.x11.display.%i.default=%s", id, defaultfreq.c_str());
 		err = dbset("system.x11.display.%i.rate=%s", id, defaultrate.c_str());
-		err = dbset("system.x11.display.%i.overscan=%s", id, overscan.c_str());
+		//err = dbset("system.x11.display.%i.overscan=%s", id, overscan.c_str());
+		err = dbset("system.x11.display.%i.viewport.in.x=%s", id, vpix.c_str());
+		err = dbset("system.x11.display.%i.viewport.in.y=%s", id, vpiy.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.x=%s", id, vpox.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.y=%s", id, vpoy.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.plusx=%s", id, vpopx.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.plusy=%s", id, vpopy.c_str());
 
 		return true;
 	}
@@ -450,11 +471,11 @@ if (dpy) {
 
 			cleanDisplayInHDF(0);
 			if (freq0.size() > 0 && primary == display0) {
-				writeDisplayToHDF(0, display0, modeline0, freq0, overscan0, defaultfreq0, defaultrate0);
+				writeDisplayToHDF(0, display0, modeline0, freq0, defaultfreq0, defaultrate0, viewportinx0, viewportiny0, viewportoutx0, viewportouty0, viewportoutplusx0, viewportoutplusy0);
 			} else if (freq1.size() > 0 && primary == display1) {
-				writeDisplayToHDF(0, display1, modeline1, freq1, overscan1, defaultfreq1, defaultrate1);
+				writeDisplayToHDF(0, display1, modeline1, freq1, defaultfreq1, defaultrate1, viewportinx1, viewportiny1, viewportoutx1, viewportouty1, viewportoutplusx1, viewportoutplusy1);
 			} else if (freq2.size() > 0 && primary == display2) {
-				writeDisplayToHDF(0, display2, modeline2, freq2, overscan2, defaultfreq2, defaultrate2);
+				writeDisplayToHDF(0, display2, modeline2, freq2, defaultfreq2, defaultrate2, viewportinx2, viewportiny2, viewportoutx2, viewportouty2, viewportoutplusx2, viewportoutplusy2);
 			}
 			cleanDisplayInHDF(1);
 		}
@@ -468,11 +489,11 @@ if (dpy) {
 				err = dbset("system.x11.dualhead.enabled=0");
 				err = dbset("vdr.plugin.graphtft.enabled=0");
 			} else if (freq0.size() > 0 && primary == display0) {
-				writeDisplayToHDF(0, display0, modeline0, freq0, overscan0, defaultfreq0, defaultrate0);
+				writeDisplayToHDF(0, display0, modeline0, freq0, defaultfreq0, defaultrate0, viewportinx0, viewportiny0, viewportoutx0, viewportouty0, viewportoutplusx0, viewportoutplusy0);
 			} else if (freq1.size() > 0 && primary == display1) {
-				writeDisplayToHDF(0, display1, modeline1, freq1, overscan1, defaultfreq1, defaultrate1);
+				writeDisplayToHDF(0, display1, modeline1, freq1, defaultfreq1, defaultrate1, viewportinx1, viewportiny1, viewportoutx1, viewportouty1, viewportoutplusx1, viewportoutplusy1);
 			} else if (freq2.size() > 0 && primary == display2) {
-				writeDisplayToHDF(0, display2, modeline2, freq2, overscan2, defaultfreq2, defaultrate2);
+				writeDisplayToHDF(0, display2, modeline2, freq2, defaultfreq2, defaultrate2, viewportinx2, viewportiny2, viewportoutx2, viewportouty2, viewportoutplusx2, viewportoutplusy2);
 			}
 
 			cleanDisplayInHDF(1);
@@ -480,11 +501,11 @@ if (dpy) {
 				err = dbset("system.x11.dualhead.enabled=0");
 				err = dbset("vdr.plugin.graphtft.enabled=0");
 			} else if (freq0.size() > 0 && secondary == display0) {
-				writeDisplayToHDF(1, display0, modeline0, freq0, overscan0, defaultfreq0, defaultrate0);
+				writeDisplayToHDF(1, display0, modeline0, freq0, defaultfreq0, defaultrate0, viewportinx0, viewportiny0, viewportoutx0, viewportouty0, viewportoutplusx0, viewportoutplusy0);
 			} else if (freq1.size() > 0 && secondary == display1) {
-				writeDisplayToHDF(1, display1, modeline1, freq1, overscan1, defaultfreq1, defaultrate1);
+				writeDisplayToHDF(1, display1, modeline1, freq1, defaultfreq1, defaultrate1, viewportinx1, viewportiny1, viewportoutx1, viewportouty1, viewportoutplusx1, viewportoutplusy1);
 			} else if (freq2.size() > 0 && secondary == display2) {
-				writeDisplayToHDF(1, display2, modeline2, freq2, overscan2, defaultfreq2, defaultrate2);
+				writeDisplayToHDF(1, display2, modeline2, freq2, defaultfreq2, defaultrate2, viewportinx2, viewportiny2, viewportoutx2, viewportouty2, viewportoutplusx2, viewportoutplusy2);
 			} else {
 				err = dbset("system.x11.dualhead.enabled=0");
 				err = dbset("vdr.plugin.graphtft.enabled=0");

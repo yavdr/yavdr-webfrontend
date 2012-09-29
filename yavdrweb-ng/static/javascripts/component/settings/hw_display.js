@@ -236,7 +236,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         }
       }
     }));
-
+/*
     items.push({
       xtype: 'spinnerfield',
       itemId: 'nvidia-overscan-slider' + index,
@@ -253,6 +253,56 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
       value: 0
       //value: parseInt(item.overscan)
     });
+*/
+    items.push({
+	    xtype: 'compositefield',
+	    fieldLabel: _('ViewPortIn'),
+	    items: [{
+            xtype     : 'numberfield',
+            name      : 'viewportinx' + index,
+            width     : 50,
+            value     : parseInt(item.viewport.in.x)
+        },{
+        	html: 'x'
+        },{
+            xtype     : 'numberfield',
+            name      : 'viewportiny' + index,
+            width     : 50,
+            value     : parseInt(item.viewport.in.y)
+        }]
+	});
+	
+    items.push({
+	    xtype: 'compositefield',
+	    fieldLabel: _('ViewPortOut'),
+	    items: [{
+            xtype     : 'textfield',
+            name      : 'viewportoutx' + index,
+            width     : 50,
+            value     : parseInt(item.viewport.out.x)
+        },{
+        	html: 'x'
+        },{
+            xtype     : 'textfield',
+            name      : 'viewportouty' + index,
+            width     : 50,
+            value     : parseInt(item.viewport.out.y)
+        },{
+        	html: '+'
+        },{
+            xtype     : 'textfield',
+            name      : 'viewportoutplusx' + index,
+            width     : 30,
+            value     : parseInt(item.viewport.out.plusx)
+        },{
+        	html: '+'
+        },{
+            xtype     : 'textfield',
+            name      : 'viewportoutplusy' + index,
+            width     : 30,
+            value     : parseInt(item.viewport.out.plusy)
+        }]
+	});
 
     this.insert(1 + index, {
       index: index,

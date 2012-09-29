@@ -463,7 +463,7 @@ else
 									displays[nDisplayDevice]["current"]["selected"][1u] = "800x600_72";
 									displays[nDisplayDevice]["current"]["selected"][2u] = "800x600_85";
 									displays[nDisplayDevice]["current"]["defaultfreq"] = "800x600_85";
-*/
+
 									char *overscan = hdf_get_valuef(hdf, "system.x11.display.%u.overscan", nDisplayDevice);
 									if (overscan != NULL)
 									{
@@ -472,6 +472,43 @@ else
 									else
 									{
 										displays[nDisplayDevice]["overscan"] = "";
+									}
+									*/
+									char *overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.x", nDisplayDevice);
+									if (overscan != NULL)
+									{
+										displays[nDisplayDevice]["viewport"]["in"]["x"] = overscan;
+										overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.y", nDisplayDevice);
+										displays[nDisplayDevice]["viewport"]["in"]["y"] = overscan;
+									}
+									else
+									{
+										displays[nDisplayDevice]["viewport"]["in"]["x"] = tokens[2];
+										displays[nDisplayDevice]["viewport"]["in"]["y"] = tokens[6];
+									}
+									overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.x", nDisplayDevice);
+									if (overscan != NULL)
+									{
+										displays[nDisplayDevice]["viewport"]["out"]["x"] = overscan;
+										overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.y", nDisplayDevice);
+										displays[nDisplayDevice]["viewport"]["out"]["y"] = overscan;
+									}
+									else
+									{
+										displays[nDisplayDevice]["viewport"]["out"]["x"] = tokens[2];
+										displays[nDisplayDevice]["viewport"]["out"]["y"] = tokens[6];
+									}
+									overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.plusx", nDisplayDevice);
+									if (overscan != NULL)
+									{
+										displays[nDisplayDevice]["viewport"]["out"]["plusx"] = overscan;
+										overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.plusy", nDisplayDevice);
+										displays[nDisplayDevice]["viewport"]["out"]["plusy"] = overscan;
+									}
+									else
+									{
+										displays[nDisplayDevice]["viewport"]["out"]["plusx"] = "0";
+										displays[nDisplayDevice]["viewport"]["out"]["plusy"] = "0";
 									}
 									XFree(str);
 								}
