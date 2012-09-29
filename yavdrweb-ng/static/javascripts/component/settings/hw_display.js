@@ -249,7 +249,9 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
       maxValue: 255,
       fieldLabel: _('Nvidia overscan compensation'),
       useTip: true,
-      value: parseInt(item.overscan)
+      disabled: true,
+      value: 0
+      //value: parseInt(item.overscan)
     });
 
     this.insert(1 + index, {
