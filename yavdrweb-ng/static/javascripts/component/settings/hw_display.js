@@ -335,7 +335,12 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         	itemId    : 'test',
         	screenIndex: index,
 			text      : _('Test ViewPort'),
-			handler   : this.doViewPortTest.createDelegate(this, index),
+			listeners: {
+			    scope: this,
+		        click: function(button){
+		            this.doViewPortTest(button);
+		        }
+	        },			
 			icon      : '/icons/fugue/monitor--arrow.png'        	
         }]
 	});
