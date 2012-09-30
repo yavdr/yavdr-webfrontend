@@ -20,6 +20,11 @@ value;
 value2;
 value3;
 value4;
+value5;
+value6;
+value7;
+value8;
+value9;
 string values[];
 </%args><%cpp>
 
@@ -39,7 +44,8 @@ if (
 		(signal == "change-epg") ||
 		(signal == "change-display") ||
 		(signal == "change-plugin") ||
-		(signal == "rescan-display")
+		(signal == "rescan-display") ||
+		(signal == "test-viewport")
 )
 {
 
@@ -113,6 +119,10 @@ if (
 		} else {
 			err = dbset("vdr.plugin.lifeguard.enable=false");
 		}
+	}
+	else if (signal == "test-viewport" )
+	{
+		signal_params = value + " " + value2 + " " + value3 + " " + value4 + " " + value5 + " " + value6 + " " + value7 + " " + value8 + " " + value9;
 	}
 
 	string cmd = "/usr/bin/signal-event " + signal;

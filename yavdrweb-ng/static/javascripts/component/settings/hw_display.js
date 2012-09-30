@@ -160,6 +160,43 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
       }
     }
   },
+  doViewPortTest: function(button) {
+      var index = button.screenIndex;
+      var displayFieldset = this.getComponent('display_' + index);
+      if (displayFieldset) {
+		  Ext.getBody().mask(_('Setting Viewport. Displays may flicker.'), 'x-mask-loading');
+		  
+		  var vpi = displayFieldset.getComponent('viewportin').items;
+		  var vpo = displayFieldset.getComponent('viewportout').items;
+	
+	      Ext.Ajax.request({
+		    url: '/admin/set_signal',
+		    params: {
+				signal: 'test-viewport',
+				value: index,
+				value2: displayFieldset.getComponent('devicename').getValue(),
+				value3: displayFieldset.getComponent('defaultfreq').getValue(),
+				value4: vpi.items[0].getValue(),
+				value5: vpi.items[1].getValue(),
+				value6: vpo.items[0].getValue(),
+				value7: vpo.items[1].getValue(),
+				value8: vpo.items[2].getValue(),
+				value9: vpo.items[3].getValue()
+		    },
+		    //timeout: 120000,
+		    method: 'GET',
+		    scope: this,
+		    success: function(xhr) {
+		      //this.doLoad();
+		      Ext.getBody().unmask();
+		    },
+		    failure:function() {
+		      Ext.getBody().unmask();
+		      Ext.Msg.alert(_('Test Viewport failed.'));
+		    }
+		  });
+      }
+  },
   renderDisplay: function(item, index) {
     var items = [];
 
@@ -172,6 +209,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
     items.push({
       xtype: 'hidden',
       name: 'display' + index,
+      itemId: 'devicename',
       value: item.devicename
     });
 
@@ -236,29 +274,14 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         }
       }
     }));
-/*
-    items.push({
-      xtype: 'spinnerfield',
-      itemId: 'nvidia-overscan-slider' + index,
-      width: 100,
-      anchor: false,
-      name: 'overscan' + index,
-      increment: 1,
-      keyIncrement: 1,
-      minValue: '0',
-      maxValue: 255,
-      fieldLabel: _('Nvidia overscan compensation'),
-      useTip: true,
-      disabled: true,
-      value: 0
-      //value: parseInt(item.overscan)
-    });
-*/
+
     items.push({
 	    xtype: 'compositefield',
+	    itemId: 'viewportin',
 	    fieldLabel: _('ViewPortIn'),
 	    items: [{
             xtype     : 'numberfield',
+            itemId    : 'vpix',
             name      : 'viewportinx' + index,
             width     : 50,
             value     : parseInt(item.viewport.in.x)
@@ -266,6 +289,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         	html: 'x'
         },{
             xtype     : 'numberfield',
+            itemId    : 'vpiy',
             name      : 'viewportiny' + index,
             width     : 50,
             value     : parseInt(item.viewport.in.y)
@@ -274,9 +298,11 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	
     items.push({
 	    xtype: 'compositefield',
+	    itemId: 'viewportout',
 	    fieldLabel: _('ViewPortOut'),
 	    items: [{
             xtype     : 'textfield',
+            itemId    : 'vpox',
             name      : 'viewportoutx' + index,
             width     : 50,
             value     : parseInt(item.viewport.out.x)
@@ -284,6 +310,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         	html: 'x'
         },{
             xtype     : 'textfield',
+            itemId    : 'vpoy',
             name      : 'viewportouty' + index,
             width     : 50,
             value     : parseInt(item.viewport.out.y)
@@ -291,6 +318,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         	html: '+'
         },{
             xtype     : 'textfield',
+            itemId    : 'vpopx',
             name      : 'viewportoutplusx' + index,
             width     : 30,
             value     : parseInt(item.viewport.out.plusx)
@@ -298,9 +326,22 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
         	html: '+'
         },{
             xtype     : 'textfield',
+            itemId    : 'vpopy',
             name      : 'viewportoutplusy' + index,
             width     : 30,
             value     : parseInt(item.viewport.out.plusy)
+        },{
+        	xtype     : 'button',
+        	itemId    : 'test',
+        	screenIndex: index,
+			text      : _('Test ViewPort'),
+			listeners: {
+			    scope: this,
+		        click: function(button){
+		            this.doViewPortTest(button);
+		        }
+	        },			
+			icon      : '/icons/fugue/monitor--arrow.png'        	
         }]
 	});
 
