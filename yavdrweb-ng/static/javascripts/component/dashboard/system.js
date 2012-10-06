@@ -28,7 +28,12 @@ YaVDR.Component.Dashboard.System = Ext.extend(YaVDR.Component.Dashboard.Item, {
         xtype: 'displayfield',
         fieldLabel: _('Sound'),
         name: 'output',
-        diskspace: ''
+        value: ''
+      },{
+        xtype: 'displayfield',
+        fieldLabel: _('GPU Temp'),
+        name: 'gputemp',
+        value: ''
       }]
     });
     this.items = [this.panel];
@@ -47,7 +52,8 @@ YaVDR.Component.Dashboard.System = Ext.extend(YaVDR.Component.Dashboard.Item, {
         form.setValues({
           ram: sprintf(_('%d MB (%d MB free)'), action.result.data.memory.available / 1024 / 1024, action.result.data.memory.free / 1024 / 1024),
           load: sprintf(_('1 min: %0.2f, 5 min: %0.2f, 15 min: %0.2f'), action.result.data.loads[0], action.result.data.loads[1], action.result.data.loads[2] ),
-          output: _(action.result.data.sound)
+          output: _(action.result.data.sound),
+          gputemp: action.result.data.gpu.temp + "&deg;C"
         });
         this.getEl().unmask();
       },

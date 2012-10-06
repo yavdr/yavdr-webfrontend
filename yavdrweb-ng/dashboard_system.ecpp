@@ -6,6 +6,13 @@
 #include <sys/sysinfo.h>
 #include <stdint.h>
 
+extern "C" {
+#include <X11/Xlib.h>
+
+#include "NVCtrl/NVCtrl.h"
+#include "NVCtrl/NVCtrlLib.h"
+}
+
 using namespace std;
 </%pre><& authenticate ><%args>
 </%args>
@@ -47,6 +54,18 @@ using namespace std;
 		string setup = hdf_get_value(hdf, "vdr.setup", "unknown");
 		json["data"]["frontend"] = setup + (setup != "custom"?"":" (" + string(hdf_get_value(hdf, "vdr.frontend", "unknown")) + " / " + string(hdf_get_value(hdf, "vdr.backend", "unknown")));
 */
+
+		Display *dpy = XOpenDisplay(NULL);
+		if (dpy) {
+		    int screen = DefaultScreen(dpy);
+		    if (XNVCTRLIsNvScreen(dpy, screen)) {
+		    	int temp;
+		    	
+		  	    if(XNVCTRLQueryAttribute(dpy, screen, 0, NV_CTRL_GPU_CORE_TEMPERATURE, &temp))
+		  	        json["data"]["gpu"]["temp"] = temp;
+            }
+		}
+		
 		json["success"] = true;
 		reply.setContentType("application/json; charset=utf-8");
 		reply.out() << json;
