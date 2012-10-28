@@ -35,6 +35,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	  }
 	];
 	this.items = [];
+	this.disabledDev = [];
 
     YaVDR.Component.Settings.HwDisplay.Display.superclass.initComponent.call(this);
   },
@@ -96,10 +97,10 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
       }));
     }
 
-    if (typeof display.itemData.current.defaultfreq != 'undefined' &&
+    if (typeof display.itemData.defaultfreq != 'undefined' &&
         display.itemData.current.id == record.data.id) {
       if (display.itemData.current.defaultfreq != 'nvidia-auto-select')
-        defaultFrequency.setValue(display.itemData.current.defaultfreq);
+        defaultFrequency.setValue(display.itemData.defaultfreq);
       else {
         // select first
         defaultFrequency.setValue(defaultFrequency.store.getAt(0).data.id);
@@ -199,159 +200,172 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
   },
   renderDisplay: function(item, index) {
     var items = [];
-
-    items.push({
-      hideLabel: true,
-      xtype: 'displayfield',
-      value: _('Device') + ': ' + item.devicename + ', ' + 'modeline' + ': ' + item.current.modeline.x + 'x' + item.current.modeline.y + ' ' + item.current.modeline.name + ' Hz'
-    });
-
-    items.push({
-      xtype: 'hidden',
-      name: 'display' + index,
-      itemId: 'devicename',
-      value: item.devicename
-    });
-
-    items.push({
-      xtype: 'radio',
-      index: index,
-      itemId: 'primary',
-      name: 'primary',
-      fieldLabel: _('Primary'),
-      inputValue: item.devicename,
-      checked: item.primary,
-      listeners: {
-        scope: this,
-        check: this.onPrimaryCheck
-      }
-    });
-
-    items.push({
-      xtype: 'radio',
-      index: index,
-      disabled: true,
-      itemId: 'secondary',
-      name: 'secondary',
-      fieldLabel: _('Secondary'),
-      inputValue: item.devicename,
-      checked: item.secondary
-    });
-
-    var modelines = new Ext.data.JsonStore({
-      idIndex: 0,
-      fields: [
-        "id",
-        "modes"
-      ],
-      data : item.modelines
-    });
-
-    var resolution = null;
-    if (item.current.modeline.x>0) {
-		resolution = item.current.modeline.x + 'x' + item.current.modeline.y;
-    } else {
-    	resolution = 'disabled';
-    }
-    items.push(new YaVDR.EasyComboBox({
-      itemId: 'modeline',
-      index: index,
-      store: modelines,
-      inputValue: 'temporal',
-      emptyText: _('Select resolution'),
-      fieldLabel: _('Resolution'),
-      hiddenName: 'modeline' + index,
-      value: resolution,
-      listeners: {
-        scope: this,
-        select: this.onModelineSelect,
-        render: function(combo) {
-          var display = this.getComponent('display_' + combo.index);
-          var record = combo.getStore().getById(combo.getValue());
-          if (record) {
-            this.buildFrequencies.call(this, display, record);
-          }
-        }
-      }
-    }));
-
-    items.push({
-	    xtype: 'compositefield',
-	    itemId: 'viewportin',
-	    fieldLabel: _('ViewPortIn'),
-	    items: [{
-            xtype     : 'numberfield',
-            itemId    : 'vpix',
-            name      : 'viewportinx' + index,
-            width     : 50,
-            value     : parseInt(item.viewport.in.x)
-        },{
-        	html: 'x'
-        },{
-            xtype     : 'numberfield',
-            itemId    : 'vpiy',
-            name      : 'viewportiny' + index,
-            width     : 50,
-            value     : parseInt(item.viewport.in.y)
-        }]
-	});
+    var connected = item.connected == 'connected';
+    
+    if (connected) {
+	    items.push({
+	      hideLabel: true,
+	      xtype: 'displayfield',
+	      value: _('Device') + ': ' + item.devicename + ', ' + 'modeline' + ': ' + item.current.id + ' ' + item.current.freq + ' Hz'
+	    });
 	
-    items.push({
-	    xtype: 'compositefield',
-	    itemId: 'viewportout',
-	    fieldLabel: _('ViewPortOut'),
-	    items: [{
-            xtype     : 'textfield',
-            itemId    : 'vpox',
-            name      : 'viewportoutx' + index,
-            width     : 50,
-            value     : parseInt(item.viewport.out.x)
-        },{
-        	html: 'x'
-        },{
-            xtype     : 'textfield',
-            itemId    : 'vpoy',
-            name      : 'viewportouty' + index,
-            width     : 50,
-            value     : parseInt(item.viewport.out.y)
-        },{
-        	html: '+'
-        },{
-            xtype     : 'textfield',
-            itemId    : 'vpopx',
-            name      : 'viewportoutplusx' + index,
-            width     : 30,
-            value     : parseInt(item.viewport.out.plusx)
-        },{
-        	html: '+'
-        },{
-            xtype     : 'textfield',
-            itemId    : 'vpopy',
-            name      : 'viewportoutplusy' + index,
-            width     : 30,
-            value     : parseInt(item.viewport.out.plusy)
-        },{
-        	xtype     : 'button',
-        	itemId    : 'test',
-        	screenIndex: index,
-			text      : _('Test ViewPort'),
-			listeners: {
-			    scope: this,
-		        click: function(button){
-		            this.doViewPortTest(button);
-		        }
-	        },			
-			icon      : '/icons/fugue/monitor--arrow.png'        	
-        }]
-	});
+	    items.push({
+	      xtype: 'hidden',
+	      name: 'display' + index,
+	      itemId: 'devicename',
+	      value: item.devicename
+	    });
+	
+	    items.push({
+	      xtype: 'radio',
+	      index: index,
+	      itemId: 'primary',
+	      name: 'primary',
+	      fieldLabel: _('Primary'),
+	      inputValue: item.devicename,
+	      checked: item.primary,
+	      listeners: {
+	        scope: this,
+	        check: this.onPrimaryCheck
+	      }
+	    });
+	
+	    items.push({
+	      xtype: 'radio',
+	      index: index,
+	      disabled: true,
+	      itemId: 'secondary',
+	      name: 'secondary',
+	      fieldLabel: _('Secondary'),
+	      inputValue: item.devicename,
+	      checked: item.secondary
+	    });
+	
+	    var modelines = new Ext.data.JsonStore({
+	      idIndex: 0,
+	      fields: [
+	        "id",
+	        "modes"
+	      ],
+	      data : item.modelines
+	    });
+	
+	    var resolution = null;
+	    if (connected) {
+			resolution = item.current.id;
+	    } else {
+	    	resolution = 'disabled';
+	    }
+	    items.push(new YaVDR.EasyComboBox({
+	      itemId: 'modeline',
+	      index: index,
+	      store: modelines,
+	      inputValue: 'temporal',
+	      emptyText: _('Select resolution'),
+	      fieldLabel: _('Resolution'),
+	      hiddenName: 'modeline' + index,
+	      value: resolution,
+	      listeners: {
+	        scope: this,
+	        select: this.onModelineSelect,
+	        render: function(combo) {
+	          var display = this.getComponent('display_' + combo.index);
+	          var record = combo.getStore().getById(combo.getValue());
+	          if (record) {
+	            this.buildFrequencies.call(this, display, record);
+	          }
+	        }
+	      }
+	    }));
+    
+        items.push({
+    	    xtype: 'compositefield',
+    	    itemId: 'viewportin',
+    	    fieldLabel: _('ViewPortIn'),
+    	    items: [{
+                xtype     : 'numberfield',
+                itemId    : 'vpix',
+                name      : 'viewportinx' + index,
+                width     : 50,
+                value     : parseInt(item.viewport.in.width)
+            },{
+            	html: 'x'
+            },{
+                xtype     : 'numberfield',
+                itemId    : 'vpiy',
+                name      : 'viewportiny' + index,
+                width     : 50,
+                value     : parseInt(item.viewport.in.height)
+            }]
+    	});
+    	
+        items.push({
+    	    xtype: 'compositefield',
+    	    itemId: 'viewportout',
+    	    fieldLabel: _('ViewPortOut'),
+    	    items: [{
+                xtype     : 'textfield',
+                itemId    : 'vpox',
+                name      : 'viewportoutx' + index,
+                width     : 50,
+                value     : parseInt(item.viewport.out.width)
+            },{
+            	html: 'x'
+            },{
+                xtype     : 'textfield',
+                itemId    : 'vpoy',
+                name      : 'viewportouty' + index,
+                width     : 50,
+                value     : parseInt(item.viewport.out.height)
+            },{
+            	html: '+'
+            },{
+                xtype     : 'textfield',
+                itemId    : 'vpopx',
+                name      : 'viewportoutplusx' + index,
+                width     : 30,
+                value     : parseInt(item.viewport.out.x)
+            },{
+            	html: '+'
+            },{
+                xtype     : 'textfield',
+                itemId    : 'vpopy',
+                name      : 'viewportoutplusy' + index,
+                width     : 30,
+                value     : parseInt(item.viewport.out.y)
+            },{
+            	xtype     : 'button',
+            	itemId    : 'test',
+            	screenIndex: index,
+    			text      : _('Test ViewPort'),
+    			listeners: {
+    			    scope: this,
+    		        click: function(button){
+    		            this.doViewPortTest(button);
+    		        }
+    	        },			
+    			icon      : '/icons/fugue/monitor--arrow.png'        	
+            }]
+    	});
 
-    this.insert(1 + index, {
-      index: index,
-      itemData: item,
-      itemId: 'display_' + index,
-      title: _('Display') + ' ' + ((typeof item.displaynumber != 'undefined') ? ':' + item.displaynumber + '.' + item.screen + ' (' + item.name : ' (' + item.name + ' disabled') + ')',
-      items: items
-    });
+        this.insert(1 + index, {
+          xtype:'fieldset',
+          collapsible: true,
+          collapsed: false,
+          index: index,
+          itemData: item,
+          itemId: 'display_' + index,
+          title: _('Display') + ' ' + item.name + ' @ ' + item.devicename + ' (' + _('connected') + ')',
+          items: items
+        });
+    } else {
+    	this.disabledDev.push({
+            xtype: 'displayfield',
+            fieldLabel: _('Display'),
+            name: 'display_' + index,
+            value: item.name
+        });
+    }
 
   },
   doLoad: function() {
@@ -435,6 +449,15 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
             }
             this.renderDisplay.call(this, item, index);
           }, this);
+          
+          this.add({
+              xtype:'fieldset',
+              collapsible: true,
+              collapsed: true,
+              title: _('disconnected interfaces'),
+              items: this.disabledDev
+            });
+          this.disabledDev = [];
         }
 
         this.add(xine);
