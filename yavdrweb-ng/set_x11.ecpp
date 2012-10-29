@@ -149,7 +149,6 @@ if (dpy) {
 		 q.parse_url(request.qparams());
 		 */
 		tnt::QueryParams q = request.getQueryParams();
-		printf("%lu: %s %s\n", q.paramcount("freq4"), q.param("freq4", 0).c_str(), q.param("freq4", 1).c_str());
 
 		if (x11_dualhead != "1") {
 			err = dbset("system.x11.dualhead.enabled=0");
@@ -157,11 +156,12 @@ if (dpy) {
 
 			cleanDisplayInHDF(0);
 			string index = q.param("primary");
-			std::vector<string> modes(q.paramcount("freq" + index));
-			for(int j = 0; j < q.paramcount("freq" + index); j++) {
-				modes[j] = q.param("freq" + index, j);
-			}
-			if (q.paramcount("freq" + index) > 0 && primary == q.param("display" + index)) {
+
+			if (q.paramcount("freq" + index) > 0 && primary != "") {
+				std::vector<string> modes(q.paramcount("freq" + index));
+				for(int j = 0; j < q.paramcount("freq" + index); j++) {
+					modes[j] = q.param("freq" + index, j);
+				}
 				writeDisplayToHDF(0,
 						q.param("display" + index),
 						q.param("modeline" + index),
@@ -189,11 +189,12 @@ if (dpy) {
 				err = dbset("system.x11.dualhead.enabled=0");
 				err = dbset("vdr.plugin.graphtft.enabled=0");
 			} else {
-				std::vector<string> modes(q.paramcount("freq" + index));
-				for(int j = 0; j < q.paramcount("freq" + index); j++) {
-					modes[j] = q.param("freq" + index, j);
-				}
-				if (q.paramcount("freq" + index) > 0 && primary == q.param("display" + index)) {
+
+				if (q.paramcount("freq" + index) > 0 && primary != "") {
+					std::vector<string> modes(q.paramcount("freq" + index));
+					for(int j = 0; j < q.paramcount("freq" + index); j++) {
+						modes[j] = q.param("freq" + index, j);
+					}
 					writeDisplayToHDF(0,
 							q.param("display" + index),
 							q.param("modeline" + index),
@@ -215,11 +216,12 @@ if (dpy) {
 				err = dbset("system.x11.dualhead.enabled=0");
 				err = dbset("vdr.plugin.graphtft.enabled=0");
 			} else {
-				std::vector<string> modes(q.paramcount("freq" + index));
-				for(int j = 0; j < q.paramcount("freq" + index); j++) {
-					modes[j] = q.param("freq" + index, j);
-				}
+
 				if (q.paramcount("freq" + index) > 0 && primary == q.param("display" + index)) {
+					std::vector<string> modes(q.paramcount("freq" + index));
+					for(int j = 0; j < q.paramcount("freq" + index); j++) {
+						modes[j] = q.param("freq" + index, j);
+					}
 					writeDisplayToHDF(0,
 							q.param("display" + index),
 							q.param("modeline" + index),
