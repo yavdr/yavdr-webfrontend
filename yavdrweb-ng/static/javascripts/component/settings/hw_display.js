@@ -109,9 +109,9 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
       // select first
       defaultFrequency.setValue(defaultFrequency.store.getAt(0).data.id);
     }
-    display.insert(5, defaultFrequency);
+    display.insert(6, defaultFrequency);
 
-    display.insert(6, {
+    display.insert(7, {
       name: 'freq' + index,
       xtype: 'checkboxgroup',
       columns: 3,
@@ -211,6 +211,12 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	
 	    items.push({
 	      xtype: 'hidden',
+	      name: 'index',
+	      value: index
+	    });
+	    
+	    items.push({
+	      xtype: 'hidden',
 	      name: 'display' + index,
 	      itemId: 'devicename',
 	      value: item.devicename
@@ -222,7 +228,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	      itemId: 'primary',
 	      name: 'primary',
 	      fieldLabel: _('Primary'),
-	      inputValue: item.devicename,
+	      inputValue: index, //item.devicename,
 	      checked: item.primary,
 	      listeners: {
 	        scope: this,
@@ -237,7 +243,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	      itemId: 'secondary',
 	      name: 'secondary',
 	      fieldLabel: _('Secondary'),
-	      inputValue: item.devicename,
+	      inputValue: index, //item.devicename,
 	      checked: item.secondary
 	    });
 	

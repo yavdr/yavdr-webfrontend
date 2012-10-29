@@ -302,8 +302,8 @@ else
 												known[mode->name] = next;
 												pos = next++;
 												modelines[pos]["id"] = mode->name;
-												modelines[next]["width"] = mode->width;
-												modelines[next]["height"] = mode->height;
+												modelines[pos]["width"] = mode->width;
+												modelines[pos]["height"] = mode->height;
 											} else {
 												pos = known[mode->name].asInt();
 											}
@@ -339,7 +339,7 @@ else
 											+ (mode->modeFlags & mode_flags[4].flag?"i":"")
 											+ (mode->modeFlags & mode_flags[5].flag?"d":"");
 
-											modeline["id"] = string(mode->name) + "_" + key;
+											modeline["id"] = key;
 
 											if ((mode->name[0] == 'V' &&
 															mode->name[1] == 'G' &&
@@ -484,7 +484,7 @@ else
 												displays[nDisplayDevice]["preferred"]["id"] = mode->name;
 
 												if (!displays[nDisplayDevice].isMember("defaultfreq") || displays[nDisplayDevice]["defaultfreq"].isBool())
-												displays[nDisplayDevice]["defaultfreq"] = string(mode->name) + "_" + key;
+												displays[nDisplayDevice]["defaultfreq"] = key;
 											}
 
 										}
