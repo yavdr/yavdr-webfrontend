@@ -43,6 +43,7 @@ using namespace std;
 		json["data"]["memory"]["free"] = (Json::Value::UInt64)(info.freeram * info.mem_unit);
 		json["data"]["sound"] = hdf_get_value(hdf, "system.sound.type", "all");
 
+json["data"]["gpu"]["temp"] = "";
 		/*
 		string x = hdf_get_value(hdf, "system.x11.display.0.resolution.x", "");
 		if (x != "") {
@@ -53,7 +54,7 @@ using namespace std;
 		}
 		string setup = hdf_get_value(hdf, "vdr.setup", "unknown");
 		json["data"]["frontend"] = setup + (setup != "custom"?"":" (" + string(hdf_get_value(hdf, "vdr.frontend", "unknown")) + " / " + string(hdf_get_value(hdf, "vdr.backend", "unknown")));
-*/
+
 
 		Display *dpy = XOpenDisplay(NULL);
 		if (dpy) {
@@ -65,7 +66,7 @@ using namespace std;
 		  	        json["data"]["gpu"]["temp"] = temp;
             }
 		}
-		
+		*/
 		json["success"] = true;
 		reply.setContentType("application/json; charset=utf-8");
 		reply.out() << json;
