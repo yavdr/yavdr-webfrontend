@@ -246,7 +246,7 @@ if (err) {
 	msg = "Error on database operation";
 }
 else {
-	int ret = system("/usr/bin/signal-event display-state-change");
+	//int ret = system("/usr/bin/signal-event display-state-change");
 	success = "true";
 	msg = "OK. signal-event display-state-change";
 }
