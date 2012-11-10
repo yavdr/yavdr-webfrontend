@@ -46,7 +46,7 @@ YaVDR.Component.Settings.addMenu('vdr', 'settings-vdr-channels', _('Channels'), 
 
 YaVDR.Component.Settings.addMenu('hw', 'settings-hw-remote', _('Remote control'), 'remote_control');
 YaVDR.Component.Settings.addMenu('hw', 'settings-hw-audio', _('Audio'), 'audio-x-generic');
-YaVDR.Component.Settings.addMenu('hw', 'settings-hw-display', _('Display'), 'video-display');
+YaVDR.Component.Settings.addMenu('hw', 'settings_hw_display', _('Display'), 'video-display');
 
 YaVDR.Component.Settings.addMenu('system', 'settings-system-generic', _('System'), 'computer');
 YaVDR.Component.Settings.addMenu('system', 'settings-system-network', _('Network'), 'network-wired');

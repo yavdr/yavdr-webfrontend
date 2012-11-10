@@ -1,5 +1,5 @@
 YaVDR.Component.Settings.HwDisplay = Ext.extend(YaVDR.Component, {
-  itemId: 'settings-hw-display',
+  itemId: 'settings_hw_display',
   description: _('Here you can configure your display settings.'),
   title: _('Settings'),
   initComponent: function() {
@@ -257,7 +257,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	    });
 	
 	    var resolution = null;
-	    if (connected) {
+	    if (connected && item.current) {
 			resolution = item.current.id;
 	    } else {
 	    	resolution = 'disabled';
