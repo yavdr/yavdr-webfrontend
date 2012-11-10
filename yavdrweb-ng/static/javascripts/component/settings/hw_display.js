@@ -206,7 +206,7 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
 	    items.push({
 	      hideLabel: true,
 	      xtype: 'displayfield',
-	      value: _('Device') + ': ' + item.devicename + ', ' + 'modeline' + ': ' + item.current.id + ' ' + item.current.freq + ' Hz'
+	      value: _('Device') + ': ' + item.devicename + ', ' + 'modeline' + ': ' + (typeof item.current != 'undefined'?item.current.id + ' ' + item.current.freq + ' Hz':'')
 	    });
 	
 	    items.push({
@@ -293,7 +293,8 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpix',
                 name      : 'viewportinx' + index,
                 width     : 50,
-                value     : parseInt(item.viewport.in.width)
+                value     : (item.viewport?parseInt(item.viewport.in.width):0),
+                disabled  : (typeof item.viewport == 'undefined')
             },{
             	html: 'x'
             },{
@@ -301,7 +302,8 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpiy',
                 name      : 'viewportiny' + index,
                 width     : 50,
-                value     : parseInt(item.viewport.in.height)
+                value     : (item.viewport?parseInt(item.viewport.in.height):0),
+                disabled  : (typeof item.viewport == 'undefined')
             }]
     	});
     	
@@ -314,7 +316,8 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpox',
                 name      : 'viewportoutx' + index,
                 width     : 50,
-                value     : parseInt(item.viewport.out.width)
+                value     : (item.viewport?parseInt(item.viewport.out.width):0),
+                disabled  : (typeof item.viewport == 'undefined')
             },{
             	html: 'x'
             },{
@@ -322,7 +325,8 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpoy',
                 name      : 'viewportouty' + index,
                 width     : 50,
-                value     : parseInt(item.viewport.out.height)
+                value     : (item.viewport?parseInt(item.viewport.out.height):0),
+                disabled  : (typeof item.viewport == 'undefined')
             },{
             	html: '+'
             },{
@@ -330,7 +334,8 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpopx',
                 name      : 'viewportoutplusx' + index,
                 width     : 30,
-                value     : parseInt(item.viewport.out.x)
+                value     : (item.viewport?parseInt(item.viewport.out.x):0),
+                disabled  : (typeof item.viewport == 'undefined')
             },{
             	html: '+'
             },{
@@ -338,12 +343,14 @@ YaVDR.Component.Settings.HwDisplay.Display = Ext.extend(YaVDR.Default.Form, {
                 itemId    : 'vpopy',
                 name      : 'viewportoutplusy' + index,
                 width     : 30,
-                value     : parseInt(item.viewport.out.y)
+                value     : (item.viewport?parseInt(item.viewport.out.y):0),
+                disabled  : (typeof item.viewport == 'undefined')
             },{
             	xtype     : 'button',
             	itemId    : 'test',
             	screenIndex: index,
     			text      : _('Test ViewPort'),
+                disabled  : (typeof item.viewport == 'undefined'),
     			listeners: {
     			    scope: this,
     		        click: function(button){

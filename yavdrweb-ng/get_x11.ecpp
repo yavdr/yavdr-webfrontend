@@ -278,6 +278,7 @@ else
 						displays[nDisplayDevice]["primary"] = (screen == 0);
 						displays[nDisplayDevice]["secondary"] = (screen == 1);
 						displays[nDisplayDevice]["screen"] = screen;
+						displays[nDisplayDevice]["crtc"] = (Json::Value::UInt64)output_info->crtc;
 						displays[nDisplayDevice]["devicename"] = output_info->name;
 						displays[nDisplayDevice]["connected"] = connection[output_info->connection];
 
@@ -322,7 +323,7 @@ else
 											modeline["clock"][7] = mode->vSyncEnd;
 											modeline["clock"][8] = mode->vTotal;
 
-											string sModeline = format("%.2f %i %i %i %i %i %i %i",
+											string sModeline = format("%.2f %i %i %i %i %i %i %i %i",
 													(float)mode->dotClock / 1000000.0,
 													mode->width, mode->hSyncStart, mode->hSyncEnd, mode->hTotal,
 													mode->height, mode->vSyncStart, mode->vSyncEnd, mode->vTotal);
