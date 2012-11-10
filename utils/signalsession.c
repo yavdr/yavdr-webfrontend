@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
 	int valid = 0;
 	if (argc == 2) {
 		if (
-			strcmp ("settings_hw_sundtek", argv[1]) == 0
+			(strcmp ("settings_hw_sundtek", argv[1]) == 0) ||
+			(strcmp ("settings_hw_display", argv[1]) == 0)
 		) {
 			valid = 1;
 		}
