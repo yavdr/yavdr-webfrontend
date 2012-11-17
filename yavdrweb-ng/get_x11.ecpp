@@ -194,7 +194,10 @@ else
 	devmode = hdf_get_value(hdf, "webfrontend.devmode", "0");
 
 	json["system"]["x11"]["dualhead"]["enabled"] = dualhead_enabled;
-
+	json["vdr"]["plugin"]["graphtft"]["enabled"] = graphtft_enabled;
+	json["vdr"]["deinterlacer"]["hd"]["type"] = deinterlacer_hd;
+	json["vdr"]["deinterlacer"]["sd"]["type"] = deinterlacer_sd;
+	
 	Bool ret;
 	//int screen, display_devices, enabled_devices, screen_devices, mask, len, j;
 	char *str, *start;
@@ -552,6 +555,8 @@ else
 			}
 			else
 			{
+				json["status"] = false;
+				json["msg"] = "The XRandr extension V 1.2 and above is needed";
 				log_error("The XRandr extension V 1.2 and above is needed\n\n");
 			}
 
@@ -562,11 +567,13 @@ else
 		{
 			log_error("Cannot open display '" << X11::XDisplayName(NULL) << "'.\n\n");
 		}
-
-		json["vdr"]["plugin"]["graphtft"]["enabled"] = graphtft_enabled;
-		json["vdr"]["deinterlacer"]["hd"]["type"] = deinterlacer_hd;
-		json["vdr"]["deinterlacer"]["sd"]["type"] = deinterlacer_sd;
-
+		json["status"] = true;
+		json["msg"] = "";
+	} else {
+		json["status"] = false;
+		json["msg"] = "unable to open display " + string(X11::XDisplayName((display == ""?NULL:display.c_str())));
+		
+		log_error("Cannot open display '" << X11::XDisplayName((display == ""?NULL:display.c_str())) << "'.\n\n");
 	}
 }
 reply.out() << json;
