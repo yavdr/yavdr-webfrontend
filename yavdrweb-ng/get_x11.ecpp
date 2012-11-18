@@ -210,8 +210,7 @@ else
 	bool has_1_2, has_1_3;
 
 	/*
-	 * Open a display connection, and make sure the NV-CONTROL X
-	 * extension is present on the screen we want to use.
+	 * Open a display connection
 	 */
 	X11::Display *dpy = X11::XOpenDisplay((display == ""?NULL:display.c_str()));
 
@@ -409,16 +408,18 @@ else
 														if (mode != NULL) {
 															displays[nDisplayDevice]["current"]["selected"][l++] = mode;
 														}
-													}while (mode != NULL);
-													char *defaultfreq = hdf_get_valuef(hdf, "system.x11.display.%u.default", nDisplayDevice);
-													if (defaultfreq != NULL)
-													{
-														displays[nDisplayDevice]["defaultfreq"] = defaultfreq;
-
-													}
-													else
-													{
-														displays[nDisplayDevice]["defaultfreq"] = false;
+													} while (mode != NULL);
+													
+													if (!displays[nDisplayDevice].isMember("defaultfreq")) {
+														char *defaultfreq = hdf_get_valuef(hdf, "system.x11.display.%u.defaultrate", nDisplayDevice);
+														if (defaultfreq != NULL)
+														{
+															displays[nDisplayDevice]["defaultfreq"] = defaultfreq;	
+														}
+														else
+														{
+															displays[nDisplayDevice]["defaultfreq"] = false;
+														}
 													}
 
 													displays[nDisplayDevice]["width"] = crtc_info->width;
@@ -447,9 +448,9 @@ else
 													char *overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.x", nDisplayDevice);
 													if (overscan != NULL)
 													{
-														displays[nDisplayDevice]["viewport"]["in"]["x"] = atoi(overscan);
+														displays[nDisplayDevice]["viewport"]["in"]["width"] = atoi(overscan);
 														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.y", nDisplayDevice);
-														displays[nDisplayDevice]["viewport"]["in"]["y"] = atoi(overscan);;
+														displays[nDisplayDevice]["viewport"]["in"]["height"] = atoi(overscan);;
 													}
 													else
 													{
@@ -459,9 +460,9 @@ else
 													overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.x", nDisplayDevice);
 													if (overscan != NULL)
 													{
-														displays[nDisplayDevice]["viewport"]["out"]["x"] = atoi(overscan);;
+														displays[nDisplayDevice]["viewport"]["out"]["width"] = atoi(overscan);;
 														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.y", nDisplayDevice);
-														displays[nDisplayDevice]["viewport"]["out"]["y"] = atoi(overscan);;
+														displays[nDisplayDevice]["viewport"]["out"]["height"] = atoi(overscan);;
 													}
 													else
 													{
@@ -487,8 +488,9 @@ else
 												displays[nDisplayDevice]["preferred"]["freq"] = key;
 												displays[nDisplayDevice]["preferred"]["id"] = mode->name;
 
-												if (!displays[nDisplayDevice].isMember("defaultfreq") || displays[nDisplayDevice]["defaultfreq"].isBool())
-												displays[nDisplayDevice]["defaultfreq"] = key;
+												if (!displays[nDisplayDevice].isMember("defaultfreq") || displays[nDisplayDevice]["defaultfreq"].isBool()) {
+													displays[nDisplayDevice]["defaultfreq"] = key;
+												}
 											}
 
 										}
