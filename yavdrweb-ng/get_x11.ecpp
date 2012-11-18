@@ -445,11 +445,11 @@ else
 														}
 													}
 
-													char *overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.x", nDisplayDevice);
+													char *overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.width", nDisplayDevice);
 													if (overscan != NULL)
 													{
 														displays[nDisplayDevice]["viewport"]["in"]["width"] = atoi(overscan);
-														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.y", nDisplayDevice);
+														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.in.height", nDisplayDevice);
 														displays[nDisplayDevice]["viewport"]["in"]["height"] = atoi(overscan);;
 													}
 													else
@@ -457,11 +457,11 @@ else
 														displays[nDisplayDevice]["viewport"]["in"]["width"] = crtc_info->width;
 														displays[nDisplayDevice]["viewport"]["in"]["height"] = crtc_info->height;
 													}
-													overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.x", nDisplayDevice);
+													overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.width", nDisplayDevice);
 													if (overscan != NULL)
 													{
 														displays[nDisplayDevice]["viewport"]["out"]["width"] = atoi(overscan);;
-														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.y", nDisplayDevice);
+														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.height", nDisplayDevice);
 														displays[nDisplayDevice]["viewport"]["out"]["height"] = atoi(overscan);;
 													}
 													else
@@ -469,11 +469,11 @@ else
 														displays[nDisplayDevice]["viewport"]["out"]["width"] = crtc_info->width;
 														displays[nDisplayDevice]["viewport"]["out"]["height"] = crtc_info->height;
 													}
-													overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.plusx", nDisplayDevice);
+													overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.x", nDisplayDevice);
 													if (overscan != NULL)
 													{
 														displays[nDisplayDevice]["viewport"]["out"]["x"] = atoi(overscan);;
-														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.plusy", nDisplayDevice);
+														overscan = hdf_get_valuef(hdf, "system.x11.display.%u.viewport.out.y", nDisplayDevice);
 														displays[nDisplayDevice]["viewport"]["out"]["y"] = atoi(overscan);;
 													}
 													else

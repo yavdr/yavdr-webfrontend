@@ -69,12 +69,12 @@ bool writeDisplayToHDF(int id, string display, string resolution, std::vector<st
 		}
 		err = dbset("system.x11.display.%i.defaultrate=%s", id, defaultfreq.c_str());
 		//err = dbset("system.x11.display.%i.rate=%s", id, defaultrate.c_str());
-		err = dbset("system.x11.display.%i.viewport.in.x=%s", id, vpix.c_str());
-		err = dbset("system.x11.display.%i.viewport.in.y=%s", id, vpiy.c_str());
-		err = dbset("system.x11.display.%i.viewport.out.x=%s", id, vpox.c_str());
-		err = dbset("system.x11.display.%i.viewport.out.y=%s", id, vpoy.c_str());
-		err = dbset("system.x11.display.%i.viewport.out.plusx=%s", id, vpopx.c_str());
-		err = dbset("system.x11.display.%i.viewport.out.plusy=%s", id, vpopy.c_str());
+		err = dbset("system.x11.display.%i.viewport.in.width=%s", id, vpix.c_str());
+		err = dbset("system.x11.display.%i.viewport.in.height=%s", id, vpiy.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.width=%s", id, vpox.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.height=%s", id, vpoy.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.x=%s", id, vpopx.c_str());
+		err = dbset("system.x11.display.%i.viewport.out.y=%s", id, vpopy.c_str());
 
 		return true;
 	}
