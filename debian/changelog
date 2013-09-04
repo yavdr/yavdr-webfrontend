@@ -1,3 +1,9 @@
+yavdr-webfrontend (20130904194700testing-0yavdr0~precise) precise; urgency=medium
+
+  * rebuild
+
+ -- Lars Hanisch <dvb@flensrocker.de>  Wed, 04 Sep 2013 19:50:20 +0200
+
 yavdr-webfrontend (0.3.0.2557-1yavdr1) lucid; urgency=high
 
   * build 
