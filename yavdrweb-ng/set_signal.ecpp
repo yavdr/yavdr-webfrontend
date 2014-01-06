@@ -96,10 +96,8 @@ if (
 	}
 	else if (signal == "change-sound" )
 	{
-		if ((value == "analog") || (value == "spdif") || (value == "hdmi") || (value == "passthrough") || (value == "all"))
-		{
-			int err = dbset("system.sound.type=%s", value.c_str());
-		}
+		//TODO: add verification
+		int err = dbset("system.sound.alsa=%s", value.c_str());
 	}
 	else if (signal == "change-lifeguard" )
 	{

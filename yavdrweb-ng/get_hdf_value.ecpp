@@ -62,7 +62,7 @@ void hdfwalk(HDF *hdf, HDF *child, Json::Value *json, bool includeLength) {
     "vdr.backend",
     "vdr.setup",
     "system.shutdown",
-    "system.sound.type",
+    "system.sound.alsa",
     "system.hardware.nvidia.overscan",
     "system.grub.timeout",
     "system.wakeup.type",

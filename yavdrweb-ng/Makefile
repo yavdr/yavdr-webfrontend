@@ -10,7 +10,7 @@ yavdrweb.so: neo_hdf.o neo_err.o auth.o authenticate.o yavdrweb.o \
              get_remote.o get_svdrp_response.o get_file_content.o \
              get_shell_response.o get_hdf_value.o get_autofs_config.o set_autofs_config.o \
              get_x11.o set_x11.o get_packages.o dpkg.o session.o \
-             set_shutdown_wakeup.o \
+             set_shutdown_wakeup.o get_sounddevices.o \
              channels.o channelpedia.o get_wol_list.o set_wol_list.o\
              dashboard_vdr.o dashboard_system.o dashboard_recordings.o \
              dashboard_timers.o
@@ -31,8 +31,8 @@ ifeq ($(CEXTRAFLAGS),)
      CEXTRAFLAGS=-O2
 endif
 CXXFLAGS+=-I.. -I/usr/include -I/usr/include/ClearSilver -I/usr/include/yavdr -fPIC $(CEXTRAFLAGS)
-CFLAGS+=-I/usr/include/ClearSilver -I/usr/include/ClearSilver/util -I/usr/include/NVCtrl /usr/include/yavdr -fPIC $(CEXTRAFLAGS)
-LDFLAGS+=-shared -L/usr/lib -ltntnet -lneo_utl -lneo_cs -lpam -lXNVCtrl -lX11 -lXext -ljsoncpp -lcurl -lboost_regex -L/usr/lib/yavdr -lyavdrdb -lyavdrutils
+CFLAGS+=-I/usr/include/ClearSilver -I/usr/include/ClearSilver/util -I/usr/include/NVCtrl -I/usr/include/alsa /usr/include/yavdr -fPIC $(CEXTRAFLAGS)
+LDFLAGS+=-shared -L/usr/lib -ltntnet -lneo_utl -lneo_cs -lpam -lXNVCtrl -lX11 -lXext -ljsoncpp -lcurl -lboost_regex -L/usr/lib/yavdr -lyavdrdb -lyavdrutils -lasound
 
 .ecpp.cpp:
 	${ECPPC} ${ECPPFLAGS} ${ECPPFLAGS_CPP} $<

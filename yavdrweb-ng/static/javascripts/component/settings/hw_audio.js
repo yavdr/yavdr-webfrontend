@@ -17,63 +17,45 @@ YaVDR.registerComponent(YaVDR.Component.Settings.HwAudio);
 
 YaVDR.Component.Settings.HwAudio.Audio = Ext.extend(YaVDR.Default.Form, {
   initComponent: function() {
-
+	var me = this;
+	
     this.store = new Ext.data.JsonStore({
-      fields: [
-        { name: 'key' },
-        { type: 'boolean', name: 'disabled' },
-        { name: 'title' },
-        { name: 'description' }
-      ],
-      data: [
-        {
-          key: 'all',
-          title: _('Output to all devices'),
-          description: _('Audio output will happen to all outputs. The default choice.')
-        },
-        {
-          key: 'analog',
-          title: _('Analog'),
-          description: _('Audio output will happen through the speaker/headphone plug')
-        },
-        {
-          key: 'spdif',
-          title: _('Digital (Toslink/SPDIF)'),
-          description: _('Audio output will happen through Toslink/SPDIF.')
-        },
-        {
-          key: 'hdmi',
-          title: _('HDMI-Stereo'),
-          description: _('Audio output will happen through HDMI in PCM. This variant does a downmix for HDMI devices which only can handle stereo (i.e. tv sets).')
-        },
-        {
-          key: 'passthrough',
-          title: _('HDMI-Passthrough'),
-          description: _('Audio output will happen through HDMI with Pass Through.')
+        url: '/admin/get_sounddevices',
+        autoLoad: true,
+        root: 'cards',
+        idProperty: 'id',
+        totalProperty: "results",
+        fields: ['id', 'key', 'disabled', 'alsa_address', 'card_id', 'card_name', 'device_id', 'device_index' ],
+        listeners: {
+        	load: function(store, records, options) {
+        		if (typeof me.soundSelectiorView != 'undefined') {
+            		YaVDR.getHdfValue('system.sound.alsa', function(value) {
+            			this.soundSelectiorView.select("sound-selection-" + value);
+            		}, me);
+        		}
+        	}
         }
-      ]
-
-    });
+    }, this);
 
     this.soundTpl = new Ext.XTemplate(
       '<tpl for=".">',
       '<tpl if="disabled == true">',
-      '<div class="selection-wrap unselectable" id="sound-selection-{key}">',
+      '<div class="selection-wrap unselectable" id="sound-selection-{alsa_address}">',
       '</tpl>',
       '<tpl if="disabled == false">',
-      '<div class="selection-wrap selectable" id="sound-selection-{key}">',
+      '<div class="selection-wrap selectable" id="sound-selection-{alsa_address}">',
       '</tpl>',
-      '<div class="title">{title}</div>',
-      '<div class="description">{description}</div>',
+      '<div class="title">{card_name} - {device_id}</div>',
+      '<div class="description">Device: {device_index} - {alsa_address}</div>',
       '</div>',
       '</tpl>'
-      );
+    );
 
     this.soundTpl.compile();
 
     this.soundSelectionHidden = new Ext.form.Hidden({
       name: 'value',
-      value: 'analog'
+      value: ''
     });
 
     this.soundSelectiorView = new YaVDR.SelectionList({
@@ -91,9 +73,7 @@ YaVDR.Component.Settings.HwAudio.Audio = Ext.extend(YaVDR.Default.Form, {
     YaVDR.Component.Settings.HwAudio.Audio.superclass.initComponent.call(this);
   },
   doLoad: function() {
-    YaVDR.getHdfValue('system.sound.type', function(value) {
-      this.soundSelectiorView.select("sound-selection-" + value);
-    }, this);
+	  this.store.reload();
   },
   doSave: function() {
     this.getForm().submit({

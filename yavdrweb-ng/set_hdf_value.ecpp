@@ -27,12 +27,13 @@ if (key == "webfrontend.language")
         (value == "es") ||
     	(value == "en") ||
         (value == "ru") ||
-	(value == "fr") || 
-   	(value == "lt") ||   
+		(value == "fr") || 
+   		(value == "lt") ||   
         (value == "cs") ||
-	(value == "it")) { 
+		(value == "it")
 //	(value == "zh") || 
-//	(value == "pt")) {
+//	(value == "pt"))
+	) {
         int err = dbset("%s=%s", key.c_str(), value.c_str());
     } 
     success = "true";

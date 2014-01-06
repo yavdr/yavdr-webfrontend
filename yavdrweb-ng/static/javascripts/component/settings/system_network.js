@@ -117,7 +117,9 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
 
     this.store = new Ext.data.Store({
       url: '/admin/get_autofs_config?cmd=mounts',
-      reader: new Ext.data.JsonReader({}, Ext.data.Record.create([
+      reader: new Ext.data.JsonReader({
+    	  idProperty: 'local'
+      }, Ext.data.Record.create([
         {name: 'local'},
         {name: 'host'},
         {name: 'path'}

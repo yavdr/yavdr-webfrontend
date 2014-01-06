@@ -14,6 +14,7 @@ cmd;
 <& authenticate >
 <%cpp>
 reply.setHeader ("Cache-Control", "no-cache", false);
+reply.setContentType ("application/json; charset=utf-8");
 
 if( cmd == "mounts" )
 {
