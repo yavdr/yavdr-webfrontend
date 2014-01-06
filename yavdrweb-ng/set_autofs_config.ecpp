@@ -12,7 +12,9 @@ extern "C" {
 using namespace std;
 </%pre><%args>
 cmd;
-string mounts[];
+string local[];
+string host[];
+string path[];
 </%args>
 <& authenticate >
 <%cpp>
@@ -22,32 +24,51 @@ string success = "false";
 
 if( cmd == "mounts" )
 {
-  int err;
+	int err;
 
-  const char * base = "system.net.media.video";
-  mounts_type::const_iterator it = mounts.begin();
-  dbremove(base);
-  for( int idx = 0; idx < 999; ++idx )
-  {
-    if( it != mounts.end() )
-    {
-      log_info( *it );
-      err = dbset(
-				  "%s.%.3d=%s",
-				  base,
-				  idx,
-				  it->c_str() );
-      ++it;
-    }
-    if (err) { break; }
-  }
+	const char * base = "system.net.media.video";
+	int size = std::distance(local.begin(), local.end());
+	if (size == std::distance(host.begin(), host.end()) &&
+			size == std::distance(path.begin(), path.end())) {
+		local_type::const_iterator local_it = local.begin();
+		host_type::const_iterator host_it = host.begin();
+		path_type::const_iterator path_it = path.begin();
+		dbremove(base);
+		for( int idx = 0; idx < 999; ++idx )
+		{
+			if( local_it != local.end() )
+			{
+				//log_info( *it );
+				err = dbset(
+						"%s.%.3d.local=%s",
+						base,
+						idx,
+						local_it->c_str() );
+				err = err || dbset(
+						"%s.%.3d.host=%s",
+						base,
+						idx,
+						host_it->c_str() );
+				err = err || dbset(
+						"%s.%.3d.path=%s",
+						base,
+						idx,
+						path_it->c_str() );
+				++local_it;++host_it;++path_it;
+			}
+			if (err) 
+				break;
+		}
+	} else {
+		err = true;
+	}
 
-  if (!err) {
-	  int ret = system("/usr/bin/signal-event autofs-state-change");
-	  success = "true";
-  }
+	if (!err) {
+		int ret = system("/usr/bin/signal-event autofs-state-change");
+		success = "true";
+	}
 }
 </%cpp>
 {
-    success: <$success$>
+	success: <$success$>
 }

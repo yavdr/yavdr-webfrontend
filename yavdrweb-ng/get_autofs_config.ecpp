@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <ClearSilver.h>
 #include <yavdr/common.h>
+#include <jsoncpp/json.hpp>
 
 using namespace std;
 </%pre><%args>
@@ -27,23 +28,27 @@ if( cmd == "mounts" )
   {
     const char * base = "system.net.media.video";
     HDF * node = hdf_get_obj( hdf, base );
-
-    reply.out() << "[";
+	Json::Value json;
+	int i = 0;
+	
 	if( node )
 	{
       HDF * child = node->child;
-      while( child && child->value )
+      while( child && child->child )
       {
-        log_info( child->value );  
-
-        reply.out() << "[\'";
-        reply.sout() << child->value;
-        reply.out() << "\'],";
+		HDF * inner_child = child->child;
+		while( inner_child && inner_child->value )
+        {
+        	json[i][inner_child->name] = inner_child->value;
+        	
+        	inner_child = inner_child->next;
+        }
 
         child = child->next;
+        i++;
       }
     }
-    reply.out() << "]";
+    reply.out() << json;
   }
 }
 </%cpp>

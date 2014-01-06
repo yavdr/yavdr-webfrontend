@@ -69,11 +69,19 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
     this.sm = new Ext.grid.RowSelectionModel({ singleSelect:true });
 
     this.tbar = [
-      {
+      _('local mount point: '), {
         xtype: 'textfield',
-        itemId: 'remote',
-        width: 300
-      },
+        itemId: 'local',
+        width: 150
+      }, _('on: '), {
+          xtype: 'textfield',
+          itemId: 'host',
+          width: 150
+      }, _('path: '), {
+          xtype: 'textfield',
+          itemId: 'path',
+          width: 200
+      }, '->',
       {
         icon: '/static/images/icons/socket--plus.png',
         text: _('Add'),
@@ -102,15 +110,17 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
     ];
 
     this.columns = [
-      {
-        dataIndex: 'netspec'
-      }
+      { dataIndex: 'local' },
+      { dataIndex: 'host' },
+      { dataIndex: 'path' }
     ];
 
     this.store = new Ext.data.Store({
       url: '/admin/get_autofs_config?cmd=mounts',
-      reader: new Ext.data.ArrayReader({}, Ext.data.Record.create([
-        {name: 'netspec'}
+      reader: new Ext.data.JsonReader({}, Ext.data.Record.create([
+        {name: 'local'},
+        {name: 'host'},
+        {name: 'path'}
       ]))
     });
 
@@ -122,14 +132,23 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
     }, this);
   },
   saveExports: function() {
-    var mounts = [];
+    var local = [],
+    	host = [],
+    	path = [];
+    
     this.loadMask.show()
     Ext.each(this.store.getRange(), function(k) {
-      mounts.push(k.data.netspec);
+    	local.push(k.data.local);
+    	host.push(k.data.host);
+    	path.push(k.data.path);
     }, this);
 
     params = { 'cmd' : 'mounts' }
-    if (mounts.length > 0) params.mounts = mounts
+    if (local.length > 0) {
+    	params.local = local;
+    	params.host = host;
+    	params.path = path;
+    }
 
     Ext.Ajax.request({
       scope: this,
@@ -147,18 +166,41 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
   },
   selectForEdit: function(grid, rowIndex, e) {
     var record = this.store.getAt(rowIndex);
-    var remote = this.getTopToolbar().getComponent('remote');
-    remote.setValue(record.data.netspec);
+    var tb = this.getTopToolbar();
+    tb.getComponent('local').setValue(record.data.local);
+    tb.getComponent('host').setValue(record.data.host);
+    tb.getComponent('path').setValue(record.data.path);
   },
   addExport: function() {
-    var remote = this.getTopToolbar().getComponent('remote');
-    if (!remote.getValue()) {
-      remote.markInvalid(_('The name is missing'))
+	var tb = this.getTopToolbar();
+    var local = tb.getComponent('local');
+    var host = tb.getComponent('host');
+    var path = tb.getComponent('path');
+    if (!local.getValue()) {
+      local.markInvalid(_('The local name is missing'));
+    } else if (!path.getValue()) {
+      path.markInvalid(_('The path is missing'));
     } else {
-      var record = new this.store.recordType({netspec: remote.getValue()});
+      var idx = this.store.find('local', local.getValue());
+      
+      if (idx >= 0) {
+    	  record = this.store.getAt(idx);
+    	  record.set('host', host.getValue());
+    	  record.set('path', path.getValue());
+      } else {
+    	  record = new this.store.recordType({
+        	  local: local.getValue(),
+        	  host: host.getValue(),
+        	  path: path.getValue()
+          });
+    	  this.store.add(record);
+      }
+      
       record.markDirty();
-      this.store.add(record);
-      remote.setValue();
+      
+      local.setValue();
+      host.setValue();
+      path.setValue();
     }
   },
   deleteExport: function() {
@@ -167,9 +209,19 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
     }
   },
   changeExport: function() {
-    var remote = this.getTopToolbar().getComponent('remote');
-    this.getSelectionModel().getSelected().set('netspec', remote.getValue());
-    remote.setValue();
+	var tb = this.getTopToolbar();
+	var local = tb.getComponent('local');
+	var host = tb.getComponent('host');
+	var path = tb.getComponent('path');
+    this.getSelectionModel().getSelected().set( { 
+    	'local': local.getValue(),
+    	'host': host.getValue(),
+    	'path': path.getValue(),
+    	
+    });
+    local.setValue();
+    host.setValue();
+    path.setValue();
   }
 });
 
@@ -196,7 +248,7 @@ YaVDR.Component.Settings.SystemNetwork.WOLForm = Ext.extend(Ext.Window, {
         itemId: 'name',
         blankText: _('The name is missing'),
         allowBlank: false,
-	anchor:'100%'
+        	anchor:'100%'
       },
       {
         fieldLabel: _('Hardware address'),
