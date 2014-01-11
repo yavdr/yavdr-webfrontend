@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include <fcntl.h> // for open()
+#include <unistd.h> // for close()
 #include <cerrno> // for errno
 #include <cstdio> // for perror()
 
