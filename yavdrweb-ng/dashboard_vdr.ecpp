@@ -21,7 +21,7 @@ using namespace std;
 		
 		FILE *fp;
 
-		fp = popen("df | grep -vE '^tmpfs|cdrom|none'| grep 'dev' | awk '{ sum+=$2; used+=$3; free+=$4 } END { print sum \"|\" used \"|\" free }'", "r");
+		fp = popen("df | grep -vE '^tmpfs|cdrom|none'| grep '^/dev/' | awk '{ sum+=$2; used+=$3; free+=$4 } END { print sum \"|\" used \"|\" free }'", "r");
 		if (!feof(fp)) {
 			unsigned long int sum, used, free;
 			
