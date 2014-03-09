@@ -53,6 +53,23 @@ void hdfwalk(HDF *hdf, HDF *child, Json::Value *json, bool includeLength) {
 		(*json)["length"] = length;
 	}
 }
+
+void starthdfwalk(HDF *hdf, HDF *child, Json::Value *json, bool includeLength) {
+	int length = 0;
+	if (child != NULL) {
+		if (child->child != NULL) {
+			Json::Value dummy;
+			hdfwalk(hdf, child->child, &dummy, true);
+			(*json)[child->name] = dummy;
+		} else {
+			(*json)[child->name] = child->value;
+		}
+		length ++;
+	}
+	if (includeLength) {
+		(*json)["length"] = length;
+	}
+}
 </%shared><%cpp>
   reply.setHeader ("Cache-Control", "no-cache", false);
   string value = "";
@@ -67,7 +84,7 @@ void hdfwalk(HDF *hdf, HDF *child, Json::Value *json, bool includeLength) {
     "system.grub.timeout",
     "system.wakeup.type",
     "vdr.plugin.graphtft.enabled",
-    "vdr.plugin.lifeguard.enable",
+    "vdr.plugin.lifeguard",
     "system.x11.dualhead.enabled",
     "system.wakeup.method",
     "system.wakeup.methods_available",
@@ -115,7 +132,7 @@ void hdfwalk(HDF *hdf, HDF *child, Json::Value *json, bool includeLength) {
         		  Json::Value json;
         		  HDF *start = hdf_get_obj(hdf, hdftree.c_str());
         		  if (start != NULL) {
-        			  hdfwalk(hdf, start, &json, false);
+        			  starthdfwalk(hdf, start, &json, false);
         		  }
         		  reply.out() << json;
     		  }

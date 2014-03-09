@@ -89,21 +89,24 @@ YaVDR.Component.Settings.VdrGeneric.Lifeguard = Ext.extend(YaVDR.Default.Form, {
     });
   },
   doLoad: function() {
-    YaVDR.getHdfTree('vdr.plugin.lifeguard.enable', function(data) {
-      if (data != null) {
+    YaVDR.getHdfTree('vdr.plugin.lifeguard', function(data) {
+      if (data != null && data.lifeguard != null) {
+      	data = data.lifeguard;
         if (typeof data.enable == "object") {
-          for (var i = 0; i < data.enable.length; i++) {
-            this.getComponent('lifeguard').items.each(function(item) {
-              if (item.getItemId() == data.enable[i]) {
+          this.getComponent('lifeguard').items.each(function(item) {
+            var itemId = item.getItemId();
+            for (var i = 0; i < data.enable.length; i++) {
+              if (itemId == data.enable[i]) {
                 item.setValue(true);
-                if (data.disable[data.enable[i]] == 1) {
-                  item.disable();
-                } else {
-                  item.enable();
-                }        
+                break;
               }
-            });
-          }
+            }
+            if (typeof data.disable == 'object' && data.disable[itemId] == 1) {
+              item.disable();
+	        } else {
+	          item.enable();
+	        }
+          });
         }
       } else {
         this.getComponent('lifeguard').items.each(function(field) {
