@@ -33,6 +33,12 @@ for( int idx = 0; idx < addresses.size(); ++idx )
 	break;
   }
 }
+
+if (!err) {
+  int ret = system("/usr/bin/signal-event wol-update");
+  success = "true";
+}
+
 </%cpp>
 {
   success: <$success$>
