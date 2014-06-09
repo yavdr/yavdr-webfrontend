@@ -127,10 +127,10 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
     } else {
       this.frontendSelectorView.hide();
       this.backendSelectorView.hide();
-      if(value == 'xine') {
+      /*if(value == 'xine') {
         this.frontendSelectorView.select("frontend-selection-xine");
         this.backendSelectorView.select("backend-selection-xine");
-      } else if(value == 'xbmc') {
+      } else*/ if(value == 'xbmc') {
         this.frontendSelectorView.select("frontend-selection-xbmc");
         this.backendSelectorView.select("backend-selection-streaming");
       } else if(value == 'hdff') {
@@ -163,12 +163,12 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
           key: 'sxfe',
           title: 'vdr-sxfe@vdr-plugin-xineliboutput',
           description: _('This choice is using the xineliboutput plugin with frontend vdr-sxfe.')
-        },
+        },/*
         {
           key: 'xine',
           title: 'xine@vdr-plugin-xine',
           description: _('This is an alternative frontend. It is using the xine plugin using Xine for decoding.')
-        },
+        },*/
         {
             key: 'softhddevice',
             title: 'vdr-plugin-softhddevice (experimental)',
