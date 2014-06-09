@@ -171,7 +171,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         },*/
         {
             key: 'softhddevice',
-            title: 'vdr-plugin-softhddevice (experimental)',
+            title: 'vdr-plugin-softhddevice',
             description: _('This is an alternative frontend. It is using the softhddevice plugin using GPU for decoding.')
         },
         {
