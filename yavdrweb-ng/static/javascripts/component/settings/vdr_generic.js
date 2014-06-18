@@ -173,12 +173,12 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
             key: 'softhddevice',
             title: 'vdr-plugin-softhddevice',
             description: _('This is an alternative frontend. It is using the softhddevice plugin using GPU for decoding.')
-        },
+        },/*
         {
           key: 'xbmc',
           title: 'XBMC@vdr-plugin-xvdr (experimental)',
           description: _('If you want to use VDR as backend for XBMC and watch TV only in XBMC this is your choice.')
-        },
+        },*/
         {
           key: 'hdff',
           title: 'TT-premium S2-6400 HD (experimental)',
@@ -225,11 +225,11 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         {
             key: 'softhddevice',
             title: 'softhddevice'
-        },
+        },/*
         {
           key: 'xbmc',
           title: 'xbmc'
-        }
+        }*/
       ]
 
     });
