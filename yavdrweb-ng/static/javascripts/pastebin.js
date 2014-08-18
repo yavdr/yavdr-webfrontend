@@ -13,7 +13,7 @@ YaVDR.PasteBin = Ext.extend(Ext.Window, {
       border: false,
       padding: 10,
       standardSubmit: true,
-      url: 'http://pastebin.com/api_public.php',
+      url: 'http://paste.ubuntu.com/',
       method: 'post',
       defaults: {
         xtype: 'textfield',
@@ -22,29 +22,29 @@ YaVDR.PasteBin = Ext.extend(Ext.Window, {
       },
       items: [
         {
-          name: 'paste_name',
+          name: 'poster',
           fieldLabel: _('Title (optional)'),
           value: this.contentTitle
         },
-        {
+        /*{
           name: 'paste_email',
           fieldLabel: _('Email (optional)')
-        },
+        },*/
         {
           height: 200,
-          name: 'paste_code',
+          name: 'content',
           fieldLabel: _('Content'),
           xtype: 'textarea',
           value: this.content
         },
-        {
+        /*{
           xtype: 'hidden',
           name: 'paste_private',
           value: '1'
-        },
+        },*/
         {
           xtype: 'hidden',
-          name: 'paste_format',
+          name: 'syntax',
           value: 'text'
         }
       ]
