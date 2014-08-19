@@ -20,6 +20,7 @@ YaVDR.Component.Settings.SystemGeneric = Ext.extend(YaVDR.Component, {
       }),
       new YaVDR.Component.Item({
         title: _('Grub'),
+        style: 'margin-bottom: 5px',
         items: [
           new YaVDR.Component.Settings.SystemGeneric.Grub
         ]

@@ -35,7 +35,7 @@ YaVDR.Component.Settings.HwRemote = Ext.extend(YaVDR.Component, {
         this.lircForm.serialPort.setValue(data.lirc_serial_port);
         this.lircForm.receiverStore.loadData(data.lirc_receiver_list);
         this.lircForm.driver.setValue(data.lirc_receiver_id);
-        his.lircForm.repeat.setValue(data.lirc_option_repeat);
+        this.lircForm.option_repeat.setValue(data.lirc_option_repeat);
       }
     });
   }

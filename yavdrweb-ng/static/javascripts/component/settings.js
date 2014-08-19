@@ -6,12 +6,12 @@ YaVDR.Component.Settings = Ext.extend(YaVDR.Component, {
 		this.items = [
 			new YaVDR.Component.Item({
 				title: _('VDR'),
-				style: 'margin-bottom: 5px',
+		        style: 'margin-bottom: 5px',
 				items: YaVDR.createSubmenu(YaVDR.Component.Settings.menu['vdr'])
 			}),
 			new YaVDR.Component.Item({
 				title: _('Hardware'),
-				style: 'margin-bottom: 5px',
+		        style: 'margin-bottom: 5px',
 				items: YaVDR.createSubmenu(YaVDR.Component.Settings.menu['hw'])
 			}),
 			new YaVDR.Component.Item({

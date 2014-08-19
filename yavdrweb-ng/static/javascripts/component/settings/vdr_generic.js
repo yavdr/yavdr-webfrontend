@@ -16,7 +16,6 @@ YaVDR.Component.Settings.VdrGeneric = Ext.extend(YaVDR.Component, {
       }),
       new YaVDR.Component.Item({
         title: _('EPG'),
-        style: 'margin-bottom: 5px',
         items: new YaVDR.Component.Settings.VdrGeneric.EPG
       })
     ];

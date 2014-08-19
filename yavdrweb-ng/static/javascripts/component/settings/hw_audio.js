@@ -6,7 +6,6 @@ YaVDR.Component.Settings.HwAudio = Ext.extend(YaVDR.Component, {
     this.items = [
       new YaVDR.Component.Item({
         title: _('Audio'),
-        style: 'margin-bottom: 5px',
         items: new YaVDR.Component.Settings.HwAudio.Audio
       })
     ];

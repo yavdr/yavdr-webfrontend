@@ -6,7 +6,6 @@ YaVDR.Component.Settings.HwDisplay = Ext.extend(YaVDR.Component, {
     this.items = [
       new YaVDR.Component.Item({
         title: _('Display'),
-        style: 'margin-bottom: 5px',
         items: new YaVDR.Component.Settings.HwDisplay.Display
       })
     ];
