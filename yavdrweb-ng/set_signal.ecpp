@@ -26,7 +26,28 @@ value7;
 value8;
 value9;
 string values[];
-</%args><%cpp>
+</%args><%shared>
+void Tokenize(const string& str,
+		vector<string>& tokens,
+		const string& delimiters = " ")
+{
+	tokens.clear();
+	// Skip delimiters at beginning.
+	string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+	// Find first "non-delimiter".
+	string::size_type pos = str.find_first_of(delimiters, lastPos);
+
+	while (string::npos != pos || string::npos != lastPos)
+	{
+		// Found a token, add it to the vector.
+		tokens.push_back(str.substr(lastPos, pos - lastPos));
+		// Skip delimiters.  Note the "not_of"
+		lastPos = str.find_first_not_of(delimiters, pos);
+		// Find next "non-delimiter"
+		pos = str.find_first_of(delimiters, lastPos);
+	}
+}
+</%shared><%cpp>
 
 string success = "false";
 int ret = 0;
@@ -96,8 +117,16 @@ if (
 	}
 	else if (signal == "change-sound" )
 	{
-		//TODO: add verification
-		int err = dbset("system.sound.alsa=%s", value.c_str());
+		vector<string> parts;
+		Tokenize(value, parts, "#");
+		dbremove("system.sound");
+		if (parts[0] == "ALSA") {
+			//TODO: add verification
+			dbset("system.sound.type=alsa");
+			dbset("system.sound.alsa=%s", parts[1].c_str());
+		} else if (parts[0] == "PULSE") {
+			dbset("system.sound.type=pulse");
+		}
 	}
 	else if (signal == "change-lifeguard" )
 	{

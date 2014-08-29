@@ -28,8 +28,12 @@ YaVDR.Component.Settings.HwAudio.Audio = Ext.extend(YaVDR.Default.Form, {
         listeners: {
         	load: function(store, records, options) {
         		if (typeof me.soundSelectiorView != 'undefined') {
-            		YaVDR.getHdfValue('system.sound.alsa', function(value) {
-            			this.soundSelectiorView.select("sound-selection-" + value);
+            		YaVDR.getHdfTree('system.sound', function(value) {
+            			if (value.sound.type == 'alsa') {
+            			    this.soundSelectiorView.select("sound-selection-" + value.sound.alsa);
+            			} else if (value.sound.type == 'pulse') {
+            				this.soundSelectiorView.select("sound-selection-pulse");
+            			}
             		}, me);
         		}
         	}

@@ -63,7 +63,8 @@ using namespace std;
                  card["card_id"] = card_id;
                  card["device_id"] = device_id;
                  card["device_index"] = device_index;
-                 card["key"] = card["alsa_address"] = alsa_address.str();
+                 card["alsa_address"] = alsa_address.str();
+                 card["key"] = "ALSA#" + alsa_address.str();
                  card["disabled"] = false;
                  json["cards"].append(card);
                  count++;
@@ -73,9 +74,20 @@ using namespace std;
          snd_ctl_close(handle);
       }
   } while (true);
-  
+
+  Json::Value card;
+  card["id"] = count;
+  card["card_name"] = "Pulseaudio";
+  card["card_id"] = "Pulseaudio";
+  card["device_id"] = "pulse";
+  card["device_index"] = "pulse";
+  card["alsa_address"] = "pulse";
+  card["key"] = "PULSE#pulse";
+  card["disabled"] = false;
+  json["cards"].append(card);
+
   json["results"] = count;
-  
+
   if (pcm_info)
      snd_pcm_info_free(pcm_info);
   if (card_info)
