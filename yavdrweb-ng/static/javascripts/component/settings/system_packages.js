@@ -29,7 +29,7 @@ YaVDR.Component.Settings.SystemPackages = Ext.extend(YaVDR.Component, {
             scope: this,
             handler: this.aptUpdate
           },
-          {
+          /*{
             text: 'apt-get autoremove',
             icon: '/static/images/icons/dpkg_autoremove.png',
             tooltip: {
@@ -38,7 +38,7 @@ YaVDR.Component.Settings.SystemPackages = Ext.extend(YaVDR.Component, {
             },
             scope: this,
             handler: this.aptAutoRemove
-          },
+          },*/
           {
             text: 'apt-get clean',
             icon: '/icons/silk/table_lightning.png',
