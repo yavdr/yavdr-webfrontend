@@ -114,7 +114,9 @@ if (FILE *stream = popen(cmd_disabled.c_str(), "r"))
 	{
 		if (fgets(buffer, sizeof(buffer), stream) != NULL)
 		{
-			string plugin = "vdr-plugin-"+string(buffer);
+			string line = string(buffer);
+			line = line.substr(0,line.length()-1);
+			string plugin = "vdr-plugin-"+line;
 			disabled[plugin] = true;
 		}
 	}
