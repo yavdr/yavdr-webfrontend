@@ -105,21 +105,17 @@ if (FILE *stream = popen(cmd.c_str(), "r"))
 
 Json::Value disabled;
 
-if (FILE *stream = fopen("/etc/vdr/plugins/order.conf", "r"))
+string cmd_disabled = "vdrctl list --disabled";
+
+if (FILE *stream = popen(cmd_disabled.c_str(), "r"))
 {
 	char buffer[1024];
 	while (!feof(stream))
 	{
 		if (fgets(buffer, sizeof(buffer), stream) != NULL)
 		{
-			vector<string> parts;
-
-			string line = string(buffer);
-			line = line.substr(0,line.length()-1);
-			if (line[0] == '-') {
-				string plugin = "vdr-plugin-"+line.substr(1);
-				disabled[plugin] = true;
-			}
+			string plugin = "vdr-plugin-"+string(buffer);
+			disabled[plugin] = true;
 		}
 	}
 	pclose(stream);
