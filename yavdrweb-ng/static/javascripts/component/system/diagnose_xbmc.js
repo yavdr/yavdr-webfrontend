@@ -3,8 +3,8 @@ YaVDR.Component.System.XBMC = Ext.extend(YaVDR.Component.System.Diagnose, {
   subTitle: _('XBMC crash log'),
   initComponent: function() {
     YaVDR.Component.System.XBMC.superclass.initComponent.call(this);
-    this.addFileContent('/var/lib/vdr/.xbmc/temp/xbmc.log', '/var/lib/vdr/.xbmc/temp/xbmc.log');
-    this.addFileContent('/var/lib/vdr/.xbmc/temp/xbmc.old.log', '/var/lib/vdr/.xbmc/temp/xbmc.old.log');
+    this.addFileContent('/var/lib/vdr/.kodi/temp/kodi.log', '/var/lib/vdr/.kodi/temp/kodi.log');
+    this.addFileContent('/var/lib/vdr/.kodi/temp/kodi.old.log', '/var/lib/vdr/.kodi/temp/kodi.old.log');
   }
 });
 YaVDR.registerComponent(YaVDR.Component.System.XBMC);
