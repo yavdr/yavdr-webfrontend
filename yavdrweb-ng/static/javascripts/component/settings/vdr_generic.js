@@ -176,7 +176,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         {
           key: 'xbmc',
           title: 'XBMC@vdr-plugin-xvdr (experimental)',
-          description: _('If you want to use VDR as backend for XBMC and watch TV only in XBMC this is your choice.')
+          description: _('If you want to use VDR as backend for KODI and watch TV only in KODI this is your choice.')
         },*/
         {
           key: 'hdff',

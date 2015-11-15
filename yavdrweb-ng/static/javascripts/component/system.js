@@ -81,13 +81,13 @@ Ext.apply(YaVDR.Component.System, {
 
 YaVDR.Component.System.addCommand(_('Switch temporarily to second screen'), YaVDR.Component.System.changeVdrToSecondDisplay, 'switch-display');
 YaVDR.Component.System.addCommand(_('Reboot computer'), YaVDR.Component.System.reboot, 'reboot');
-YaVDR.Component.System.addCommand(_('Kill XBMC'), YaVDR.Component.System.killXBMC, 'xbmc-process-stop');
-YaVDR.Component.System.addCommand(_('Set XBMC defaults'), YaVDR.Component.System.resetXBMC, 'xbmc-edit-delete');
+YaVDR.Component.System.addCommand(_('Kill KODI'), YaVDR.Component.System.killXBMC, 'xbmc-process-stop');
+YaVDR.Component.System.addCommand(_('Set KODI defaults'), YaVDR.Component.System.resetXBMC, 'xbmc-edit-delete');
 YaVDR.Component.System.addCommand(_('Restart VDR'), YaVDR.Component.System.restartVDR, 'view-refresh');
 
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-infos', _('System information'), 'utilities-system-monitor');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-system-logs', _('System log files'), 'document-open');
-YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-xbmc', _('XBMC crash log'), 'xbmc-document-open');
+YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-xbmc', _('KODI crash log'), 'xbmc-document-open');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-lirc', _('LIRC configuration'), 'lirc-config');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-vdr', _('VDR configuration'), 'vdr-config');
 YaVDR.Component.System.addMenu('diagnose', 'system-diagnose-x11', _('Xorg server'), 'X11');
