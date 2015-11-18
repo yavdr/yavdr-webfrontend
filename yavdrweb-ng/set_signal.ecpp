@@ -134,9 +134,9 @@ if (
 		if (values.size() > 0) {
 			for (int i = 0; i < values.size(); i++)
 			{
-				if ((values[i] == "aptitude") || (values[i] == "ssh") ||
+				if ((values[i] == "apt") || (values[i] == "ssh") ||
 						(values[i] == "nfs") || (values[i] == "ftp") ||
-						(values[i] == "xbmc") || (values[i] == "smb"))
+						(values[i] == "kodi") || (values[i] == "smb"))
 				{
 					err = dbset("vdr.plugin.lifeguard.enable.%i=%s", i, values[i].c_str());
 					/*if (err != STATUS_OK){

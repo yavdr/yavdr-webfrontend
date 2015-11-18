@@ -38,9 +38,9 @@ YaVDR.Component.Settings.VdrGeneric.Lifeguard = Ext.extend(YaVDR.Default.Form, {
       },
       items: [
         {
-          itemId: 'aptitude',
-          boxLabel: 'Aptitude',
-          inputValue: 'aptitude'
+          itemId: 'apt',
+          boxLabel: 'apt',
+          inputValue: 'apt'
         },
         {
           itemId: 'ssh',
@@ -63,9 +63,9 @@ YaVDR.Component.Settings.VdrGeneric.Lifeguard = Ext.extend(YaVDR.Default.Form, {
           inputValue: 'smb'
         },
         {
-          itemId: 'xbmc',
-          boxLabel: 'XBMC',
-          inputValue: 'xbmc'
+          itemId: 'kodi',
+          boxLabel: 'Kodi',
+          inputValue: 'kodi'
         }
       ]
     };
@@ -175,7 +175,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         },/*
         {
           key: 'xbmc',
-          title: 'XBMC@vdr-plugin-xvdr (experimental)',
+          title: 'Kodi@vdr-plugin-xvdr (experimental)',
           description: _('If you want to use VDR as backend for KODI and watch TV only in KODI this is your choice.')
         },*/
         {
@@ -227,7 +227,7 @@ YaVDR.Component.Settings.VdrGeneric.Setup = Ext.extend(YaVDR.Default.Form, {
         },/*
         {
           key: 'xbmc',
-          title: 'xbmc'
+          title: 'kodi'
         }*/
       ]
 

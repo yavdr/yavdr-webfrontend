@@ -27,7 +27,7 @@ if (command == "ifconfig" ||
     else if (command == "aplay")
         cmd += " -L";
     else if (command == "dpkg")
-        cmd += " --list | egrep \"ii  (vdr|xbmc|yavdr)\" | cut -c5-";
+        cmd += " --list | egrep \"ii  (vdr|kodi|xbmc|yavdr)\" | cut -c5-";
     else if (command == "lsdvb")
         cmd = "ls -l /dev/dvb/*";
 
