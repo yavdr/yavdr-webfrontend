@@ -178,14 +178,14 @@ static char *display_device_name(int mask)
     case (1 << 6): return "CRT-6"; break;
     case (1 << 7): return "CRT-7"; break;
 
-    case (1 << 8): return "TV-0"; break;
-    case (1 << 9): return "TV-1"; break;
-    case (1 << 10): return "TV-2"; break;
-    case (1 << 11): return "TV-3"; break;
-    case (1 << 12): return "TV-4"; break;
-    case (1 << 13): return "TV-5"; break;
-    case (1 << 14): return "TV-6"; break;
-    case (1 << 15): return "TV-7"; break;
+    case (1 << 8): return "DFP-0"; break;
+    case (1 << 9): return "DFP-1"; break;
+    case (1 << 10): return "DFP-2"; break;
+    case (1 << 11): return "DFP-3"; break;
+    case (1 << 12): return "DFP-4"; break;
+    case (1 << 13): return "DFP-5"; break;
+    case (1 << 14): return "DFP-6"; break;
+    case (1 << 15): return "DFP-7"; break;
 
     case (1 << 16): return "DFP-0"; break;
     case (1 << 17): return "DFP-1"; break;
