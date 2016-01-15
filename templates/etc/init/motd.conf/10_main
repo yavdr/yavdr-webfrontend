@@ -1,4 +1,5 @@
-start on started vdr-frontend
+#start on started vdr-frontend
+manual
 
 description     "check updates"
 author          "Volker Richert <richert@addmore.de>"
