@@ -58,7 +58,7 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
   loadMask: true,
   title: 'NFS',
   stripeRows: true,
-  infoText: _('You can define Host and shares which should be mounted automatically. You need to key in the shares using "host:/path/to/the/share".'),
+  infoText: _('You can add NFS-shares to be mounted automatically on startup. Set a relative path in vdr\'s VIDEODIR", hostname and path for exported share.'),
   autoExpandColumn: 'netspec',
   initComponent: function() {
 
@@ -69,11 +69,11 @@ YaVDR.Component.Settings.SystemNetwork.NFS = Ext.extend(Ext.grid.GridPanel, {
     this.sm = new Ext.grid.RowSelectionModel({ singleSelect:true });
 
     this.tbar = [
-      _('local mount point: '), {
+      _('name in VIDEODIR: '), {
         xtype: 'textfield',
         itemId: 'local',
         width: 150
-      }, _('on: '), {
+      }, _('hostname: '), {
           xtype: 'textfield',
           itemId: 'host',
           width: 150
