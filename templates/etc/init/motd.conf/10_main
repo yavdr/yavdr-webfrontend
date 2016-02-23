@@ -8,7 +8,7 @@ task
 script
 
   . /etc/yavdr/yavdr-release
-  echo "Welcome to yaVDR $YAVDR_VERSION" >> /etc/motd
+  echo "Welcome to yaVDR $YAVDR_VERSION" > /etc/motd
   sleep 30
   run-parts  --lsbsysinit /etc/update-motd.d > /run/motd.dynamic
 end script
