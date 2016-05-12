@@ -30,6 +30,7 @@ using namespace std;
 			json["data"]["disk"]["used"] = (Json::Value::UInt64)used;
 			json["data"]["disk"]["free"] = (Json::Value::UInt64)free;
 		}
+		pclose(fp);
 
 		string x = hdf_get_value(hdf, "system.x11.display.0.resolution.x", "");
 		if (x != "") {
